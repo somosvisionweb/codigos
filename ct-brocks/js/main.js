@@ -4,13 +4,13 @@
    ========================================================= */
 const CONFIG = {
   // Somente números, com DDI 55 + DDD. Ex.: '5511999998888'
-  whatsapp: '',
+  whatsapp: '5581983169070',
   // Texto exibido para o telefone. Ex.: '(11) 99999-8888'
-  telefone: '(00) 00000-0000',
+  telefone: '(81) 98316-9070',
   instagram: 'ct_brocks',
   // Endereço completo: usado no texto, no mapa e no botão "Como chegar"
-  endereco: '',
-  funcionamento: 'Seg a Sex 6h–21h · Sáb 8h–12h',
+  endereco: 'R. José Bezerra Filho - Centro, Cabo de Santo Agostinho - PE, 54510-420',
+  funcionamento: 'Seg a Sex 5h–22h · Sáb 6h–13h · Dom fechado',
 };
 
 (() => {
