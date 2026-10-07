@@ -445,12 +445,122 @@
     .photo-note { font-size: 12px; color: var(--muted); }
 
     /* REVEAL */
-    .js .reveal { opacity: 0; transform: translateY(24px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
+    .js .reveal { opacity: 0; transform: translateY(28px); transition: opacity .9s var(--ease) var(--rd, 0s), transform .9s var(--ease) var(--rd, 0s); }
     .reveal.in { opacity: 1; transform: none; }
+
+    /* ABERTURA — letras de "B7 Phone" aparecem e a tela sobe */
+    .intro {
+      position: fixed; inset: 0; z-index: 300; background: var(--bg); display: grid; place-items: center;
+      animation: introOut .9s cubic-bezier(.77, 0, .18, 1) 1.9s forwards; pointer-events: none;
+    }
+    .intro::before { content: ''; position: absolute; width: 520px; height: 520px; border-radius: 50%; background: radial-gradient(circle, rgba(255,106,26,.25), transparent 65%); animation: pulse 2s ease-in-out infinite; }
+    .intro-inner { position: relative; display: grid; justify-items: center; gap: 22px; }
+    .intro-logo { display: flex; align-items: center; gap: 14px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(40px, 8vw, 72px); letter-spacing: -0.03em; perspective: 600px; }
+    .intro-logo .logo-mark { width: 1.2em; height: 1.2em; border-radius: .3em; font-size: .62em; animation: markIn .8s var(--ease) both; }
+    .intro-logo .l { display: inline-block; opacity: 0; transform: translateY(.6em) rotateX(-90deg); filter: blur(8px); animation: letterIn .7s var(--ease) calc(.25s + var(--i) * .08s) forwards; }
+    .intro-logo .l.o { color: var(--accent); }
+    .intro-bar { width: 180px; height: 2px; border-radius: 2px; background: var(--line); overflow: hidden; }
+    .intro-bar i { display: block; height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); transform-origin: 0 50%; animation: barFill 1.6s var(--ease) .2s both; }
+    .intro-tag { font-size: 13px; letter-spacing: .3em; text-transform: uppercase; color: var(--muted); opacity: 0; animation: fadeUp .7s var(--ease) 1s forwards; }
+    @keyframes introOut { to { clip-path: inset(0 0 100% 0); visibility: hidden; } }
+    @keyframes letterIn { to { opacity: 1; transform: none; filter: none; } }
+    @keyframes markIn { from { opacity: 0; transform: scale(.4) rotate(-20deg); } }
+    @keyframes barFill { from { transform: scaleX(0); } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+
+    /* entrada do topo depois da abertura */
+    .seq { animation: fadeUp .9s var(--ease) calc(2.1s + var(--d, 0s)) both; }
+    .hero h1.lettered { animation: none; }
+    .hero h1 .word { display: inline-block; white-space: nowrap; }
+    .hero h1 .ch { display: inline-block; opacity: 0; transform: translateY(.45em) rotate(8deg); filter: blur(10px); animation: letterIn .8s var(--ease) calc(2.15s + var(--i) * 32ms) forwards; }
+    .hero h1 em { animation: glowText 3.2s ease-in-out 3s infinite; }
+    @keyframes glowText { 50% { text-shadow: 0 0 22px rgba(255,106,26,.75), 0 0 48px rgba(255,106,26,.35); } }
+
+    /* frase com efeito de digitação */
+    .typer { font-family: 'Space Grotesk', sans-serif; font-size: clamp(18px, 2.2vw, 22px); font-weight: 600; margin: -6px 0 16px; color: var(--text); }
+    .typer .typed { color: var(--accent); }
+    .typer .caret { display: inline-block; width: 2px; height: 1.05em; margin-left: 3px; vertical-align: -0.15em; background: var(--accent); animation: blink 1s steps(1) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* títulos das seções: palavras sobem uma a uma */
+    .js .split-words .wd { display: inline-block; opacity: 0; transform: translateY(.7em); filter: blur(6px); transition: opacity .8s var(--ease), transform .8s var(--ease), filter .8s var(--ease); transition-delay: calc(.1s + var(--i) * 70ms); }
+    .in .split-words .wd, .split-words.in .wd { opacity: 1; transform: none; filter: none; }
+    .js .eyebrow::before { width: 0; transition: width .8s var(--ease) .2s; }
+    .in .eyebrow::before, .eyebrow.in::before { width: 18px; }
+
+    /* faixa animada */
+    .marquee-wrap { overflow: hidden; padding: 26px 0 34px; }
+    .marquee { background: var(--accent); color: var(--accent-ink); rotate: -1.6deg; margin: 0 -40px; box-shadow: 0 20px 50px -20px rgba(255,106,26,.6); }
+    .marquee-track { display: flex; width: max-content; animation: marquee 32s linear infinite; }
+    .marquee span { display: flex; align-items: center; gap: 22px; padding: 14px 11px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px; text-transform: uppercase; letter-spacing: .02em; white-space: nowrap; }
+    .marquee span::after { content: '✦'; font-size: 14px; }
+    .marquee:hover .marquee-track { animation-play-state: paused; }
+    @keyframes marquee { to { transform: translateX(-50%); } }
+
+    /* barra de progresso de leitura (sem JavaScript, onde o navegador suporta) */
+    .progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 60; background: linear-gradient(90deg, var(--accent), var(--accent-2)); transform-origin: 0 50%; transform: scaleX(0); box-shadow: 0 0 12px var(--accent); }
+    @supports (animation-timeline: scroll()) {
+      .progress { animation: grow linear both; animation-timeline: scroll(root); }
+      @keyframes grow { to { transform: scaleX(1); } }
+      .media-split .photo img, .steps-photo img { animation: zoomOut linear both; animation-timeline: view(); animation-range: entry 0% cover 60%; }
+      @keyframes zoomOut { from { transform: scale(1.18); } to { transform: scale(1); } }
+    }
+
+    /* brilho que segue o mouse + inclinação 3D nos cards */
+    .spot { position: relative; transition: border-color .3s, transform .4s var(--ease), box-shadow .4s; }
+    .spot:hover { background-image: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(255,106,26,.12), transparent 45%); border-color: rgba(255,106,26,.35); box-shadow: 0 24px 60px -30px rgba(255,106,26,.45); }
+    .card.spot:hover { transform: perspective(900px) rotateX(var(--tx, 0deg)) rotateY(var(--ty, 0deg)) translateY(-6px); }
+
+    /* reflexo de luz nos botões */
+    .btn-primary, .btn-wa, .final-box .btn { position: relative; overflow: hidden; isolation: isolate; }
+    .btn-primary::after, .btn-wa::after, .final-box .btn::after {
+      content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+      background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,.45) 50%, transparent 70%);
+      transform: translateX(-120%); animation: btnShine 4.5s ease-in-out infinite;
+    }
+    @keyframes btnShine { 0%, 70% { transform: translateX(-120%); } 100% { transform: translateX(120%); } }
+
+    /* selo giratório */
+    .seal { position: absolute; width: 112px; height: 112px; display: grid; place-items: center; z-index: 2; pointer-events: none; }
+    .seal svg { position: absolute; inset: 0; width: 100%; height: 100%; animation: spin 14s linear infinite; }
+    .seal text { font: 700 10px 'Space Grotesk', sans-serif; letter-spacing: 2px; fill: var(--text); text-transform: uppercase; }
+    .seal b { position: relative; z-index: 1; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--accent); color: var(--accent-ink); font: 700 15px 'Space Grotesk', sans-serif; box-shadow: 0 0 0 6px rgba(10,10,12,.6); }
+    .photo .seal { top: 14px; right: 14px; }
+    .photo .seal::before { content: ''; position: absolute; inset: 0; border-radius: 50%; background: rgba(10,10,12,.55); backdrop-filter: blur(6px); }
+    .final-box .seal { top: 22px; right: 26px; }
+    .final-box .seal text { fill: var(--accent-ink); }
+    .final-box .seal b { background: var(--accent-ink); color: #fff; box-shadow: none; }
+
+    /* COMO COMPRAR — linha do tempo */
+    .how { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+    .how::before { content: ''; position: absolute; top: 31px; left: 12%; right: 12%; height: 2px; background: var(--line); }
+    .how::after { content: ''; position: absolute; top: 31px; left: 12%; right: 12%; height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); transform-origin: 0 50%; transition: transform 1.6s var(--ease) .3s; box-shadow: 0 0 12px var(--accent); }
+    .js .how:not(.in)::after { transform: scaleX(0); }
+    .how-step { position: relative; z-index: 1; text-align: center; padding: 0 8px; }
+    .how-step .num {
+      width: 64px; height: 64px; margin: 0 auto 18px; border-radius: 50%; display: grid; place-items: center;
+      background: var(--bg-2); border: 1px solid var(--line); color: var(--accent); position: relative;
+    }
+    .how-step .num svg { width: 26px; height: 26px; }
+    .how-step .num small { position: absolute; top: -4px; right: -4px; width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; background: var(--accent); color: var(--accent-ink); font: 700 12px 'Space Grotesk', sans-serif; }
+    .how-step h3 { font-size: 18px; margin-bottom: 6px; }
+    .how-step p { color: var(--muted); font-size: 14px; }
+
+    /* textura sutil */
+    body::after {
+      content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 250; opacity: .05;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+    /* cabeçalho some ao rolar para baixo e volta ao subir */
+    .header { transition: background .3s, border-color .3s, transform .45s var(--ease); }
+    .header.hide { transform: translateY(-100%); }
 
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation: none !important; transition: none !important; }
       .js .reveal { opacity: 1; transform: none; }
+      .intro { display: none; }
+      .hero h1 .ch, .seq, .intro-tag, .js .split-words .wd { opacity: 1 !important; transform: none !important; filter: none !important; }
+      .how::after { transform: scaleX(1); }
       html { scroll-behavior: auto; }
     }
 
@@ -466,6 +576,8 @@
       .services { grid-template-columns: 1fr 1fr; }
       .checklist { grid-template-columns: 1fr 1fr; }
       .foot { grid-template-columns: 1fr 1fr; }
+      .how { grid-template-columns: 1fr 1fr; row-gap: 36px; }
+      .how::before, .how::after { display: none; }
     }
     @media (max-width: 720px) {
       section { padding: 72px 0; }
@@ -492,10 +604,24 @@
       .form { padding: 22px 18px; }
       .foot { grid-template-columns: 1fr; }
       .final-box { padding: 56px 20px; }
+      .how { grid-template-columns: 1fr; }
+      .marquee span { font-size: 15px; padding: 11px 9px; gap: 18px; }
+      .seal { width: 88px; height: 88px; }
+      .seal b { width: 36px; height: 36px; font-size: 13px; }
+      .final-box .seal { top: 12px; right: 12px; }
+      .final-box { padding-top: 96px; }
     }
   </style>
 </head>
 <body>
+  <div class="intro" aria-hidden="true">
+    <div class="intro-inner">
+      <div class="intro-logo"><span class="logo-mark">B7</span><span><span class="l" style="--i:0">B</span><span class="l" style="--i:1">7</span>&nbsp;<span class="l o" style="--i:2">P</span><span class="l o" style="--i:3">h</span><span class="l o" style="--i:4">o</span><span class="l o" style="--i:5">n</span><span class="l o" style="--i:6">e</span></span></div>
+      <div class="intro-bar"><i></i></div>
+      <div class="intro-tag">iPhones · Seminovos · Assistência</div>
+    </div>
+  </div>
+  <div class="progress" aria-hidden="true"></div>
 
   <!-- ============ HEADER ============ -->
   <header class="header" id="top">
@@ -509,6 +635,7 @@
         <a href="#seminovos">Seminovos</a>
         <a href="#troca">Troca</a>
         <a href="#assistencia">Assistência</a>
+        <a href="#como-comprar">Como comprar</a>
         <a href="#faq">Dúvidas</a>
         <a href="#contato">Loja</a>
       </nav>
@@ -536,24 +663,25 @@
     <!-- ============ HERO ============ -->
     <section class="hero">
       <div class="wrap">
-        <div class="reveal">
-          <div class="badge-live"><i></i> Atendimento online agora · resposta rápida</div>
-          <h1>Seu próximo iPhone,<br>com <em>garantia</em> e<br>procedência.</h1>
-          <p class="hero-lead">Lacrados e seminovos revisados, seu aparelho usado vale como entrada e você parcela o restante no cartão. Tudo resolvido pelo WhatsApp.</p>
-          <div class="hero-ctas">
+        <div>
+          <div class="badge-live seq" style="--d:0s"><i></i> Atendimento online agora · resposta rápida</div>
+          <h1 class="seq" style="--d:.1s">Seu próximo iPhone,<br>com <em>garantia</em> e<br>procedência.</h1>
+          <p class="typer seq" style="--d:1.1s">Especialistas em <span class="typed" data-words="iPhone lacrado|seminovo revisado|troca na hora|assistência técnica">iPhone lacrado</span><i class="caret" aria-hidden="true"></i></p>
+          <p class="hero-lead seq" style="--d:1.2s">Lacrados e seminovos revisados, seu aparelho usado vale como entrada e você parcela o restante no cartão. Tudo resolvido pelo WhatsApp.</p>
+          <div class="hero-ctas seq" style="--d:1.35s">
             <a href="#catalogo" class="btn btn-primary">
               Ver iPhones disponíveis
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </a>
             <a href="#troca" class="btn btn-ghost">Avaliar meu aparelho na troca</a>
           </div>
-          <div class="hero-proof">
+          <div class="hero-proof seq" style="--d:1.5s">
             <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><use href="#i-check"/></svg> Garantia em todos os aparelhos</div>
             <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><use href="#i-check"/></svg> Nota fiscal</div>
             <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><use href="#i-check"/></svg> <span>Até <span data-cfg="parcelas">12</span>x no cartão</span></div>
           </div>
         </div>
-        <div class="hero-visual reveal">
+        <div class="hero-visual seq" style="--d:.3s">
           <div class="hero-illu" aria-hidden="true">
             <div class="phone phone-a" data-phone="pro" data-color="#C8692F"></div>
             <div class="phone phone-b" data-phone="base" data-color="#9DB4C8"></div>
@@ -575,6 +703,13 @@
         </div>
       </div>
     </section>
+
+    <div class="marquee-wrap" aria-hidden="true">
+      <div class="marquee"><div class="marquee-track">
+        <span>iPhone 17 Pro</span><span>Garantia em tudo</span><span>Até 12x no cartão</span><span>Seminovos revisados</span><span>Seu usado na troca</span><span>Assistência técnica</span><span>Nota fiscal</span><span>Atendimento no WhatsApp</span>
+        <span>iPhone 17 Pro</span><span>Garantia em tudo</span><span>Até 12x no cartão</span><span>Seminovos revisados</span><span>Seu usado na troca</span><span>Assistência técnica</span><span>Nota fiscal</span><span>Atendimento no WhatsApp</span>
+      </div></div>
+    </div>
 
     <!-- ============ BENEFÍCIOS ============ -->
     <div class="perks">
@@ -617,6 +752,7 @@
             <p>Todo seminovo passa por revisão completa antes de ir pra vitrine. Você sabe exatamente o estado do aparelho antes de comprar.</p>
           </div>
           <figure class="photo reveal" data-photo-box="remove">
+            <div class="seal" aria-hidden="true"><svg viewBox="0 0 120 120"><defs><path id="sealA" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"/></defs><text><textPath href="#sealA" textLength="286" lengthAdjust="spacing">Revisado · Garantia · Procedência · </textPath></text></svg><b>B7</b></div>
             <img src="fotos/seminovos.jpg" alt="iPhone 15 Pro seminovo em titânio natural" loading="lazy">
             <figcaption class="ph-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-shield"/></svg> Revisado e com garantia</figcaption>
           </figure>
@@ -749,6 +885,23 @@
       </div>
     </section>
 
+    <!-- ============ COMO COMPRAR ============ -->
+    <section id="como-comprar">
+      <div class="wrap">
+        <div class="section-head center reveal">
+          <span class="eyebrow">Como comprar</span>
+          <h2>Do clique ao iPhone na mão em 4 passos.</h2>
+          <p>Sem burocracia: tudo pelo WhatsApp, com atendimento de gente de verdade.</p>
+        </div>
+        <div class="how reveal">
+          <div class="how-step"><div class="num"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-screen"/></svg><small>1</small></div><h3>Escolha o modelo</h3><p>Veja o catálogo e selecione cor e memória.</p></div>
+          <div class="how-step"><div class="num"><svg viewBox="0 0 24 24" fill="currentColor"><use href="#i-wa"/></svg><small>2</small></div><h3>Chame no WhatsApp</h3><p>Confirmamos estoque, valor e condições na hora.</p></div>
+          <div class="how-step"><div class="num"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-card"/></svg><small>3</small></div><h3>Pague como preferir</h3><p>Pix, cartão em até <span data-cfg="parcelas">12</span>x ou seu usado na troca.</p></div>
+          <div class="how-step"><div class="num"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-truck"/></svg><small>4</small></div><h3>Retire ou receba</h3><p>Sai configurado, com nota fiscal e garantia.</p></div>
+        </div>
+      </div>
+    </section>
+
     <!-- ============ PAGAMENTO ============ -->
     <section id="pagamento">
       <div class="wrap">
@@ -840,7 +993,8 @@
     <!-- ============ CTA FINAL ============ -->
     <div class="final">
       <div class="wrap">
-        <div class="final-box reveal">
+        <div class="final-box reveal" style="position: relative;">
+          <div class="seal" aria-hidden="true"><svg viewBox="0 0 120 120"><defs><path id="sealB" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"/></defs><text><textPath href="#sealB" textLength="286" lengthAdjust="spacing">Garantia · Nota fiscal · Até 12x · </textPath></text></svg><b>B7</b></div>
           <h2>Bora pegar seu iPhone novo hoje?</h2>
           <p>Chama no WhatsApp e receba valores e condições na hora.</p>
           <a class="btn" data-wa="Olá, B7 Phone! Quero saber valores e condições dos iPhones." target="_blank" rel="noopener">
@@ -1209,10 +1363,87 @@
     paintPhones();
     bindPhotos();
 
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* Título principal: monta letra por letra */
+    function splitLetters(el) {
+      let i = 0;
+      const walk = node => [...node.childNodes].forEach(n => {
+        if (n.nodeType === 3) {
+          const frag = document.createDocumentFragment();
+          n.textContent.split(/(\s+)/).forEach(part => {
+            if (!part) return;
+            if (/^\s+$/.test(part)) return frag.append(part);
+            const w = document.createElement('span'); w.className = 'word';
+            [...part].forEach(c => { const ch = document.createElement('span'); ch.className = 'ch'; ch.style.setProperty('--i', i++); ch.textContent = c; w.append(ch); });
+            frag.append(w);
+          });
+          n.replaceWith(frag);
+        } else if (n.nodeType === 1 && n.tagName !== 'BR') walk(n);
+      });
+      el.setAttribute('aria-label', el.textContent.replace(/\s+/g, ' ').trim());
+      walk(el);
+      [...el.children].forEach(c => c.setAttribute('aria-hidden', 'true'));
+      el.classList.add('lettered');
+    }
+    if (!reduce) splitLetters($('.hero h1'));
+
+    /* Títulos das seções: palavra por palavra */
+    $$('.section-head h2, .insta h2, .final-box h2').forEach(h => {
+      let i = 0;
+      h.innerHTML = h.innerHTML.split(/(<[^>]+>)/).map(part => part.startsWith('<') ? part :
+        part.replace(/(\S+)/g, w => `<span class="wd" style="--i:${i++}">${w}</span>`)).join('');
+      h.classList.add('split-words');
+    });
+
+    /* Frase com efeito de digitação */
+    const typed = $('.typed');
+    if (typed && !reduce) {
+      const words = typed.dataset.words.split('|');
+      let wi = 0, ci = words[0].length, deleting = true;
+      const tick = () => {
+        const w = words[wi];
+        if (deleting) { ci--; if (ci === 0) { deleting = false; wi = (wi + 1) % words.length; } }
+        else { ci++; if (ci === words[wi].length) { deleting = true; typed.textContent = words[wi]; return setTimeout(tick, 1800); } }
+        typed.textContent = (deleting ? w : words[wi]).slice(0, ci);
+        setTimeout(tick, deleting ? 45 : 85);
+      };
+      setTimeout(tick, 4200);
+    }
+
+    /* Revelar ao rolar, com atraso em cascata entre itens vizinhos */
+    $$('.reveal').forEach(el => {
+      const sibs = [...el.parentElement.children].filter(c => c.classList.contains('reveal'));
+      const idx = sibs.indexOf(el);
+      if (idx > 0) el.style.setProperty('--rd', Math.min(idx, 6) * 0.08 + 's');
+    });
     const io = new IntersectionObserver(entries => entries.forEach(en => {
       if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
     }), { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
     $$('.reveal:not(.in)').forEach(el => io.observe(el));
+
+    /* Brilho que segue o mouse e inclinação 3D nos cards */
+    if (matchMedia('(pointer: fine)').matches && !reduce) {
+      document.addEventListener('pointermove', e => {
+        const el = e.target.closest('.card, .service, .grade, .pay-card, .info-item, .how-step .num, .perk');
+        if (!el) return;
+        el.classList.add('spot');
+        const r = el.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+        el.style.setProperty('--mx', x + 'px'); el.style.setProperty('--my', y + 'px');
+        if (el.classList.contains('card')) {
+          el.style.setProperty('--ty', ((x / r.width - .5) * 8).toFixed(2) + 'deg');
+          el.style.setProperty('--tx', (-(y / r.height - .5) * 6).toFixed(2) + 'deg');
+        }
+      }, { passive: true });
+    }
+
+    /* Cabeçalho: esconde ao rolar para baixo, volta ao subir */
+    let lastY = scrollY;
+    addEventListener('scroll', () => {
+      const y = scrollY;
+      header.classList.toggle('hide', y > lastY && y > 400 && !mnav.classList.contains('open'));
+      lastY = y;
+    }, { passive: true });
   </script>
 </body>
 </html>
