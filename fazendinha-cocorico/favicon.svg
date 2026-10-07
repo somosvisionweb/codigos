@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>Fazendinha Co-Có-Ri-Có</title>
+  <circle cx="32" cy="32" r="31" fill="#f6b81c"/>
+  <path d="M8 50h48v6a24 24 0 0 1-48 0z" fill="#2f7d32"/>
+  <path d="M25 13l3-6 3 6 3-6 3 6 2 4H23z" fill="#c4372b"/>
+  <ellipse cx="34" cy="38" rx="16" ry="12" fill="#fff"/>
+  <path d="M44 34l10-12-2 16z" fill="#fff"/>
+  <circle cx="28" cy="22" r="9" fill="#fff"/>
+  <path d="M19 21l-7 3 7 2z" fill="#e8930c"/>
+  <circle cx="26" cy="20" r="2" fill="#2b2118"/>
+  <path d="M22 28c0 4 4 5 5 3" fill="#c4372b"/>
+  <path d="M30 50v6M38 50v6" stroke="#e8930c" stroke-width="3" stroke-linecap="round"/>
+</svg>

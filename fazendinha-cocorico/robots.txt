@@ -1,0 +1,5 @@
+# [PREENCHER] troque o domínio abaixo pelo endereço definitivo do site
+User-agent: *
+Allow: /
+
+Sitemap: https://www.fazendinhacocorico.com.br/sitemap.xml

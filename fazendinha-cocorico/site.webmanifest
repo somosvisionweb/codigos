@@ -1,0 +1,13 @@
+{
+  "name": "Fazendinha Co-Có-Ri-Có | Buffet Rural",
+  "short_name": "Co-Có-Ri-Có",
+  "lang": "pt-BR",
+  "start_url": "./",
+  "display": "browser",
+  "background_color": "#fdf6e7",
+  "theme_color": "#2f7d32",
+  "icons": [
+    { "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml" },
+    { "src": "images/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
