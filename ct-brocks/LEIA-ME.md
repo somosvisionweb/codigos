@@ -1,6 +1,6 @@
 # Site CT Brocks
 
-Site de uma página para o CT Brocks (treino funcional/academia). É HTML, CSS e JS puros, sem build: abra o `index.html` no navegador ou suba a pasta inteira em qualquer hospedagem (Netlify, Vercel, Hostinger, GitHub Pages).
+Site de uma página para a academia CT Brocks (Cabo de Santo Agostinho - PE). É HTML, CSS e JS puros, sem build: abra o `index.html` no navegador ou suba a pasta inteira em qualquer hospedagem (Netlify, Vercel, Hostinger, GitHub Pages).
 
 ## 1. Contatos (um lugar só)
 
@@ -23,12 +23,12 @@ Salve cada arquivo **com o nome exato** abaixo e recarregue a página. Enquanto 
 | Arquivo | Onde aparece | Formato ideal |
 |---|---|---|
 | `hero.jpg` | Fundo do topo (usado se não houver vídeo) | Horizontal, 2400×1350 |
-| `sobre-1.jpg` | Seção "O CT", foto grande | Vertical 4:5, 1200×1500 |
-| `sobre-2.jpg` | Seção "O CT", foto menor | Quadrada, 800×800 |
-| `funcional.jpg`, `hiit.jpg`, `forca.jpg`, `personal.jpg` | Cards de treinos | 1200×1000 |
+| `sobre-1.jpg` | Seção "A academia", foto grande | Vertical 4:5, 1200×1500 |
+| `sobre-2.jpg` | Seção "A academia", foto menor | Quadrada, 800×800 |
+| `musculacao.jpg`, `peso-livre.jpg`, `cardio.jpg`, `instrutor.jpg` | Cards da seção Estrutura | 1200×1000 |
 | `galeria-1.jpg` a `galeria-6.jpg` | Galeria (1 e 5 são largas) | 1600×1200 |
 | `reels-1.jpg`, `reels-2.jpg` | Capa dos vídeos da galeria | Vertical 9:16 |
-| `coach-1.jpg` a `coach-3.jpg` | Equipe | Vertical 4:5, 1000×1250 |
+| `instrutor-1.jpg` a `instrutor-3.jpg` | Instrutores | Vertical 4:5, 1000×1250 |
 | `cta.jpg` | Fundo da chamada final | Horizontal, 2400×1350 |
 | `logo.png` *(opcional)* | Cabeçalho (veja o comentário no `index.html`) | PNG transparente |
 
@@ -46,4 +46,4 @@ Dicas:
 
 ## 3. Textos
 
-Horários, valores dos planos, números da faixa de estatísticas, nomes dos coaches e depoimentos estão no `index.html` com conteúdo de exemplo. Procure pelos comentários e troque pelos dados reais.
+Valores dos planos, números da faixa de estatísticas, nomes dos instrutores e depoimentos estão no `index.html` com conteúdo de exemplo. Procure pelos comentários e troque pelos dados reais.

@@ -216,6 +216,10 @@ const CONFIG = {
     counters.forEach((el) => { el.textContent = el.dataset.count; });
   }
 
+  /* ---------- destaca o dia de hoje no horário ---------- */
+  const today = $(`.hours [data-day="${new Date().getDay()}"]`);
+  if (today) today.classList.add('is-today');
+
   /* ---------- abas de horários ---------- */
   const tabs = $$('.tab');
   tabs.forEach((tab) => {
