@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+  <script>document.documentElement.classList.add('js')</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>B7 Phone — iPhones Lacrados, Seminovos e Assistência Técnica</title>
@@ -130,26 +131,15 @@
     .hero-visual .phone { position: absolute; filter: drop-shadow(0 40px 60px rgba(0,0,0,.6)); }
     .hero-visual .phone-a { width: 250px; left: 4%; top: 30px; transform: rotate(-9deg); animation: float 7s ease-in-out infinite; }
     .hero-visual .phone-b { width: 250px; right: 4%; top: 70px; transform: rotate(8deg); animation: float 7s ease-in-out -3.5s infinite; }
-    .hero-chip {
-      position: absolute; z-index: 2; display: flex; align-items: center; gap: 12px;
-      padding: 12px 16px; border-radius: 16px; background: rgba(24,24,30,.9); border: 1px solid var(--line);
-      backdrop-filter: blur(8px); font-size: 14px; box-shadow: 0 20px 40px -20px #000;
-    }
-    .hero-chip b { display: block; font-size: 15px; }
-    .hero-chip small { color: var(--muted); }
-    .hero-chip .ic { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; background: rgba(255,106,26,.14); color: var(--accent); }
-    .hero-chip .ic svg { width: 20px; height: 20px; }
-    .chip-1 { left: -4%; bottom: 110px; }
-    .chip-2 { right: -2%; bottom: 0; }
     @keyframes float { 50% { translate: 0 -14px; } }
     .hero-illu { position: absolute; inset: 0; }
-    .hero-visual.has-photo .hero-illu { display: none; }
+    .hero-illu { display: none; }
+    .hero-visual.no-photo .hero-illu { display: block; }
     .hero-prod {
-      position: absolute; margin: 0; width: 42%; opacity: 0; transition: opacity .9s var(--ease);
+      position: absolute; margin: 0; width: 42%;
       filter: drop-shadow(0 40px 50px rgba(0,0,0,.65));
     }
     .hero-prod img { width: 100%; height: auto; }
-    .hero-prod.photo-ok { opacity: 1; }
     .hero-prod.front { right: 8%; top: 24px; z-index: 1; rotate: 7deg; animation: float 7s ease-in-out infinite; }
     .hero-prod.back { left: 6%; top: 0; rotate: -9deg; animation: float 7s ease-in-out -3.5s infinite; }
 
@@ -190,7 +180,7 @@
     .card-media .acc-ic { width: 84px; height: 84px; color: var(--muted); }
     .card-media .prod-photo {
       position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-      opacity: 0; transition: opacity .5s var(--ease), transform .6s var(--ease);
+      transition: opacity .5s var(--ease), transform .6s var(--ease);
     }
     .card-media.photo-ok .prod-photo { opacity: 1; }
     .card-media.photo-ok:not(.illu) .phone, .card-media.photo-ok .acc-ic { visibility: hidden; }
@@ -310,8 +300,7 @@
     }
     .insta-tiles > div { position: relative; }
     .insta-tiles .phone { width: 34%; transform: rotate(-8deg); }
-    .insta-tiles img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .6s; }
-    .insta-tiles .photo-ok img { opacity: 1; }
+    .insta-tiles img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
     .insta-tiles .photo-ok .phone { visibility: hidden; }
     .insta-tiles > div:nth-child(odd) { background: radial-gradient(circle, rgba(255,106,26,.2), var(--bg-3) 70%); }
 
@@ -378,8 +367,7 @@
       position: relative; margin: 0; border-radius: var(--radius); overflow: hidden;
       background: linear-gradient(135deg, var(--bg-3), var(--bg-2)); border: 1px solid var(--line);
     }
-    .photo img { width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .7s var(--ease), transform 1.2s var(--ease); }
-    .photo.photo-ok img { opacity: 1; }
+    .photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
     .photo:hover img { transform: scale(1.03); }
     .photo .ph-badge {
       position: absolute; left: 16px; bottom: 16px; display: flex; align-items: center; gap: 10px;
@@ -395,12 +383,12 @@
     .photo-note { font-size: 12px; color: var(--muted); }
 
     /* REVEAL */
-    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
+    .js .reveal { opacity: 0; transform: translateY(24px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
     .reveal.in { opacity: 1; transform: none; }
 
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation: none !important; transition: none !important; }
-      .reveal { opacity: 1; transform: none; }
+      .js .reveal { opacity: 1; transform: none; }
       html { scroll-behavior: auto; }
     }
 
@@ -424,8 +412,6 @@
       .hero-ctas .btn { flex: 1 1 100%; }
       .hero-visual { height: 360px; }
       .hero-visual .phone-a, .hero-visual .phone-b { width: 180px; }
-      .chip-1 { left: 0; bottom: 96px; }
-      .chip-2 { right: 0; bottom: 8px; }
       .hero-prod { width: 44%; }
       .hero-prod.front { right: 4%; }
       .hero-prod.back { left: 4%; }
@@ -498,7 +484,7 @@
           <div class="hero-proof">
             <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><use href="#i-check"/></svg> Garantia em todos os aparelhos</div>
             <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><use href="#i-check"/></svg> Nota fiscal</div>
-            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><use href="#i-check"/></svg> <span>Até <span data-cfg="parcelas"></span>x no cartão</span></div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><use href="#i-check"/></svg> <span>Até <span data-cfg="parcelas">12</span>x no cartão</span></div>
           </div>
         </div>
         <div class="hero-visual reveal">
@@ -506,16 +492,8 @@
             <div class="phone phone-a" data-phone="pro" data-color="#C8692F"></div>
             <div class="phone phone-b" data-phone="base" data-color="#9DB4C8"></div>
           </div>
-          <figure class="hero-prod back" data-photo-box="remove"><img data-foto="hero2" alt="iPhone 16 Pro titânio-deserto"></figure>
-          <figure class="hero-prod front" data-photo-box="remove" data-hero-main><img data-foto="hero" alt="iPhone 17 Pro laranja-cósmico" fetchpriority="high"></figure>
-          <div class="hero-chip chip-1">
-            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-swap"/></svg></div>
-            <div><b>Seu usado vale entrada</b><small>Avaliação na hora</small></div>
-          </div>
-          <div class="hero-chip chip-2">
-            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-battery"/></svg></div>
-            <div><b>Bateria testada</b><small>Saúde informada no anúncio</small></div>
-          </div>
+          <figure class="hero-prod back" data-photo-box="remove"><img src="fotos/hero-16pro.webp" width="530" height="1100" alt="iPhone 16 Pro titânio-deserto"></figure>
+          <figure class="hero-prod front" data-photo-box="remove" data-hero-main><img src="fotos/hero-17pro.webp" width="532" height="1100" alt="iPhone 17 Pro laranja-cósmico" fetchpriority="high"></figure>
         </div>
       </div>
     </section>
@@ -525,7 +503,7 @@
       <div class="wrap">
         <div class="perks-grid reveal">
           <div class="perk"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-shield"/></svg></div><div><b>Garantia de verdade</b><span>Lacrados com garantia Apple e seminovos com garantia da loja</span></div></div>
-          <div class="perk"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-card"/></svg></div><div><b>Parcele em até <span data-cfg="parcelas"></span>x</b><span>Ou economize pagando no Pix</span></div></div>
+          <div class="perk"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-card"/></svg></div><div><b>Parcele em até <span data-cfg="parcelas">12</span>x</b><span>Ou economize pagando no Pix</span></div></div>
           <div class="perk"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-swap"/></svg></div><div><b>Troca facilitada</b><span>Seu aparelho atual como parte do pagamento</span></div></div>
           <div class="perk"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-truck"/></svg></div><div><b>Retire ou receba</b><span>Retirada na loja ou entrega combinada</span></div></div>
         </div>
@@ -561,7 +539,7 @@
             <p>Todo seminovo passa por revisão completa antes de ir pra vitrine. Você sabe exatamente o estado do aparelho antes de comprar.</p>
           </div>
           <figure class="photo reveal" data-photo-box="remove">
-            <img data-foto="seminovos" alt="iPhone 15 Pro seminovo em titânio natural" loading="lazy">
+            <img src="fotos/seminovos.jpg" alt="iPhone 15 Pro seminovo em titânio natural" loading="lazy">
             <figcaption class="ph-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-shield"/></svg> Revisado e com garantia</figcaption>
           </figure>
         </div>
@@ -610,7 +588,7 @@
             <div class="step"><div class="n">3</div><div><b>Escolha o novo</b><span>A diferença você paga no Pix ou parcela no cartão.</span></div></div>
           </div>
           <figure class="photo steps-photo" data-photo-box="remove">
-            <img data-foto="troca" alt="iPhone 15 Pro Max fora da caixa, com cabo e manual" loading="lazy">
+            <img src="fotos/troca.jpg" alt="iPhone 15 Pro Max fora da caixa, com cabo e manual" loading="lazy">
             <figcaption class="ph-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-swap"/></svg> Saia com o novo no mesmo dia</figcaption>
           </figure>
         </div>
@@ -660,7 +638,7 @@
       <div class="wrap">
         <div class="media-split" data-media>
           <figure class="photo reveal" data-photo-box="remove">
-            <img data-foto="assistencia" alt="Técnico consertando um aparelho com chave de precisão" loading="lazy">
+            <img src="fotos/assistencia.jpg" alt="Técnico consertando um aparelho com chave de precisão" loading="lazy">
             <figcaption class="ph-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-clock"/></svg> Muitos reparos no mesmo dia</figcaption>
           </figure>
           <div class="section-head reveal">
@@ -709,7 +687,7 @@
           </div>
           <div class="pay-card hl reveal">
             <h3>Cartão de crédito</h3>
-            <div class="big">até <span data-cfg="parcelas"></span>x</div>
+            <div class="big">até <span data-cfg="parcelas">12</span>x</div>
             <p>Parcele nas principais bandeiras. Dá pra dividir em mais de um cartão.</p>
           </div>
           <div class="pay-card reveal">
@@ -727,19 +705,19 @@
         <div class="insta reveal">
           <div>
             <span class="eyebrow">Instagram</span>
-            <h2>Novidades e estoque do dia no <span data-cfg="instagramAt"></span></h2>
+            <h2>Novidades e estoque do dia no <span data-cfg="instagramAt">@b7phone</span></h2>
             <p>Chegou modelo novo, promoção relâmpago, bastidores da assistência: tudo sai primeiro nos stories. Segue a gente pra não perder.</p>
             <a class="btn btn-primary" data-ig target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-ig"/></svg> Seguir no Instagram
             </a>
           </div>
           <div class="insta-tiles" aria-hidden="true">
-            <div data-photo-box><img data-foto="instagram.0" data-w="400" alt="" loading="lazy"><div class="phone" data-phone="pro" data-color="#2E3B57"></div></div>
-            <div data-photo-box><img data-foto="instagram.1" data-w="400" alt="" loading="lazy"><div class="phone" data-phone="air" data-color="#C9D8E8"></div></div>
-            <div data-photo-box><img data-foto="instagram.2" data-w="400" alt="" loading="lazy"><div class="phone" data-phone="pro" data-color="#D7D7DA"></div></div>
-            <div data-photo-box><img data-foto="instagram.3" data-w="400" alt="" loading="lazy"><div class="phone" data-phone="base" data-color="#B6A9D6"></div></div>
-            <div data-photo-box><img data-foto="instagram.4" data-w="400" alt="" loading="lazy"><div class="phone" data-phone="pro" data-color="#C8692F"></div></div>
-            <div data-photo-box><img data-foto="instagram.5" data-w="400" alt="" loading="lazy"><div class="phone" data-phone="base" data-color="#A9BFA3"></div></div>
+            <div data-photo-box><img src="fotos/ig-1.jpg" alt="" loading="lazy"><div class="phone" data-phone="pro" data-color="#2E3B57"></div></div>
+            <div data-photo-box><img src="fotos/ig-2.jpg" alt="" loading="lazy"><div class="phone" data-phone="air" data-color="#C9D8E8"></div></div>
+            <div data-photo-box><img src="fotos/ig-3.jpg" alt="" loading="lazy"><div class="phone" data-phone="pro" data-color="#D7D7DA"></div></div>
+            <div data-photo-box><img src="fotos/ig-4.jpg" alt="" loading="lazy"><div class="phone" data-phone="base" data-color="#B6A9D6"></div></div>
+            <div data-photo-box><img src="fotos/ig-5.jpg" alt="" loading="lazy"><div class="phone" data-phone="pro" data-color="#C8692F"></div></div>
+            <div data-photo-box><img src="fotos/ig-6.jpg" alt="" loading="lazy"><div class="phone" data-phone="base" data-color="#A9BFA3"></div></div>
           </div>
         </div>
       </div>
@@ -766,10 +744,10 @@
         </div>
         <div class="contact">
           <div class="contact-info reveal">
-            <div class="info-item"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-pin"/></svg></div><div><b>Endereço</b><span data-cfg="endereco"></span><br><span data-cfg="cidade"></span></div></div>
+            <div class="info-item"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-pin"/></svg></div><div><b>Endereço</b><span data-cfg="endereco">Rua Exemplo, 123 — Centro</span><br><span data-cfg="cidade">Sua Cidade — UF</span></div></div>
             <div class="info-item"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-clock"/></svg></div><div><b>Horário de atendimento</b><ul id="hours"></ul></div></div>
             <div class="info-item"><div class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><use href="#i-wa"/></svg></div><div><b>WhatsApp</b><a data-wa="Olá, B7 Phone!" target="_blank" rel="noopener"><span data-cfg="whatsappFmt"></span></a></div></div>
-            <div class="info-item"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-ig"/></svg></div><div><b>Instagram</b><a data-ig target="_blank" rel="noopener"><span data-cfg="instagramAt"></span></a></div></div>
+            <div class="info-item"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-ig"/></svg></div><div><b>Instagram</b><a data-ig target="_blank" rel="noopener"><span data-cfg="instagramAt">@b7phone</span></a></div></div>
           </div>
           <div class="map reveal" id="map">
             <div>
@@ -873,21 +851,11 @@
       parcelas: 12,
     };
 
-    /* FOTOS — ficam na pasta fotos/. Para trocar, substitua o arquivo (mesmo nome)
-       ou aponte para outro caminho. Também aceita o número de uma foto do Pexels.
-       O ideal é usar as fotos reais da loja (as mesmas do Instagram).
-       Se uma foto não carregar, o site mostra a ilustração no lugar. */
-    const FOTOS = {
-      hero: 'fotos/hero-17pro.webp',        // iPhone 17 Pro laranja-cósmico (fundo transparente)
-      hero2: 'fotos/hero-16pro.webp',       // iPhone 16 Pro titânio-deserto (fundo transparente)
-      seminovos: 'fotos/seminovos.jpg',     // iPhone 15 Pro titânio natural
-      troca: 'fotos/troca.jpg',             // unboxing iPhone 15 Pro Max — Zana Latif (@zana_qaradaghy)
-      assistencia: 'fotos/assistencia.jpg', // conserto com chave de precisão
-      instagram: ['fotos/ig-1.jpg', 'fotos/ig-2.jpg', 'fotos/ig-3.jpg', 'fotos/ig-4.jpg', 'fotos/ig-5.jpg', 'fotos/ig-6.jpg'],
-    };
+    /* FOTOS — ficam na pasta fotos/. Para trocar uma foto, substitua o arquivo mantendo o mesmo nome.
+       O ideal é usar as fotos reais da loja (as mesmas do Instagram). */
 
     /* PRODUTOS — preco: null mostra "Consulte o valor". Ex.: preco: 7499
-       foto: opcional (mesmo formato de FOTOS). Sem foto, aparece a ilustração na cor escolhida. */
+       foto: opcional, caminho da foto (ex.: 'fotos/p-17pro.jpg'). Sem foto, aparece a ilustração na cor escolhida. */
     const PRODUTOS = [
       { nome: 'iPhone 17 Pro Max', cat: 'lacrado', tipo: 'pro', tag: 'Lançamento', armaz: ['256GB', '512GB', '1TB', '2TB'], foto: 'fotos/p-17promax.jpg',
         cores: [['Laranja-cósmico', '#C8692F'], ['Azul-profundo', '#2E3B57'], ['Prateado', '#D7D7DA']], preco: null },
@@ -956,32 +924,25 @@
         ? `https://images.pexels.com/photos/${v}/pexels-photo-${v}.jpeg?auto=compress&cs=tinysrgb&w=${w}`
         : String(v);
     };
-    const fotoKey = k => k.split('.').reduce((o, part) => (o == null ? undefined : o[part]), FOTOS);
 
-    /* Carrega as fotos; se alguma falhar, mantém a ilustração / remove o espaço vazio */
+    /* Fotos: se alguma não carregar, mostra a ilustração no lugar ou fecha o espaço vazio */
     function bindPhotos(root = document) {
-      $$('img[data-foto]:not([src])', root).forEach(img => {
-        const key = img.dataset.foto;
-        const val = fotoKey(key) ?? key;
-        const src = fotoURL(val, img.dataset.w || 900);
+      $$('img[data-foto]:not([src])', root).forEach(img => { img.src = fotoURL(img.dataset.foto, img.dataset.w || 900); });
+      $$('[data-photo-box] img', root).forEach(img => {
         const box = img.closest('[data-photo-box]');
+        const ok = () => box.classList.add('photo-ok');
         const fail = () => {
           img.remove();
-          if (!box) return;
           box.classList.remove('photo-ok');
+          if (box.hasAttribute('data-hero-main')) box.closest('.hero-visual').classList.add('no-photo');
           if (box.dataset.photoBox === 'remove') {
             box.closest('[data-media]')?.classList.add('no-media');
             box.remove();
           }
         };
-        const unresolved = fotoKey(key) === undefined && !/^\d+$|[./]/.test(key); // chave sem foto definida
-        if (!src || unresolved) return fail();
-        img.addEventListener('load', () => {
-          box?.classList.add('photo-ok');
-          if (box?.hasAttribute('data-hero-main')) box.closest('.hero-visual').classList.add('has-photo');
-        }, { once: true });
+        if (img.complete) return img.naturalWidth ? ok() : fail();
+        img.addEventListener('load', ok, { once: true });
         img.addEventListener('error', fail, { once: true });
-        img.src = src;
       });
     }
 
