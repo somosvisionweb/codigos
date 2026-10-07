@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# [CONFIRMAR] Troque pelo domínio definitivo
+Sitemap: https://www.lubellabuffet.com.br/sitemap.xml
