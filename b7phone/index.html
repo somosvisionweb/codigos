@@ -142,6 +142,17 @@
     .chip-1 { left: -4%; bottom: 70px; }
     .chip-2 { right: -2%; top: 10px; }
     @keyframes float { 50% { translate: 0 -14px; } }
+    .hero-illu { position: absolute; inset: 0; }
+    .hero-visual.has-photo .hero-illu { display: none; }
+    .hero-photo {
+      position: absolute; margin: 0; border-radius: 28px; overflow: hidden; background: var(--bg-3);
+      border: 1px solid var(--line); box-shadow: 0 40px 80px -30px #000; opacity: 0; transition: opacity .9s var(--ease);
+    }
+    .hero-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .hero-photo.photo-ok { opacity: 1; }
+    .hero-photo.main { top: 0; bottom: 40px; left: 6%; right: 16%; }
+    .hero-photo.main::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(10,10,12,.55)); }
+    .hero-photo.sub { width: 40%; aspect-ratio: 4 / 5; right: 0; bottom: 0; border: 5px solid var(--bg); border-radius: 24px; animation: float 8s ease-in-out infinite; }
 
     /* FAIXA DE BENEFÍCIOS */
     .perks { padding: 0 0 24px; }
@@ -178,8 +189,16 @@
     .card-media .phone { width: 96px; transition: transform .4s var(--ease); }
     .card:hover .card-media .phone { transform: rotate(-4deg) scale(1.04); }
     .card-media .acc-ic { width: 84px; height: 84px; color: var(--muted); }
+    .card-media .prod-photo {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+      opacity: 0; transition: opacity .5s var(--ease), transform .6s var(--ease);
+    }
+    .card-media.photo-ok .prod-photo { opacity: 1; }
+    .card-media.photo-ok:not(.illu) .phone, .card-media.photo-ok .acc-ic { visibility: hidden; }
+    .card-media.illu .prod-photo { opacity: 0; }
+    .card:hover .card-media .prod-photo { transform: scale(1.05); }
     .tag {
-      position: absolute; top: 12px; left: 12px; padding: 4px 10px; border-radius: 999px;
+      position: absolute; z-index: 1; top: 12px; left: 12px; padding: 4px 10px; border-radius: 999px;
       font-size: 12px; font-weight: 600; background: var(--accent); color: var(--accent-ink);
     }
     .tag.alt { background: var(--text); color: var(--bg); }
@@ -290,7 +309,11 @@
       aspect-ratio: 1; border-radius: 14px; background: var(--bg-3); border: 1px solid var(--line);
       display: grid; place-items: center; overflow: hidden;
     }
+    .insta-tiles > div { position: relative; }
     .insta-tiles .phone { width: 34%; transform: rotate(-8deg); }
+    .insta-tiles img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .6s; }
+    .insta-tiles .photo-ok img { opacity: 1; }
+    .insta-tiles .photo-ok .phone { visibility: hidden; }
     .insta-tiles > div:nth-child(odd) { background: radial-gradient(circle, rgba(255,106,26,.2), var(--bg-3) 70%); }
 
     /* FAQ */
@@ -351,6 +374,27 @@
     }
     @keyframes ping { 0% { transform: scale(1); opacity: .8; } 100% { transform: scale(1.6); opacity: 0; } }
 
+    /* FOTOS */
+    .photo {
+      position: relative; margin: 0; border-radius: var(--radius); overflow: hidden;
+      background: linear-gradient(135deg, var(--bg-3), var(--bg-2)); border: 1px solid var(--line);
+    }
+    .photo img { width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .7s var(--ease), transform 1.2s var(--ease); }
+    .photo.photo-ok img { opacity: 1; }
+    .photo:hover img { transform: scale(1.03); }
+    .photo .ph-badge {
+      position: absolute; left: 16px; bottom: 16px; display: flex; align-items: center; gap: 10px;
+      padding: 10px 14px; border-radius: 14px; background: rgba(10,10,12,.78); backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,.08); font-size: 14px; font-weight: 500;
+    }
+    .photo .ph-badge svg { width: 18px; height: 18px; color: var(--accent); }
+    .media-split { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; margin-bottom: 48px; }
+    .media-split .section-head { margin-bottom: 0; }
+    .media-split .photo { aspect-ratio: 16 / 11; }
+    .media-split.no-media { grid-template-columns: 1fr; }
+    .steps-photo { aspect-ratio: 16 / 10; margin-top: 32px; }
+    .photo-note { font-size: 12px; color: var(--muted); }
+
     /* REVEAL */
     .reveal { opacity: 0; transform: translateY(24px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
     .reveal.in { opacity: 1; transform: none; }
@@ -365,7 +409,7 @@
     @media (max-width: 1024px) {
       .nav, .header-cta { display: none; }
       .menu-btn { display: grid; }
-      .hero .wrap, .split, .insta, .contact { grid-template-columns: 1fr; }
+      .hero .wrap, .split, .insta, .contact, .media-split { grid-template-columns: 1fr; }
       .hero-visual { height: 440px; max-width: 520px; width: 100%; margin: 0 auto; }
       .perks-grid { grid-template-columns: 1fr 1fr; }
       .perk:nth-child(3) { border-left: 0; }
@@ -383,6 +427,8 @@
       .hero-visual .phone-a, .hero-visual .phone-b { width: 180px; }
       .chip-1 { left: 0; bottom: 20px; }
       .chip-2 { right: 0; top: 0; }
+      .hero-photo.main { left: 0; right: 12%; }
+      .media-split { gap: 28px; }
       .perks-grid { grid-template-columns: 1fr; }
       .perk + .perk { border-left: 0; border-top: 1px solid var(--line); }
       .grades, .pay, .services { grid-template-columns: 1fr; }
@@ -454,9 +500,13 @@
             <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><use href="#i-check"/></svg> <span>Até <span data-cfg="parcelas"></span>x no cartão</span></div>
           </div>
         </div>
-        <div class="hero-visual reveal" aria-hidden="true">
-          <div class="phone phone-a" data-phone="pro" data-color="#C8692F"></div>
-          <div class="phone phone-b" data-phone="base" data-color="#9DB4C8"></div>
+        <div class="hero-visual reveal">
+          <div class="hero-illu" aria-hidden="true">
+            <div class="phone phone-a" data-phone="pro" data-color="#C8692F"></div>
+            <div class="phone phone-b" data-phone="base" data-color="#9DB4C8"></div>
+          </div>
+          <figure class="hero-photo main" data-photo-box="remove" data-hero-main><img data-foto="hero" data-w="1100" alt="Cliente segurando um iPhone Pro" fetchpriority="high"></figure>
+          <figure class="hero-photo sub" data-photo-box="remove"><img data-foto="hero2" data-w="600" alt="Câmera traseira de um iPhone Pro"></figure>
           <div class="hero-chip chip-1">
             <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-swap"/></svg></div>
             <div><b>Seu usado vale entrada</b><small>Avaliação na hora</small></div>
@@ -503,10 +553,16 @@
     <!-- ============ SEMINOVOS ============ -->
     <section id="seminovos" style="background: var(--bg-2); border-block: 1px solid var(--line);">
       <div class="wrap">
-        <div class="section-head reveal">
-          <span class="eyebrow">Seminovos B7</span>
-          <h2>Seminovo sem surpresa.</h2>
-          <p>Todo seminovo passa por revisão completa antes de ir pra vitrine. Você sabe exatamente o estado do aparelho antes de comprar.</p>
+        <div class="media-split" data-media>
+          <div class="section-head reveal">
+            <span class="eyebrow">Seminovos B7</span>
+            <h2>Seminovo sem surpresa.</h2>
+            <p>Todo seminovo passa por revisão completa antes de ir pra vitrine. Você sabe exatamente o estado do aparelho antes de comprar.</p>
+          </div>
+          <figure class="photo reveal" data-photo-box="remove">
+            <img data-foto="seminovos" alt="iPhone Pro seminovo sobre a mesa" loading="lazy">
+            <figcaption class="ph-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-shield"/></svg> Revisado e com garantia</figcaption>
+          </figure>
         </div>
         <div class="grades">
           <div class="grade reveal" style="background: var(--bg);">
@@ -552,6 +608,10 @@
             <div class="step"><div class="n">2</div><div><b>Receba a pré-avaliação</b><span>Respondemos rápido pelo WhatsApp.</span></div></div>
             <div class="step"><div class="n">3</div><div><b>Escolha o novo</b><span>A diferença você paga no Pix ou parcela no cartão.</span></div></div>
           </div>
+          <figure class="photo steps-photo" data-photo-box="remove">
+            <img data-foto="troca" alt="Cliente abrindo a caixa de um iPhone novo" loading="lazy">
+            <figcaption class="ph-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-swap"/></svg> Saia com o novo no mesmo dia</figcaption>
+          </figure>
         </div>
 
         <form class="form reveal" id="tradeForm" novalidate>
@@ -597,10 +657,16 @@
     <!-- ============ ASSISTÊNCIA ============ -->
     <section id="assistencia" style="background: var(--bg-2); border-block: 1px solid var(--line);">
       <div class="wrap">
-        <div class="section-head reveal">
-          <span class="eyebrow">Assistência técnica</span>
-          <h2>Quebrou? A gente resolve.</h2>
-          <p>Diagnóstico gratuito, peças de qualidade e garantia no serviço. Muitos reparos ficam prontos no mesmo dia.</p>
+        <div class="media-split" data-media>
+          <figure class="photo reveal" data-photo-box="remove">
+            <img data-foto="assistencia" alt="Técnico consertando um aparelho com chave de precisão" loading="lazy">
+            <figcaption class="ph-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-clock"/></svg> Muitos reparos no mesmo dia</figcaption>
+          </figure>
+          <div class="section-head reveal">
+            <span class="eyebrow">Assistência técnica</span>
+            <h2>Quebrou? A gente resolve.</h2>
+            <p>Diagnóstico gratuito, peças de qualidade e garantia no serviço. Muitos reparos ficam prontos no mesmo dia.</p>
+          </div>
         </div>
         <div class="services" id="services"></div>
 
@@ -667,12 +733,12 @@
             </a>
           </div>
           <div class="insta-tiles" aria-hidden="true">
-            <div><div class="phone" data-phone="pro" data-color="#2E3B57"></div></div>
-            <div><div class="phone" data-phone="air" data-color="#C9D8E8"></div></div>
-            <div><div class="phone" data-phone="pro" data-color="#D7D7DA"></div></div>
-            <div><div class="phone" data-phone="base" data-color="#B6A9D6"></div></div>
-            <div><div class="phone" data-phone="pro" data-color="#C8692F"></div></div>
-            <div><div class="phone" data-phone="base" data-color="#A9BFA3"></div></div>
+            <div data-photo-box><img data-foto="instagram.0" data-w="400" alt="" loading="lazy"><div class="phone" data-phone="pro" data-color="#2E3B57"></div></div>
+            <div data-photo-box><img data-foto="instagram.1" data-w="400" alt="" loading="lazy"><div class="phone" data-phone="air" data-color="#C9D8E8"></div></div>
+            <div data-photo-box><img data-foto="instagram.2" data-w="400" alt="" loading="lazy"><div class="phone" data-phone="pro" data-color="#D7D7DA"></div></div>
+            <div data-photo-box><img data-foto="instagram.3" data-w="400" alt="" loading="lazy"><div class="phone" data-phone="base" data-color="#B6A9D6"></div></div>
+            <div data-photo-box><img data-foto="instagram.4" data-w="400" alt="" loading="lazy"><div class="phone" data-phone="pro" data-color="#C8692F"></div></div>
+            <div data-photo-box><img data-foto="instagram.5" data-w="400" alt="" loading="lazy"><div class="phone" data-phone="base" data-color="#A9BFA3"></div></div>
           </div>
         </div>
       </div>
@@ -753,6 +819,7 @@
         <span>© <span id="year"></span> B7 Phone. Todos os direitos reservados.</span>
         <span>iPhone é marca registrada da Apple Inc. Revenda independente.</span>
       </div>
+      <p class="photo-note" style="margin-top: 12px;">Imagens meramente ilustrativas. Fotos: <a href="https://www.pexels.com" target="_blank" rel="noopener" style="text-decoration: underline;">Pexels</a> (Ana Quirosa, Zana Latif <a href="https://instagram.com/zana_qaradaghy" target="_blank" rel="noopener">@zana_qaradaghy</a>, Ingo Joseph e outros fotógrafos).</p>
     </div>
   </footer>
 
@@ -805,7 +872,21 @@
       parcelas: 12,
     };
 
-    /* PRODUTOS — preco: null mostra "Consulte o valor". Ex.: preco: 7499 */
+    /* FOTOS — use o número de uma foto do Pexels (pexels.com/photo/...-NÚMERO/)
+       ou o caminho de uma foto própria, ex.: 'fotos/vitrine.jpg'.
+       O ideal é trocar pelas fotos reais da loja (as mesmas do Instagram).
+       Se uma foto não carregar, o site mostra a ilustração no lugar. */
+    const FOTOS = {
+      hero: 19060767,        // pessoa segurando iPhone 15 Pro
+      hero2: 19060954,       // close da câmera do iPhone 15 Pro
+      seminovos: 10914594,   // mão segurando iPhone
+      troca: 18525574,       // unboxing iPhone 15 Pro Max — Zana Latif (@zana_qaradaghy)
+      assistencia: 6755075,  // conserto com chave de precisão
+      instagram: [9995704, 18780711, 17469184, 4351905, 5053985, 9667337],
+    };
+
+    /* PRODUTOS — preco: null mostra "Consulte o valor". Ex.: preco: 7499
+       foto: opcional (mesmo formato de FOTOS). Sem foto, aparece a ilustração na cor escolhida. */
     const PRODUTOS = [
       { nome: 'iPhone 17 Pro Max', cat: 'lacrado', tipo: 'pro', tag: 'Lançamento', armaz: ['256GB', '512GB', '1TB', '2TB'],
         cores: [['Laranja-cósmico', '#C8692F'], ['Azul-profundo', '#2E3B57'], ['Prateado', '#D7D7DA']], preco: null },
@@ -821,17 +902,17 @@
         cores: [['Titânio-deserto', '#C2A88C'], ['Titânio natural', '#A8A49C'], ['Titânio preto', '#3A3A3C']], preco: null },
       { nome: 'iPhone 16 Pro', cat: 'seminovo', tipo: 'pro', tag: 'Grau A', bateria: '90%+', armaz: ['128GB', '256GB'],
         cores: [['Titânio-deserto', '#C2A88C'], ['Titânio branco', '#E5E3DE'], ['Titânio preto', '#3A3A3C']], preco: null },
-      { nome: 'iPhone 15 Pro Max', cat: 'seminovo', tipo: 'pro', tag: 'Grau A', bateria: '85%+', armaz: ['256GB', '512GB'],
+      { nome: 'iPhone 15 Pro Max', cat: 'seminovo', tipo: 'pro', tag: 'Grau A', bateria: '85%+', armaz: ['256GB', '512GB'], foto: 19060954,
         cores: [['Titânio azul', '#3F4A5C'], ['Titânio natural', '#A8A49C'], ['Titânio preto', '#3A3A3C']], preco: null },
       { nome: 'iPhone 15', cat: 'seminovo', tipo: 'base', tag: 'Custo-benefício', bateria: '85%+', armaz: ['128GB', '256GB'],
         cores: [['Azul', '#C9D6E0'], ['Rosa', '#EBCFD3'], ['Preto', '#3A3B3D']], preco: null },
       { nome: 'iPhone 14', cat: 'seminovo', tipo: 'base', bateria: '85%+', armaz: ['128GB', '256GB'],
         cores: [['Meia-noite', '#2B2F36'], ['Estelar', '#ECE6DC'], ['Roxo', '#C9BFD9']], preco: null },
-      { nome: 'iPhone 13', cat: 'seminovo', tipo: 'base', tag: 'Menor preço', bateria: '85%+', armaz: ['128GB', '256GB'],
+      { nome: 'iPhone 13', cat: 'seminovo', tipo: 'base', tag: 'Menor preço', bateria: '85%+', armaz: ['128GB', '256GB'], foto: 9667337,
         cores: [['Meia-noite', '#2B2F36'], ['Estelar', '#ECE6DC'], ['Azul', '#2E5A7A']], preco: null },
-      { nome: 'AirPods', cat: 'acessorio', icon: 'i-buds', desc: 'AirPods 4 e AirPods Pro', preco: null },
-      { nome: 'Apple Watch', cat: 'acessorio', icon: 'i-watch', desc: 'Series e SE, várias pulseiras', preco: null },
-      { nome: 'Carregadores e cabos', cat: 'acessorio', icon: 'i-bolt', desc: 'Fontes 20W/35W e cabos USB-C', preco: null },
+      { nome: 'AirPods', cat: 'acessorio', icon: 'i-buds', desc: 'AirPods 4 e AirPods Pro', preco: null, foto: 5099868 },
+      { nome: 'Apple Watch', cat: 'acessorio', icon: 'i-watch', desc: 'Series e SE, várias pulseiras', preco: null, foto: 1682821 },
+      { nome: 'Carregadores e cabos', cat: 'acessorio', icon: 'i-bolt', desc: 'Fontes 20W/35W e cabos USB-C', preco: null, foto: 3921630 },
       { nome: 'Capas e películas', cat: 'acessorio', icon: 'i-case', desc: 'Proteção para todos os modelos', preco: null },
     ];
 
@@ -868,6 +949,41 @@
       const d = n.replace(/\D/g, '').replace(/^55/, '');
       return d.length >= 10 ? `(${d.slice(0, 2)}) ${d.slice(2, -4)}-${d.slice(-4)}` : n;
     };
+    const fotoURL = (v, w = 900) => {
+      if (v === undefined || v === null || v === '') return '';
+      return /^\d+$/.test(String(v))
+        ? `https://images.pexels.com/photos/${v}/pexels-photo-${v}.jpeg?auto=compress&cs=tinysrgb&w=${w}`
+        : String(v);
+    };
+    const fotoKey = k => k.split('.').reduce((o, part) => (o == null ? undefined : o[part]), FOTOS);
+
+    /* Carrega as fotos; se alguma falhar, mantém a ilustração / remove o espaço vazio */
+    function bindPhotos(root = document) {
+      $$('img[data-foto]:not([src])', root).forEach(img => {
+        const key = img.dataset.foto;
+        const val = fotoKey(key) ?? key;
+        const src = fotoURL(val, img.dataset.w || 900);
+        const box = img.closest('[data-photo-box]');
+        const fail = () => {
+          img.remove();
+          if (!box) return;
+          box.classList.remove('photo-ok');
+          if (box.dataset.photoBox === 'remove') {
+            box.closest('[data-media]')?.classList.add('no-media');
+            box.remove();
+          }
+        };
+        const unresolved = fotoKey(key) === undefined && !/^\d+$|[./]/.test(key); // chave sem foto definida
+        if (!src || unresolved) return fail();
+        img.addEventListener('load', () => {
+          box?.classList.add('photo-ok');
+          if (box?.hasAttribute('data-hero-main')) box.closest('.hero-visual').classList.add('has-photo');
+        }, { once: true });
+        img.addEventListener('error', fail, { once: true });
+        img.src = src;
+      });
+    }
+
     const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
     /* Ilustração do iPhone (verso) — gerada em SVG a partir da cor */
@@ -925,7 +1041,7 @@
           : `<strong>Consulte o valor</strong><small>Condição especial no Pix · até ${CONFIG.parcelas}x</small>`;
         if (p.cat === 'acessorio') {
           return `<article class="card reveal in" data-i="${i}">
-            <div class="card-media"><svg class="acc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><use href="#${p.icon}"/></svg></div>
+            <div class="card-media" data-photo-box>${p.foto ? `<img class="prod-photo" data-foto="${esc(p.foto)}" data-w="600" alt="${esc(p.nome)}" loading="lazy">` : ''}<svg class="acc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><use href="#${p.icon}"/></svg></div>
             <h3>${esc(p.nome)}</h3><p class="meta">${esc(p.desc)}</p>
             <div class="price">${precoHTML}</div>
             <a class="btn btn-ghost btn-block" data-buy target="_blank" rel="noopener">Consultar disponibilidade</a>
@@ -933,7 +1049,8 @@
         }
         const [corNome, corHex] = p.cores[0];
         return `<article class="card reveal in" data-i="${i}" data-cor="${esc(corNome)}" data-armaz="${esc(p.armaz[0])}">
-          <div class="card-media" style="--glow:${corHex}40">
+          <div class="card-media" data-photo-box style="--glow:${corHex}40">
+            ${p.foto ? `<img class="prod-photo" data-foto="${esc(p.foto)}" data-w="600" alt="${esc(p.nome)}" loading="lazy">` : ''}
             ${p.tag ? `<span class="tag ${p.cat === 'seminovo' ? 'alt' : ''}">${esc(p.tag)}</span>` : ''}
             <div class="phone" data-phone="${p.tipo}" data-color="${corHex}"></div>
           </div>
@@ -950,6 +1067,7 @@
         </article>`;
       }).join('');
       paintPhones($('#products'));
+      bindPhotos($('#products'));
       $$('#products .card').forEach(updateBuyLink);
     }
 
@@ -974,6 +1092,7 @@
         ph.dataset.color = sw.dataset.corH;
         ph.innerHTML = phoneSVG(ph.dataset.phone, sw.dataset.corH);
         $('.card-media', card).style.setProperty('--glow', sw.dataset.corH + '40');
+        $('.card-media', card).classList.add('illu'); // mostra a ilustração na cor escolhida
       }
       if (ch) {
         $$('.chip', card).forEach(b => b.setAttribute('aria-pressed', b === ch));
@@ -1035,6 +1154,7 @@
     applyConfig();
     renderProducts();
     paintPhones();
+    bindPhotos();
 
     const io = new IntersectionObserver(entries => entries.forEach(en => {
       if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
