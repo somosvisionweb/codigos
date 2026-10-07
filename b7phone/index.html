@@ -136,12 +136,74 @@
     .hero-illu { display: none; }
     .hero-visual.no-photo .hero-illu { display: block; }
     .hero-prod {
-      position: absolute; margin: 0; width: 42%;
-      filter: drop-shadow(0 40px 50px rgba(0,0,0,.65));
+      position: absolute; margin: 0; width: 42%; z-index: 2;
+      transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+      transition: transform .6s var(--ease);
     }
     .hero-prod img { width: 100%; height: auto; }
-    .hero-prod.front { right: 8%; top: 24px; z-index: 1; rotate: 7deg; animation: float 7s ease-in-out infinite; }
-    .hero-prod.back { left: 6%; top: 0; rotate: -9deg; animation: float 7s ease-in-out -3.5s infinite; }
+    .hero-prod.front {
+      right: 8%; top: 24px; z-index: 3; rotate: 7deg; animation: float 7s ease-in-out infinite;
+      filter: drop-shadow(0 38px 40px rgba(0,0,0,.7)) drop-shadow(0 0 28px rgba(255,106,26,.35));
+    }
+    .hero-prod.back {
+      left: 6%; top: 0; rotate: -9deg; animation: float 7s ease-in-out -3.5s infinite;
+      filter: drop-shadow(0 38px 40px rgba(0,0,0,.7)) drop-shadow(0 0 22px rgba(226,196,160,.18));
+    }
+    /* reflexo de luz que passa sobre o aparelho (recortado no formato da foto) */
+    .hero-prod::after {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(105deg, transparent 38%, rgba(255,255,255,.34) 48%, rgba(255,255,255,.08) 54%, transparent 62%);
+      background-size: 260% 100%; background-position: 160% 0;
+      -webkit-mask: var(--m) center / 100% 100% no-repeat; mask: var(--m) center / 100% 100% no-repeat;
+      animation: sheen 7s ease-in-out infinite;
+    }
+    .hero-prod.back::after { animation-delay: -3.5s; }
+    @keyframes sheen { 0%, 55% { background-position: 160% 0; } 100% { background-position: -60% 0; } }
+
+    /* palco: brilho, anel de luz, base, sombras e partículas */
+    .stage { position: absolute; inset: -40px -30px -50px; pointer-events: none; z-index: 1; }
+    .stage .glow { position: absolute; border-radius: 50%; filter: blur(50px); }
+    .stage .g1 { width: 60%; aspect-ratio: 1; right: 6%; top: 8%; background: radial-gradient(circle, rgba(255,106,26,.7), transparent 66%); animation: pulse 6s ease-in-out infinite; }
+    .stage .g2 { width: 52%; aspect-ratio: 1; left: 4%; top: 2%; background: radial-gradient(circle, rgba(226,190,150,.28), transparent 66%); animation: pulse 6s ease-in-out -3s infinite; }
+    @keyframes pulse { 50% { opacity: .65; transform: scale(.92); } }
+    .stage .ring {
+      position: absolute; left: 50%; top: 47%; width: 86%; aspect-ratio: 1; translate: -50% -50%; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.12); box-shadow: inset 0 0 90px rgba(255,106,26,.12), 0 0 70px rgba(255,106,26,.08);
+    }
+    .stage .ring::before {
+      content: ''; position: absolute; inset: -1px; border-radius: 50%;
+      background: conic-gradient(from 0deg, transparent 0 62%, rgba(255,150,70,1) 80%, transparent 94%);
+      filter: drop-shadow(0 0 6px rgba(255,120,40,.9));
+      -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1.5px));
+      mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1.5px));
+      animation: spin 9s linear infinite;
+    }
+    .stage .ring.r2 { width: 64%; border-color: rgba(255,255,255,.08); }
+    .stage .ring.r2::before { animation-duration: 13s; animation-direction: reverse; opacity: .6; }
+    @keyframes spin { to { rotate: 360deg; } }
+    .stage .podium {
+      position: absolute; left: 8%; right: 8%; bottom: 6px; height: 96px; border-radius: 50%;
+      background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(255,120,40,.32), rgba(255,120,40,.08) 58%, transparent 72%);
+    }
+    .stage .podium::before {
+      content: ''; position: absolute; inset: 14px 6%; border-radius: 50%;
+      border: 1px solid rgba(255,190,140,.28); box-shadow: 0 0 24px rgba(255,120,40,.25), inset 0 0 24px rgba(255,120,40,.15);
+      -webkit-mask: linear-gradient(#000 0 40%, transparent 75%); mask: linear-gradient(#000 0 40%, transparent 75%);
+    }
+    .stage .shadow {
+      position: absolute; bottom: 44px; height: 26px; border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(0,0,0,.85), transparent 70%); filter: blur(3px);
+      animation: shadow 7s ease-in-out infinite;
+    }
+    .stage .shadow.s-front { width: 32%; right: 14%; }
+    .stage .shadow.s-back { width: 28%; left: 16%; bottom: 58px; animation-delay: -3.5s; }
+    @keyframes shadow { 50% { transform: scaleX(.78); opacity: .5; } }
+    .stage .spark {
+      position: absolute; left: var(--x); top: var(--y); width: var(--s, 4px); aspect-ratio: 1; border-radius: 50%;
+      background: #FFC79E; box-shadow: 0 0 10px 2px rgba(255,140,60,.75); opacity: 0;
+      animation: rise var(--d, 6s) ease-in-out var(--w, 0s) infinite;
+    }
+    @keyframes rise { 0% { opacity: 0; transform: translateY(14px); } 25% { opacity: .9; } 100% { opacity: 0; transform: translateY(-70px); } }
 
     /* FAIXA DE BENEFÍCIOS */
     .perks { padding: 0 0 24px; }
@@ -413,6 +475,10 @@
       .hero-visual { height: 360px; }
       .hero-visual .phone-a, .hero-visual .phone-b { width: 180px; }
       .hero-prod { width: 44%; }
+      .stage { inset: -20px -10px -30px; }
+      .stage .podium { height: 70px; }
+      .stage .shadow { bottom: 30px; height: 18px; }
+      .stage .shadow.s-back { bottom: 40px; }
       .hero-prod.front { right: 4%; }
       .hero-prod.back { left: 4%; }
       .media-split { gap: 28px; }
@@ -492,8 +558,20 @@
             <div class="phone phone-a" data-phone="pro" data-color="#C8692F"></div>
             <div class="phone phone-b" data-phone="base" data-color="#9DB4C8"></div>
           </div>
-          <figure class="hero-prod back" data-photo-box="remove"><img src="fotos/hero-16pro.webp" width="530" height="1100" alt="iPhone 16 Pro titânio-deserto"></figure>
-          <figure class="hero-prod front" data-photo-box="remove" data-hero-main><img src="fotos/hero-17pro.webp" width="532" height="1100" alt="iPhone 17 Pro laranja-cósmico" fetchpriority="high"></figure>
+          <div class="stage" aria-hidden="true">
+            <span class="glow g1"></span><span class="glow g2"></span>
+            <span class="ring"></span><span class="ring r2"></span>
+            <span class="podium"></span>
+            <span class="shadow s-back"></span><span class="shadow s-front"></span>
+            <span class="spark" style="--x:18%;--y:62%;--d:6s;--w:0s"></span>
+            <span class="spark" style="--x:82%;--y:30%;--s:3px;--d:7s;--w:-2s"></span>
+            <span class="spark" style="--x:52%;--y:12%;--s:5px;--d:8s;--w:-4s"></span>
+            <span class="spark" style="--x:90%;--y:70%;--d:6.5s;--w:-1s"></span>
+            <span class="spark" style="--x:8%;--y:28%;--s:3px;--d:7.5s;--w:-5s"></span>
+            <span class="spark" style="--x:64%;--y:80%;--s:3px;--d:5.5s;--w:-3s"></span>
+          </div>
+          <figure class="hero-prod back" style="--m: url('fotos/hero-16pro.webp')" data-photo-box="remove"><img src="fotos/hero-16pro.webp" width="530" height="1100" alt="iPhone 16 Pro titânio-deserto"></figure>
+          <figure class="hero-prod front" style="--m: url('fotos/hero-17pro.webp')" data-photo-box="remove" data-hero-main><img src="fotos/hero-17pro.webp" width="532" height="1100" alt="iPhone 17 Pro laranja-cósmico" fetchpriority="high"></figure>
         </div>
       </div>
     </section>
@@ -1112,6 +1190,19 @@
     };
     menuBtn.addEventListener('click', () => toggleMenu());
     $$('#mobileNav a').forEach(a => a.addEventListener('click', () => toggleMenu(false)));
+
+    /* Inclinação 3D dos iPhones acompanhando o mouse (só desktop) */
+    const heroVisual = $('.hero-visual');
+    if (heroVisual && matchMedia('(pointer: fine)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      $('.hero').addEventListener('pointermove', e => {
+        const r = heroVisual.getBoundingClientRect();
+        const x = (e.clientX - (r.left + r.width / 2)) / r.width;
+        const y = (e.clientY - (r.top + r.height / 2)) / r.height;
+        heroVisual.style.setProperty('--ry', (x * 14).toFixed(2) + 'deg');
+        heroVisual.style.setProperty('--rx', (-y * 10).toFixed(2) + 'deg');
+      });
+      $('.hero').addEventListener('pointerleave', () => { heroVisual.style.removeProperty('--ry'); heroVisual.style.removeProperty('--rx'); });
+    }
 
     applyConfig();
     renderProducts();
