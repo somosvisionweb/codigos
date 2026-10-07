@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B7 Phone — iPhones Lacrados, Seminovos e Assistência Técnica</title>
+  <meta name="description" content="B7 Phone: iPhones lacrados e seminovos com garantia, aceitamos seu aparelho na troca, parcelamento no cartão e assistência técnica especializada. Fale com a gente no WhatsApp.">
+  <meta name="theme-color" content="#0A0A0C">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="B7 Phone — Seu próximo iPhone está aqui">
+  <meta property="og:description" content="Lacrados e seminovos com garantia, troca facilitada e assistência técnica. Atendimento rápido pelo WhatsApp.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* =========================================================
+       CORES DA MARCA — troque aqui para ajustar à identidade
+       ========================================================= */
+    :root {
+      --bg: #0A0A0C;
+      --bg-2: #111115;
+      --bg-3: #18181E;
+      --line: #26262E;
+      --text: #F4F4F6;
+      --muted: #9A9AA8;
+      --accent: #FF6A1A;          /* cor principal da marca */
+      --accent-2: #FF9A5C;
+      --accent-ink: #160A02;      /* texto sobre a cor principal */
+      --ok: #2BD47D;
+      --wa: #25D366;
+      --radius: 18px;
+      --radius-sm: 12px;
+      --ease: cubic-bezier(.22, 1, .36, 1);
+      --max: 1200px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif; line-height: 1.6;
+      -webkit-font-smoothing: antialiased; overflow-x: hidden;
+    }
+    img, svg { display: block; max-width: 100%; }
+    [data-phone] svg { width: 100%; height: auto; }
+    a { color: inherit; text-decoration: none; }
+    button, input, select, textarea { font: inherit; color: inherit; }
+    button { cursor: pointer; background: none; border: 0; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+    ::selection { background: var(--accent); color: var(--accent-ink); }
+
+    h1, h2, h3, .display { font-family: 'Space Grotesk', 'Inter', sans-serif; letter-spacing: -0.02em; line-height: 1.1; }
+    .wrap { width: 100%; max-width: var(--max); margin: 0 auto; padding: 0 20px; }
+    section { padding: 96px 0; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+      color: var(--accent);
+    }
+    .eyebrow::before { content: ''; width: 18px; height: 2px; background: currentColor; border-radius: 2px; }
+    .section-head { max-width: 640px; margin-bottom: 48px; }
+    .section-head h2 { font-size: clamp(30px, 4.4vw, 46px); margin: 12px 0 14px; }
+    .section-head p { color: var(--muted); font-size: 17px; }
+    .center { text-align: center; margin-left: auto; margin-right: auto; }
+    .center .eyebrow { justify-content: center; }
+
+    /* BOTÕES */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      height: 52px; padding: 0 24px; border-radius: 999px;
+      font-weight: 600; font-size: 15px; white-space: nowrap;
+      transition: transform .25s var(--ease), background .25s, box-shadow .25s, border-color .25s;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+    .btn-primary { background: var(--accent); color: var(--accent-ink); box-shadow: 0 10px 30px -10px var(--accent); }
+    .btn-primary:hover { background: var(--accent-2); }
+    .btn-wa { background: var(--wa); color: #04210F; box-shadow: 0 10px 30px -12px var(--wa); }
+    .btn-ghost { border: 1px solid var(--line); background: rgba(255,255,255,.02); }
+    .btn-ghost:hover { border-color: var(--muted); }
+    .btn-block { width: 100%; }
+
+    /* HEADER */
+    .header {
+      position: fixed; inset: 0 0 auto 0; z-index: 50;
+      transition: background .3s, border-color .3s, backdrop-filter .3s;
+      border-bottom: 1px solid transparent;
+    }
+    .header.scrolled { background: rgba(10,10,12,.82); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-color: var(--line); }
+    .header .wrap { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 20px; }
+    .logo { display: flex; align-items: center; gap: 10px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; letter-spacing: -0.02em; }
+    .logo-mark {
+      width: 38px; height: 38px; border-radius: 11px; display: grid; place-items: center;
+      background: var(--accent); color: var(--accent-ink); font-size: 16px; font-weight: 700;
+    }
+    .logo > div span { color: var(--accent); }
+    .nav { display: flex; gap: 28px; font-size: 15px; color: var(--muted); }
+    .nav a:hover { color: var(--text); }
+    .header-cta { height: 44px; padding: 0 18px; font-size: 14px; }
+    .menu-btn { display: none; width: 44px; height: 44px; border-radius: 12px; border: 1px solid var(--line); place-items: center; }
+    .menu-btn svg { width: 22px; height: 22px; }
+    .mobile-nav {
+      display: none; position: fixed; inset: 72px 0 0 0; background: var(--bg); z-index: 49;
+      padding: 24px 20px; flex-direction: column; gap: 6px;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a:not(.btn) { padding: 16px 4px; font-size: 20px; font-family: 'Space Grotesk', sans-serif; border-bottom: 1px solid var(--line); }
+    .mobile-nav .btn { margin-top: 20px; }
+
+    /* HERO */
+    .hero { padding: 140px 0 80px; position: relative; overflow: hidden; }
+    .hero::before {
+      content: ''; position: absolute; width: 760px; height: 760px; right: -220px; top: -160px;
+      background: radial-gradient(circle, rgba(255,106,26,.22), transparent 62%); pointer-events: none;
+    }
+    .hero .wrap { display: grid; grid-template-columns: 1.1fr .9fr; gap: 48px; align-items: center; position: relative; }
+    .badge-live {
+      display: inline-flex; align-items: center; gap: 10px; padding: 8px 14px 8px 10px;
+      border: 1px solid var(--line); border-radius: 999px; background: var(--bg-2); font-size: 14px; color: var(--muted);
+    }
+    .badge-live i { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 4px rgba(43,212,125,.18); }
+    .hero h1 { font-size: clamp(40px, 6.4vw, 76px); margin: 22px 0 20px; }
+    .hero h1 em { font-style: normal; color: var(--accent); }
+    .hero-lead { font-size: 19px; color: var(--muted); max-width: 520px; }
+    .hero-ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
+    .hero-proof { display: flex; flex-wrap: wrap; gap: 22px; margin-top: 40px; color: var(--muted); font-size: 14px; }
+    .hero-proof div { display: flex; align-items: center; gap: 8px; }
+    .hero-proof svg { width: 18px; height: 18px; color: var(--ok); }
+    .hero-visual { position: relative; height: 520px; }
+    .hero-visual .phone { position: absolute; filter: drop-shadow(0 40px 60px rgba(0,0,0,.6)); }
+    .hero-visual .phone-a { width: 250px; left: 4%; top: 30px; transform: rotate(-9deg); animation: float 7s ease-in-out infinite; }
+    .hero-visual .phone-b { width: 250px; right: 4%; top: 70px; transform: rotate(8deg); animation: float 7s ease-in-out -3.5s infinite; }
+    .hero-chip {
+      position: absolute; z-index: 2; display: flex; align-items: center; gap: 12px;
+      padding: 12px 16px; border-radius: 16px; background: rgba(24,24,30,.9); border: 1px solid var(--line);
+      backdrop-filter: blur(8px); font-size: 14px; box-shadow: 0 20px 40px -20px #000;
+    }
+    .hero-chip b { display: block; font-size: 15px; }
+    .hero-chip small { color: var(--muted); }
+    .hero-chip .ic { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; background: rgba(255,106,26,.14); color: var(--accent); }
+    .hero-chip .ic svg { width: 20px; height: 20px; }
+    .chip-1 { left: -4%; bottom: 70px; }
+    .chip-2 { right: -2%; top: 10px; }
+    @keyframes float { 50% { translate: 0 -14px; } }
+
+    /* FAIXA DE BENEFÍCIOS */
+    .perks { padding: 0 0 24px; }
+    .perks-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-2); overflow: hidden;
+    }
+    .perk { display: flex; gap: 14px; padding: 24px; align-items: flex-start; }
+    .perk + .perk { border-left: 1px solid var(--line); }
+    .perk .ic { flex-shrink: 0; width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; background: var(--bg-3); color: var(--accent); }
+    .perk .ic svg { width: 22px; height: 22px; }
+    .perk b { display: block; font-size: 15px; margin-bottom: 2px; }
+    .perk span { font-size: 14px; color: var(--muted); }
+
+    /* CATÁLOGO */
+    .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+    .tab {
+      height: 44px; padding: 0 20px; border-radius: 999px; border: 1px solid var(--line);
+      font-size: 15px; font-weight: 500; color: var(--muted); transition: all .2s;
+    }
+    .tab:hover { color: var(--text); }
+    .tab[aria-selected="true"] { background: var(--text); color: var(--bg); border-color: var(--text); }
+    .grid-products { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 18px; }
+    .card {
+      background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius);
+      padding: 18px; display: flex; flex-direction: column; transition: border-color .25s, transform .25s var(--ease);
+    }
+    .card:hover { border-color: #3a3a46; transform: translateY(-4px); }
+    .card-media {
+      position: relative; height: 230px; border-radius: var(--radius-sm); margin-bottom: 18px;
+      background: radial-gradient(circle at 50% 60%, var(--glow, rgba(255,255,255,.06)), transparent 65%), var(--bg-3);
+      display: grid; place-items: center; overflow: hidden;
+    }
+    .card-media .phone { width: 96px; transition: transform .4s var(--ease); }
+    .card:hover .card-media .phone { transform: rotate(-4deg) scale(1.04); }
+    .card-media .acc-ic { width: 84px; height: 84px; color: var(--muted); }
+    .tag {
+      position: absolute; top: 12px; left: 12px; padding: 4px 10px; border-radius: 999px;
+      font-size: 12px; font-weight: 600; background: var(--accent); color: var(--accent-ink);
+    }
+    .tag.alt { background: var(--text); color: var(--bg); }
+    .card h3 { font-size: 20px; margin-bottom: 4px; }
+    .card .meta { font-size: 14px; color: var(--muted); margin-bottom: 14px; min-height: 22px; }
+    .opt-label { font-size: 12px; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .06em; }
+    .opt-label b { color: var(--text); text-transform: none; letter-spacing: 0; font-weight: 500; }
+    .swatches { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+    .swatch {
+      width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--bg-2);
+      box-shadow: 0 0 0 1px var(--line); transition: box-shadow .2s;
+    }
+    .swatch[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--text); }
+    .chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 18px; }
+    .chip {
+      height: 34px; padding: 0 12px; border-radius: 10px; border: 1px solid var(--line);
+      font-size: 13px; font-weight: 500; color: var(--muted); transition: all .2s;
+    }
+    .chip[aria-pressed="true"] { border-color: var(--accent); color: var(--text); background: rgba(255,106,26,.1); }
+    .price { margin-top: auto; padding-top: 14px; border-top: 1px dashed var(--line); margin-bottom: 14px; }
+    .price strong { font-family: 'Space Grotesk', sans-serif; font-size: 24px; display: block; }
+    .price small { color: var(--muted); font-size: 13px; }
+    .card .btn { height: 46px; font-size: 14px; }
+    .catalog-note { margin-top: 28px; color: var(--muted); font-size: 14px; text-align: center; }
+    .catalog-note a { color: var(--accent); font-weight: 600; }
+
+    /* SEMINOVO — SELOS */
+    .grades { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .grade { padding: 28px; border-radius: var(--radius); background: var(--bg-2); border: 1px solid var(--line); }
+    .grade .lvl { display: inline-block; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px; padding: 4px 10px; border-radius: 8px; margin-bottom: 16px; }
+    .grade h3 { font-size: 22px; margin-bottom: 8px; }
+    .grade p { color: var(--muted); font-size: 15px; }
+    .checklist { margin-top: 48px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .checklist div { display: flex; gap: 10px; align-items: center; font-size: 15px; padding: 14px 16px; border-radius: var(--radius-sm); background: var(--bg-2); border: 1px solid var(--line); }
+    .checklist svg { width: 18px; height: 18px; color: var(--ok); flex-shrink: 0; }
+
+    /* FORMULÁRIOS (TROCA / ASSISTÊNCIA) */
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+    .steps { display: grid; gap: 14px; margin-top: 32px; }
+    .step { display: flex; gap: 16px; align-items: flex-start; }
+    .step .n {
+      flex-shrink: 0; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center;
+      font-family: 'Space Grotesk', sans-serif; font-weight: 700; background: var(--bg-3); border: 1px solid var(--line); color: var(--accent);
+    }
+    .step b { display: block; }
+    .step span { color: var(--muted); font-size: 15px; }
+    .form {
+      background: var(--bg-2); border: 1px solid var(--line); border-radius: 24px; padding: 28px;
+      display: grid; gap: 16px;
+    }
+    .form h3 { font-size: 22px; }
+    .form .sub { color: var(--muted); font-size: 14px; margin-top: -8px; }
+    .field { display: grid; gap: 8px; }
+    .field label, .field .lbl { font-size: 14px; font-weight: 500; }
+    .field input, .field select, .field textarea {
+      width: 100%; height: 50px; padding: 0 14px; border-radius: var(--radius-sm);
+      background: var(--bg); border: 1px solid var(--line); transition: border-color .2s;
+    }
+    .field textarea { height: 96px; padding: 12px 14px; resize: vertical; }
+    .field select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%239A9AA8' stroke-width='2'%3E%3Cpath d='m1 1 5 5 5-5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; padding-right: 40px; }
+    .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--accent); }
+    .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .seg { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .seg label {
+      display: flex; align-items: center; gap: 10px; padding: 12px; border-radius: var(--radius-sm);
+      border: 1px solid var(--line); background: var(--bg); font-size: 14px; cursor: pointer; transition: border-color .2s;
+    }
+    .seg input { accent-color: var(--accent); width: 16px; height: 16px; }
+    .seg label:has(input:checked) { border-color: var(--accent); background: rgba(255,106,26,.08); }
+    .range-out { display: flex; justify-content: space-between; font-size: 14px; }
+    .range-out b { color: var(--accent); font-family: 'Space Grotesk', sans-serif; }
+    input[type=range] { height: auto !important; padding: 0 !important; border: 0 !important; background: none !important; accent-color: var(--accent); }
+    .form-note { font-size: 13px; color: var(--muted); text-align: center; }
+
+    /* ASSISTÊNCIA */
+    .services { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .service {
+      padding: 22px; border-radius: var(--radius); background: var(--bg-2); border: 1px solid var(--line);
+      transition: border-color .25s;
+    }
+    .service:hover { border-color: #3a3a46; }
+    .service .ic { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; background: var(--bg-3); color: var(--accent); margin-bottom: 14px; }
+    .service .ic svg { width: 22px; height: 22px; }
+    .service h3 { font-size: 17px; margin-bottom: 4px; font-family: 'Inter', sans-serif; letter-spacing: 0; font-weight: 600; }
+    .service p { font-size: 14px; color: var(--muted); }
+    .assist-form { margin-top: 40px; }
+    .assist-form .form { grid-template-columns: 1fr 1fr; align-items: end; }
+    .assist-form .form > .full { grid-column: 1 / -1; }
+
+    /* PAGAMENTO */
+    .pay { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .pay-card { padding: 30px; border-radius: var(--radius); border: 1px solid var(--line); background: var(--bg-2); }
+    .pay-card.hl { background: linear-gradient(160deg, rgba(255,106,26,.16), var(--bg-2) 60%); border-color: rgba(255,106,26,.4); }
+    .pay-card .big { font-family: 'Space Grotesk', sans-serif; font-size: 40px; font-weight: 700; line-height: 1; margin: 18px 0 10px; }
+    .pay-card h3 { font-size: 20px; }
+    .pay-card p { color: var(--muted); font-size: 15px; }
+
+    /* INSTAGRAM */
+    .insta {
+      border-radius: 28px; padding: 56px; position: relative; overflow: hidden;
+      background: linear-gradient(135deg, #1a0f08, var(--bg-2) 55%); border: 1px solid var(--line);
+      display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: center;
+    }
+    .insta h2 { font-size: clamp(28px, 4vw, 42px); margin: 12px 0 14px; }
+    .insta p { color: var(--muted); font-size: 17px; margin-bottom: 26px; }
+    .insta-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .insta-tiles > div {
+      aspect-ratio: 1; border-radius: 14px; background: var(--bg-3); border: 1px solid var(--line);
+      display: grid; place-items: center; overflow: hidden;
+    }
+    .insta-tiles .phone { width: 34%; transform: rotate(-8deg); }
+    .insta-tiles > div:nth-child(odd) { background: radial-gradient(circle, rgba(255,106,26,.2), var(--bg-3) 70%); }
+
+    /* FAQ */
+    .faq { max-width: 820px; margin: 0 auto; display: grid; gap: 10px; }
+    .faq details { border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--bg-2); }
+    .faq summary {
+      list-style: none; cursor: pointer; padding: 20px 22px; font-weight: 600; font-size: 16px;
+      display: flex; justify-content: space-between; align-items: center; gap: 16px;
+    }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq summary::after { content: '+'; font-size: 24px; color: var(--accent); font-weight: 400; transition: transform .25s; }
+    .faq details[open] summary::after { transform: rotate(45deg); }
+    .faq details p { padding: 0 22px 20px; color: var(--muted); }
+
+    /* CONTATO */
+    .contact { display: grid; grid-template-columns: 1fr 1.2fr; gap: 20px; }
+    .contact-info { display: grid; gap: 12px; }
+    .info-item { display: flex; gap: 16px; padding: 20px; border-radius: var(--radius); background: var(--bg-2); border: 1px solid var(--line); }
+    .info-item .ic { flex-shrink: 0; width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; background: var(--bg-3); color: var(--accent); }
+    .info-item .ic svg { width: 22px; height: 22px; }
+    .info-item b { display: block; margin-bottom: 2px; }
+    .info-item span, .info-item li { color: var(--muted); font-size: 15px; }
+    .info-item ul { list-style: none; }
+    .map {
+      border-radius: var(--radius); border: 1px solid var(--line); overflow: hidden; min-height: 360px;
+      background: var(--bg-2); display: grid; place-items: center; text-align: center; color: var(--muted); padding: 24px;
+    }
+    .map iframe { width: 100%; height: 100%; min-height: 360px; border: 0; filter: grayscale(.4) invert(.9) hue-rotate(180deg); }
+
+    /* CTA FINAL / FOOTER */
+    .final { padding: 40px 0 96px; }
+    .final-box {
+      text-align: center; padding: 72px 24px; border-radius: 28px; background: var(--accent); color: var(--accent-ink);
+      position: relative; overflow: hidden;
+    }
+    .final-box h2 { font-size: clamp(32px, 5vw, 56px); max-width: 760px; margin: 0 auto 16px; }
+    .final-box p { font-size: 18px; opacity: .8; margin-bottom: 30px; }
+    .final-box .btn { background: var(--accent-ink); color: #fff; }
+    footer { border-top: 1px solid var(--line); padding: 48px 0 110px; color: var(--muted); font-size: 14px; }
+    .foot { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 32px; }
+    .foot h4 { color: var(--text); font-size: 14px; margin-bottom: 14px; }
+    .foot ul { list-style: none; display: grid; gap: 8px; }
+    .foot a:hover { color: var(--text); }
+    .foot .logo { color: var(--text); margin-bottom: 14px; }
+    .foot-bottom { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+
+    /* WHATSAPP FLUTUANTE */
+    .wa-float {
+      position: fixed; right: 20px; bottom: 20px; z-index: 60; width: 60px; height: 60px; border-radius: 50%;
+      background: var(--wa); color: #fff; display: grid; place-items: center;
+      box-shadow: 0 12px 30px -8px rgba(37,211,102,.7); transition: transform .25s var(--ease);
+    }
+    .wa-float:hover { transform: scale(1.08); }
+    .wa-float svg { width: 32px; height: 32px; }
+    .wa-float::before {
+      content: ''; position: absolute; inset: 0; border-radius: 50%; border: 2px solid var(--wa);
+      animation: ping 2.4s var(--ease) infinite;
+    }
+    @keyframes ping { 0% { transform: scale(1); opacity: .8; } 100% { transform: scale(1.6); opacity: 0; } }
+
+    /* REVEAL */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
+    .reveal.in { opacity: 1; transform: none; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .reveal { opacity: 1; transform: none; }
+      html { scroll-behavior: auto; }
+    }
+
+    /* RESPONSIVO */
+    @media (max-width: 1024px) {
+      .nav, .header-cta { display: none; }
+      .menu-btn { display: grid; }
+      .hero .wrap, .split, .insta, .contact { grid-template-columns: 1fr; }
+      .hero-visual { height: 440px; max-width: 520px; width: 100%; margin: 0 auto; }
+      .perks-grid { grid-template-columns: 1fr 1fr; }
+      .perk:nth-child(3) { border-left: 0; }
+      .perk:nth-child(n+3) { border-top: 1px solid var(--line); }
+      .services { grid-template-columns: 1fr 1fr; }
+      .checklist { grid-template-columns: 1fr 1fr; }
+      .foot { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 720px) {
+      section { padding: 72px 0; }
+      .hero { padding: 112px 0 56px; }
+      .hero-lead { font-size: 17px; }
+      .hero-ctas .btn { flex: 1 1 100%; }
+      .hero-visual { height: 360px; }
+      .hero-visual .phone-a, .hero-visual .phone-b { width: 180px; }
+      .chip-1 { left: 0; bottom: 20px; }
+      .chip-2 { right: 0; top: 0; }
+      .perks-grid { grid-template-columns: 1fr; }
+      .perk + .perk { border-left: 0; border-top: 1px solid var(--line); }
+      .grades, .pay, .services { grid-template-columns: 1fr; }
+      .checklist { grid-template-columns: 1fr; }
+      .assist-form .form { grid-template-columns: 1fr; }
+      .row-2 { grid-template-columns: 1fr; }
+      .insta { padding: 32px 20px; }
+      .form { padding: 22px 18px; }
+      .foot { grid-template-columns: 1fr; }
+      .final-box { padding: 56px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============ HEADER ============ -->
+  <header class="header" id="top">
+    <div class="wrap">
+      <a href="#top" class="logo" aria-label="B7 Phone — início">
+        <span class="logo-mark">B7</span>
+        <div>B7 <span>Phone</span></div>
+      </a>
+      <nav class="nav" aria-label="Principal">
+        <a href="#catalogo">iPhones</a>
+        <a href="#seminovos">Seminovos</a>
+        <a href="#troca">Troca</a>
+        <a href="#assistencia">Assistência</a>
+        <a href="#faq">Dúvidas</a>
+        <a href="#contato">Loja</a>
+      </nav>
+      <a class="btn btn-wa header-cta" data-wa="Olá, B7 Phone! Vim pelo site e quero atendimento." target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><use href="#i-wa"/></svg> Chamar no WhatsApp
+      </a>
+      <button class="menu-btn" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileNav">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+  <nav class="mobile-nav" id="mobileNav" aria-label="Menu mobile">
+    <a href="#catalogo">iPhones</a>
+    <a href="#seminovos">Seminovos</a>
+    <a href="#troca">Troca</a>
+    <a href="#assistencia">Assistência técnica</a>
+    <a href="#faq">Dúvidas</a>
+    <a href="#contato">Onde estamos</a>
+    <a class="btn btn-wa btn-block" data-wa="Olá, B7 Phone! Vim pelo site e quero atendimento." target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><use href="#i-wa"/></svg> Chamar no WhatsApp
+    </a>
+  </nav>
+
+  <main>
+    <!-- ============ HERO ============ -->
+    <section class="hero">
+      <div class="wrap">
+        <div class="reveal">
+          <div class="badge-live"><i></i> Atendimento online agora · resposta rápida</div>
+          <h1>Seu próximo iPhone,<br>com <em>garantia</em> e<br>procedência.</h1>
+          <p class="hero-lead">Lacrados e seminovos revisados, seu aparelho usado vale como entrada e você parcela o restante no cartão. Tudo resolvido pelo WhatsApp.</p>
+          <div class="hero-ctas">
+            <a href="#catalogo" class="btn btn-primary">
+              Ver iPhones disponíveis
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+            <a href="#troca" class="btn btn-ghost">Avaliar meu aparelho na troca</a>
+          </div>
+          <div class="hero-proof">
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><use href="#i-check"/></svg> Garantia em todos os aparelhos</div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><use href="#i-check"/></svg> Nota fiscal</div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><use href="#i-check"/></svg> <span>Até <span data-cfg="parcelas"></span>x no cartão</span></div>
+          </div>
+        </div>
+        <div class="hero-visual reveal" aria-hidden="true">
+          <div class="phone phone-a" data-phone="pro" data-color="#C8692F"></div>
+          <div class="phone phone-b" data-phone="base" data-color="#9DB4C8"></div>
+          <div class="hero-chip chip-1">
+            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-swap"/></svg></div>
+            <div><b>Seu usado vale entrada</b><small>Avaliação na hora</small></div>
+          </div>
+          <div class="hero-chip chip-2">
+            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-battery"/></svg></div>
+            <div><b>Bateria testada</b><small>Saúde informada no anúncio</small></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ BENEFÍCIOS ============ -->
+    <div class="perks">
+      <div class="wrap">
+        <div class="perks-grid reveal">
+          <div class="perk"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-shield"/></svg></div><div><b>Garantia de verdade</b><span>Lacrados com garantia Apple e seminovos com garantia da loja</span></div></div>
+          <div class="perk"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-card"/></svg></div><div><b>Parcele em até <span data-cfg="parcelas"></span>x</b><span>Ou economize pagando no Pix</span></div></div>
+          <div class="perk"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-swap"/></svg></div><div><b>Troca facilitada</b><span>Seu aparelho atual como parte do pagamento</span></div></div>
+          <div class="perk"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-truck"/></svg></div><div><b>Retire ou receba</b><span>Retirada na loja ou entrega combinada</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ CATÁLOGO ============ -->
+    <section id="catalogo">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="eyebrow">Catálogo</span>
+          <h2>Escolha o seu. A gente cuida do resto.</h2>
+          <p>Selecione cor e armazenamento e mande direto pro nosso WhatsApp. O estoque muda todo dia, então confirmamos disponibilidade e valor na hora.</p>
+        </div>
+        <div class="tabs reveal" role="tablist" aria-label="Filtrar catálogo">
+          <button class="tab" role="tab" aria-selected="true" data-filter="todos">Todos</button>
+          <button class="tab" role="tab" aria-selected="false" data-filter="lacrado">Lacrados</button>
+          <button class="tab" role="tab" aria-selected="false" data-filter="seminovo">Seminovos</button>
+          <button class="tab" role="tab" aria-selected="false" data-filter="acessorio">Acessórios</button>
+        </div>
+        <div class="grid-products" id="products" aria-live="polite"></div>
+        <p class="catalog-note reveal">Não achou o modelo que procura? <a data-wa="Olá, B7 Phone! Estou procurando um modelo que não vi no site. Vocês conseguem pra mim?" target="_blank" rel="noopener">Encomende com a gente →</a></p>
+      </div>
+    </section>
+
+    <!-- ============ SEMINOVOS ============ -->
+    <section id="seminovos" style="background: var(--bg-2); border-block: 1px solid var(--line);">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="eyebrow">Seminovos B7</span>
+          <h2>Seminovo sem surpresa.</h2>
+          <p>Todo seminovo passa por revisão completa antes de ir pra vitrine. Você sabe exatamente o estado do aparelho antes de comprar.</p>
+        </div>
+        <div class="grades">
+          <div class="grade reveal" style="background: var(--bg);">
+            <span class="lvl" style="background: rgba(43,212,125,.14); color: var(--ok);">GRAU A+</span>
+            <h3>Vitrine</h3>
+            <p>Aparência de novo, sem marcas visíveis. Ideal pra quem quer economizar sem abrir mão do visual.</p>
+          </div>
+          <div class="grade reveal" style="background: var(--bg);">
+            <span class="lvl" style="background: rgba(255,106,26,.14); color: var(--accent);">GRAU A</span>
+            <h3>Excelente</h3>
+            <p>Marcas de uso leves, só visíveis de perto. Funcionamento 100% e o melhor custo-benefício.</p>
+          </div>
+          <div class="grade reveal" style="background: var(--bg);">
+            <span class="lvl" style="background: rgba(255,255,255,.08); color: var(--text);">GRAU B</span>
+            <h3>Bom estado</h3>
+            <p>Marcas de uso visíveis na carcaça. Tela e funções perfeitas, pelo menor preço.</p>
+          </div>
+        </div>
+        <div class="checklist">
+          <div class="reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><use href="#i-check"/></svg> Face ID e câmeras</div>
+          <div class="reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><use href="#i-check"/></svg> Saúde da bateria</div>
+          <div class="reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><use href="#i-check"/></svg> Tela e touch</div>
+          <div class="reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><use href="#i-check"/></svg> Sem bloqueio de iCloud</div>
+          <div class="reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><use href="#i-check"/></svg> Áudio e microfones</div>
+          <div class="reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><use href="#i-check"/></svg> Wi-Fi, Bluetooth e sinal</div>
+          <div class="reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><use href="#i-check"/></svg> Carregamento e conector</div>
+          <div class="reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><use href="#i-check"/></svg> IMEI regular</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ TROCA ============ -->
+    <section id="troca">
+      <div class="wrap split">
+        <div class="reveal">
+          <span class="eyebrow">Troca</span>
+          <div class="section-head" style="margin-bottom: 0;">
+            <h2>Seu iPhone atual vale entrada no novo.</h2>
+            <p>Preencha os dados do seu aparelho e receba uma pré-avaliação pelo WhatsApp. O valor final é confirmado na loja, após a revisão.</p>
+          </div>
+          <div class="steps">
+            <div class="step"><div class="n">1</div><div><b>Conte sobre seu aparelho</b><span>Modelo, memória, estado e bateria.</span></div></div>
+            <div class="step"><div class="n">2</div><div><b>Receba a pré-avaliação</b><span>Respondemos rápido pelo WhatsApp.</span></div></div>
+            <div class="step"><div class="n">3</div><div><b>Escolha o novo</b><span>A diferença você paga no Pix ou parcela no cartão.</span></div></div>
+          </div>
+        </div>
+
+        <form class="form reveal" id="tradeForm" novalidate>
+          <h3>Avaliar meu aparelho</h3>
+          <p class="sub">Leva menos de 1 minuto.</p>
+          <div class="row-2">
+            <div class="field">
+              <label for="tModel">Modelo atual</label>
+              <select id="tModel" required></select>
+            </div>
+            <div class="field">
+              <label for="tStorage">Armazenamento</label>
+              <select id="tStorage">
+                <option>64GB</option><option selected>128GB</option><option>256GB</option><option>512GB</option><option>1TB</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <span class="lbl">Estado do aparelho</span>
+            <div class="seg">
+              <label><input type="radio" name="tCond" value="Impecável" checked> Impecável</label>
+              <label><input type="radio" name="tCond" value="Marcas leves"> Marcas leves</label>
+              <label><input type="radio" name="tCond" value="Marcas visíveis"> Marcas visíveis</label>
+              <label><input type="radio" name="tCond" value="Com defeito / trincado"> Com defeito</label>
+            </div>
+          </div>
+          <div class="field">
+            <div class="range-out"><label for="tBattery">Saúde da bateria</label><b><span id="tBatteryOut">88</span>%</b></div>
+            <input type="range" id="tBattery" min="70" max="100" value="88">
+          </div>
+          <div class="field">
+            <label for="tWant">Quero trocar por</label>
+            <select id="tWant"></select>
+          </div>
+          <button class="btn btn-wa btn-block" type="submit">
+            <svg viewBox="0 0 24 24" fill="currentColor"><use href="#i-wa"/></svg> Enviar para avaliação
+          </button>
+          <p class="form-note">Você será direcionado ao WhatsApp com a mensagem pronta.</p>
+        </form>
+      </div>
+    </section>
+
+    <!-- ============ ASSISTÊNCIA ============ -->
+    <section id="assistencia" style="background: var(--bg-2); border-block: 1px solid var(--line);">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="eyebrow">Assistência técnica</span>
+          <h2>Quebrou? A gente resolve.</h2>
+          <p>Diagnóstico gratuito, peças de qualidade e garantia no serviço. Muitos reparos ficam prontos no mesmo dia.</p>
+        </div>
+        <div class="services" id="services"></div>
+
+        <div class="assist-form reveal">
+          <form class="form" id="repairForm" novalidate style="background: var(--bg);">
+            <div class="field">
+              <label for="rModel">Modelo do aparelho</label>
+              <input id="rModel" type="text" placeholder="Ex.: iPhone 13 Pro" required>
+            </div>
+            <div class="field">
+              <label for="rIssue">Qual o problema?</label>
+              <select id="rIssue"></select>
+            </div>
+            <div class="field full">
+              <label for="rDesc">Conte um pouco mais (opcional)</label>
+              <textarea id="rDesc" placeholder="Ex.: caiu e a tela ficou com listras, o touch funciona em parte."></textarea>
+            </div>
+            <button class="btn btn-primary btn-block full" type="submit">
+              <svg viewBox="0 0 24 24" fill="currentColor"><use href="#i-wa"/></svg> Pedir orçamento pelo WhatsApp
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PAGAMENTO ============ -->
+    <section id="pagamento">
+      <div class="wrap">
+        <div class="section-head center reveal">
+          <span class="eyebrow">Pagamento</span>
+          <h2>Do jeito que cabe no seu bolso.</h2>
+          <p>Combine as formas como preferir: parte no usado, parte no Pix, o resto no cartão.</p>
+        </div>
+        <div class="pay">
+          <div class="pay-card reveal">
+            <h3>Pix ou dinheiro</h3>
+            <div class="big">Melhor preço</div>
+            <p>Condição especial à vista. Pergunte o valor no Pix ao pedir seu orçamento.</p>
+          </div>
+          <div class="pay-card hl reveal">
+            <h3>Cartão de crédito</h3>
+            <div class="big">até <span data-cfg="parcelas"></span>x</div>
+            <p>Parcele nas principais bandeiras. Dá pra dividir em mais de um cartão.</p>
+          </div>
+          <div class="pay-card reveal">
+            <h3>Seu usado na troca</h3>
+            <div class="big">Entrada</div>
+            <p>Seu aparelho atual abate do valor do novo. <a href="#troca" style="color: var(--accent);">Avaliar agora →</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ INSTAGRAM ============ -->
+    <section style="padding-top: 0;">
+      <div class="wrap">
+        <div class="insta reveal">
+          <div>
+            <span class="eyebrow">Instagram</span>
+            <h2>Novidades e estoque do dia no <span data-cfg="instagramAt"></span></h2>
+            <p>Chegou modelo novo, promoção relâmpago, bastidores da assistência: tudo sai primeiro nos stories. Segue a gente pra não perder.</p>
+            <a class="btn btn-primary" data-ig target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-ig"/></svg> Seguir no Instagram
+            </a>
+          </div>
+          <div class="insta-tiles" aria-hidden="true">
+            <div><div class="phone" data-phone="pro" data-color="#2E3B57"></div></div>
+            <div><div class="phone" data-phone="air" data-color="#C9D8E8"></div></div>
+            <div><div class="phone" data-phone="pro" data-color="#D7D7DA"></div></div>
+            <div><div class="phone" data-phone="base" data-color="#B6A9D6"></div></div>
+            <div><div class="phone" data-phone="pro" data-color="#C8692F"></div></div>
+            <div><div class="phone" data-phone="base" data-color="#A9BFA3"></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FAQ ============ -->
+    <section id="faq" style="padding-top: 24px;">
+      <div class="wrap">
+        <div class="section-head center reveal">
+          <span class="eyebrow">Dúvidas frequentes</span>
+          <h2>Antes de comprar, tire suas dúvidas.</h2>
+        </div>
+        <div class="faq" id="faqList"></div>
+      </div>
+    </section>
+
+    <!-- ============ CONTATO ============ -->
+    <section id="contato" style="padding-top: 24px;">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="eyebrow">Onde estamos</span>
+          <h2>Venha conhecer a loja.</h2>
+          <p>Teste o aparelho antes de levar e saia com tudo configurado.</p>
+        </div>
+        <div class="contact">
+          <div class="contact-info reveal">
+            <div class="info-item"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-pin"/></svg></div><div><b>Endereço</b><span data-cfg="endereco"></span><br><span data-cfg="cidade"></span></div></div>
+            <div class="info-item"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-clock"/></svg></div><div><b>Horário de atendimento</b><ul id="hours"></ul></div></div>
+            <div class="info-item"><div class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><use href="#i-wa"/></svg></div><div><b>WhatsApp</b><a data-wa="Olá, B7 Phone!" target="_blank" rel="noopener"><span data-cfg="whatsappFmt"></span></a></div></div>
+            <div class="info-item"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-ig"/></svg></div><div><b>Instagram</b><a data-ig target="_blank" rel="noopener"><span data-cfg="instagramAt"></span></a></div></div>
+          </div>
+          <div class="map reveal" id="map">
+            <div>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:48px;height:48px;margin:0 auto 12px;color:var(--accent)"><use href="#i-pin"/></svg>
+              <p>Defina <code>mapsEmbed</code> na configuração para exibir o mapa da loja aqui.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CTA FINAL ============ -->
+    <div class="final">
+      <div class="wrap">
+        <div class="final-box reveal">
+          <h2>Bora pegar seu iPhone novo hoje?</h2>
+          <p>Chama no WhatsApp e receba valores e condições na hora.</p>
+          <a class="btn" data-wa="Olá, B7 Phone! Quero saber valores e condições dos iPhones." target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><use href="#i-wa"/></svg> Falar com um vendedor
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer>
+    <div class="wrap">
+      <div class="foot">
+        <div>
+          <div class="logo"><span class="logo-mark">B7</span><div>B7 <span>Phone</span></div></div>
+          <p>iPhones lacrados e seminovos com garantia, troca facilitada e assistência técnica especializada.</p>
+        </div>
+        <div>
+          <h4>Loja</h4>
+          <ul><li><a href="#catalogo">Lacrados</a></li><li><a href="#seminovos">Seminovos</a></li><li><a href="#catalogo" data-goto="acessorio">Acessórios</a></li><li><a href="#pagamento">Pagamento</a></li></ul>
+        </div>
+        <div>
+          <h4>Serviços</h4>
+          <ul><li><a href="#troca">Troca de aparelho</a></li><li><a href="#assistencia">Assistência técnica</a></li><li><a href="#faq">Garantia</a></li></ul>
+        </div>
+        <div>
+          <h4>Contato</h4>
+          <ul><li><a data-wa="Olá, B7 Phone!" target="_blank" rel="noopener">WhatsApp</a></li><li><a data-ig target="_blank" rel="noopener">Instagram</a></li><li><a href="#contato">Endereço</a></li></ul>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <span>© <span id="year"></span> B7 Phone. Todos os direitos reservados.</span>
+        <span>iPhone é marca registrada da Apple Inc. Revenda independente.</span>
+      </div>
+    </div>
+  </footer>
+
+  <a class="wa-float" data-wa="Olá, B7 Phone! Vim pelo site e quero atendimento." target="_blank" rel="noopener" aria-label="Conversar no WhatsApp">
+    <svg viewBox="0 0 24 24" fill="currentColor"><use href="#i-wa"/></svg>
+  </a>
+
+  <!-- ============ ÍCONES ============ -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-wa" viewBox="0 0 24 24"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.21 3.08.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.7.63.71.22 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35M12.05 21.79h-.01a9.9 9.9 0 0 1-5.04-1.38l-.36-.21-3.75.98 1-3.65-.23-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.9-9.88a9.83 9.83 0 0 1 9.89 9.89c0 5.45-4.44 9.88-9.89 9.88m8.41-18.3A11.81 11.81 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.94L.06 24l6.3-1.65a11.88 11.88 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.89 0-3.18-1.24-6.16-3.48-8.41"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4.5 6v5.5c0 4.6 3.2 8.4 7.5 9.5 4.3-1.1 7.5-4.9 7.5-9.5V6L12 3Z" stroke-linejoin="round"/><path d="m8.8 12 2.2 2.2 4.2-4.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-card" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="M3 10h18M7 15h3" stroke-linecap="round"/></symbol>
+      <symbol id="i-swap" viewBox="0 0 24 24"><path d="M4 8h13l-3.5-3.5M20 16H7l3.5 3.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-truck" viewBox="0 0 24 24"><path d="M3 6.5h11v9H3zM14 9.5h4l3 3.2v2.8h-7" stroke-linejoin="round"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17.5" cy="17.5" r="1.8"/></symbol>
+      <symbol id="i-battery" viewBox="0 0 24 24"><rect x="2.5" y="7" width="17" height="10" rx="2.5"/><path d="M22 10.5v3M6 10v4M9.5 10v4M13 10v4" stroke-linecap="round"/></symbol>
+      <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5a7 7 0 1 1 14 0C19 14.8 12 21 12 21Z" stroke-linejoin="round"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-ig" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r=".6" fill="currentColor"/></symbol>
+      <symbol id="i-screen" viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="m9 8 3 3m-1 3 4-4" stroke-linecap="round"/></symbol>
+      <symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 8.5A1.5 1.5 0 0 1 5.5 7h2l1.5-2h6l1.5 2h2A1.5 1.5 0 0 1 20 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17.5z" stroke-linejoin="round"/><circle cx="12" cy="13" r="3.2"/></symbol>
+      <symbol id="i-plug" viewBox="0 0 24 24"><path d="M9 3v4M15 3v4M7 7h10v4a5 5 0 0 1-10 0V7ZM12 16v5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-face" viewBox="0 0 24 24"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2M9 9.5v1M15 9.5v1M12 9.5v3.5h-1M9.5 15.5a3.5 3.5 0 0 0 5 0" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11Z" stroke-linejoin="round"/></symbol>
+      <symbol id="i-chip" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/><path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3" stroke-linecap="round"/></symbol>
+      <symbol id="i-buds" viewBox="0 0 24 24"><path d="M7.5 4a3 3 0 0 0-3 3v1.5a3 3 0 0 0 3 3h.5V20a1.5 1.5 0 0 0 3 0V7a3 3 0 0 0-3.5-3ZM16.5 4a3 3 0 0 1 3 3v1.5a3 3 0 0 1-3 3H16V20a1.5 1.5 0 0 1-3 0V7a3 3 0 0 1 3.5-3Z" stroke-linejoin="round"/></symbol>
+      <symbol id="i-watch" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="3.5"/><path d="M8.5 6 9 2.5h6L15.5 6M8.5 18l.5 3.5h6l.5-3.5M12 9.5V12l1.8 1.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2.5 5 13.5h6l-1 8 8-11h-6l1-8Z" stroke-linejoin="round"/></symbol>
+      <symbol id="i-case" viewBox="0 0 24 24"><rect x="5.5" y="2.5" width="13" height="19" rx="3.5"/><rect x="8" y="5" width="4.5" height="4.5" rx="1.2"/></symbol>
+    </defs>
+  </svg>
+
+  <script>
+    /* =====================================================================
+       CONFIGURAÇÃO DA LOJA — edite aqui os dados reais da B7 Phone
+       ===================================================================== */
+    const CONFIG = {
+      nome: 'B7 Phone',
+      whatsapp: '5500000000000',          // DDI + DDD + número, só dígitos. Ex.: 5511999998888
+      instagram: 'b7phone',
+      endereco: 'Rua Exemplo, 123 — Centro',
+      cidade: 'Sua Cidade — UF',
+      horarios: [
+        ['Segunda a sexta', '9h às 18h'],
+        ['Sábado', '9h às 13h'],
+        ['Domingo', 'Fechado'],
+      ],
+      mapsEmbed: '',                     // cole aqui o link "src" do iframe do Google Maps
+      parcelas: 12,
+    };
+
+    /* PRODUTOS — preco: null mostra "Consulte o valor". Ex.: preco: 7499 */
+    const PRODUTOS = [
+      { nome: 'iPhone 17 Pro Max', cat: 'lacrado', tipo: 'pro', tag: 'Lançamento', armaz: ['256GB', '512GB', '1TB', '2TB'],
+        cores: [['Laranja-cósmico', '#C8692F'], ['Azul-profundo', '#2E3B57'], ['Prateado', '#D7D7DA']], preco: null },
+      { nome: 'iPhone 17 Pro', cat: 'lacrado', tipo: 'pro', tag: 'Lançamento', armaz: ['256GB', '512GB', '1TB'],
+        cores: [['Laranja-cósmico', '#C8692F'], ['Azul-profundo', '#2E3B57'], ['Prateado', '#D7D7DA']], preco: null },
+      { nome: 'iPhone Air', cat: 'lacrado', tipo: 'air', armaz: ['256GB', '512GB', '1TB'],
+        cores: [['Azul-céu', '#C9D8E8'], ['Dourado-claro', '#E9DCC4'], ['Branco-nuvem', '#EEEEEC'], ['Preto-espacial', '#2A2A2E']], preco: null },
+      { nome: 'iPhone 17', cat: 'lacrado', tipo: 'base', tag: 'Mais vendido', armaz: ['256GB', '512GB'],
+        cores: [['Azul-névoa', '#9DB4C8'], ['Lavanda', '#B6A9D6'], ['Sálvia', '#A9BFA3'], ['Branco', '#EDEDED'], ['Preto', '#2B2B2F']], preco: null },
+      { nome: 'iPhone 16', cat: 'lacrado', tipo: 'base', armaz: ['128GB', '256GB'],
+        cores: [['Ultramarino', '#5A6FD8'], ['Verde-acinzentado', '#8FB9B2'], ['Rosa', '#EBB9C9'], ['Branco', '#EDEDED'], ['Preto', '#2B2B2F']], preco: null },
+      { nome: 'iPhone 16 Pro Max', cat: 'seminovo', tipo: 'pro', tag: 'Grau A+', bateria: '90%+', armaz: ['256GB', '512GB'],
+        cores: [['Titânio-deserto', '#C2A88C'], ['Titânio natural', '#A8A49C'], ['Titânio preto', '#3A3A3C']], preco: null },
+      { nome: 'iPhone 16 Pro', cat: 'seminovo', tipo: 'pro', tag: 'Grau A', bateria: '90%+', armaz: ['128GB', '256GB'],
+        cores: [['Titânio-deserto', '#C2A88C'], ['Titânio branco', '#E5E3DE'], ['Titânio preto', '#3A3A3C']], preco: null },
+      { nome: 'iPhone 15 Pro Max', cat: 'seminovo', tipo: 'pro', tag: 'Grau A', bateria: '85%+', armaz: ['256GB', '512GB'],
+        cores: [['Titânio azul', '#3F4A5C'], ['Titânio natural', '#A8A49C'], ['Titânio preto', '#3A3A3C']], preco: null },
+      { nome: 'iPhone 15', cat: 'seminovo', tipo: 'base', tag: 'Custo-benefício', bateria: '85%+', armaz: ['128GB', '256GB'],
+        cores: [['Azul', '#C9D6E0'], ['Rosa', '#EBCFD3'], ['Preto', '#3A3B3D']], preco: null },
+      { nome: 'iPhone 14', cat: 'seminovo', tipo: 'base', bateria: '85%+', armaz: ['128GB', '256GB'],
+        cores: [['Meia-noite', '#2B2F36'], ['Estelar', '#ECE6DC'], ['Roxo', '#C9BFD9']], preco: null },
+      { nome: 'iPhone 13', cat: 'seminovo', tipo: 'base', tag: 'Menor preço', bateria: '85%+', armaz: ['128GB', '256GB'],
+        cores: [['Meia-noite', '#2B2F36'], ['Estelar', '#ECE6DC'], ['Azul', '#2E5A7A']], preco: null },
+      { nome: 'AirPods', cat: 'acessorio', icon: 'i-buds', desc: 'AirPods 4 e AirPods Pro', preco: null },
+      { nome: 'Apple Watch', cat: 'acessorio', icon: 'i-watch', desc: 'Series e SE, várias pulseiras', preco: null },
+      { nome: 'Carregadores e cabos', cat: 'acessorio', icon: 'i-bolt', desc: 'Fontes 20W/35W e cabos USB-C', preco: null },
+      { nome: 'Capas e películas', cat: 'acessorio', icon: 'i-case', desc: 'Proteção para todos os modelos', preco: null },
+    ];
+
+    const SERVICOS = [
+      ['i-screen', 'Troca de tela', 'Tela trincada, manchas, listras ou touch falhando.'],
+      ['i-battery', 'Troca de bateria', 'Bateria viciada, descarregando rápido ou estufada.'],
+      ['i-camera', 'Câmeras', 'Câmera traseira ou frontal sem foco, tremendo ou preta.'],
+      ['i-plug', 'Conector de carga', 'Não carrega, carrega com mau contato ou sem reconhecer cabo.'],
+      ['i-face', 'Face ID', 'Diagnóstico e reparo do sistema de reconhecimento facial.'],
+      ['i-drop', 'Contato com líquido', 'Limpeza e recuperação após queda na água.'],
+      ['i-case', 'Tampa traseira', 'Vidro traseiro quebrado ou carcaça danificada.'],
+      ['i-chip', 'Placa e software', 'Reparo em placa, aparelho reiniciando ou travado.'],
+      ['i-swap', 'Backup e transferência', 'Passamos seus dados pro aparelho novo com segurança.'],
+    ];
+
+    const FAQ = [
+      ['Os aparelhos têm garantia?', 'Sim. iPhones lacrados têm a garantia oficial da Apple de 1 ano. Seminovos têm garantia da loja, e o prazo é informado no atendimento. Todos saem com nota fiscal.'],
+      ['Como sei a procedência do seminovo?', 'Todos os aparelhos têm IMEI verificado, sem bloqueio de iCloud e passam por revisão completa (bateria, câmeras, Face ID, tela, áudio e sinal) antes de serem vendidos.'],
+      ['A saúde da bateria é informada?', 'Sim. Informamos a porcentagem exata da saúde da bateria de cada seminovo antes da compra.'],
+      ['Vocês aceitam meu aparelho na troca?', 'Aceitamos iPhones como parte do pagamento. Use o formulário de troca para receber uma pré-avaliação pelo WhatsApp. O valor final é confirmado após a revisão na loja.'],
+      ['Quais as formas de pagamento?', 'Pix, dinheiro, cartão de débito e crédito em até ' + CONFIG.parcelas + 'x. Também dá pra combinar: parte no usado, parte no Pix e o restante no cartão.'],
+      ['Vocês entregam?', 'Você pode retirar na loja ou combinar a entrega com a gente pelo WhatsApp.'],
+      ['Quanto tempo leva um reparo?', 'Muitos reparos, como tela e bateria, ficam prontos no mesmo dia, dependendo do modelo e da disponibilidade da peça. O diagnóstico é gratuito.'],
+    ];
+
+    /* ===================================================================== */
+
+    const $ = (s, el = document) => el.querySelector(s);
+    const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+    const brl = v => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    const waLink = msg => `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(msg)}`;
+    const igLink = `https://instagram.com/${CONFIG.instagram}`;
+    const fmtPhone = n => {
+      const d = n.replace(/\D/g, '').replace(/^55/, '');
+      return d.length >= 10 ? `(${d.slice(0, 2)}) ${d.slice(2, -4)}-${d.slice(-4)}` : n;
+    };
+    const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+    /* Ilustração do iPhone (verso) — gerada em SVG a partir da cor */
+    function phoneSVG(tipo, cor) {
+      const body = `<rect x="2" y="2" width="116" height="236" rx="24" fill="${cor}"/>
+        <rect x="2" y="2" width="116" height="236" rx="24" fill="url(#sh)"/>
+        <rect x="2.5" y="2.5" width="115" height="235" rx="23.5" fill="none" stroke="rgba(255,255,255,.35)"/>`;
+      const lens = (cx, cy, r = 9) => `<circle cx="${cx}" cy="${cy}" r="${r + 2}" fill="rgba(0,0,0,.25)"/><circle cx="${cx}" cy="${cy}" r="${r}" fill="#121216"/><circle cx="${cx}" cy="${cy}" r="${r * .5}" fill="#23232c"/><circle cx="${cx - r * .3}" cy="${cy - r * .3}" r="${r * .18}" fill="rgba(255,255,255,.5)"/>`;
+      let cam = '';
+      if (tipo === 'pro') {
+        cam = `<rect x="2" y="2" width="116" height="66" rx="22" fill="rgba(0,0,0,.12)"/>
+          <rect x="10" y="10" width="62" height="52" rx="16" fill="rgba(255,255,255,.14)" stroke="rgba(0,0,0,.15)"/>
+          ${lens(26, 25)}${lens(26, 47)}${lens(54, 36)}<circle cx="96" cy="22" r="4" fill="rgba(255,255,255,.55)"/><circle cx="96" cy="44" r="3" fill="#121216"/>`;
+      } else if (tipo === 'air') {
+        cam = `<rect x="2" y="12" width="116" height="34" rx="17" fill="rgba(255,255,255,.18)" stroke="rgba(0,0,0,.12)"/>${lens(24, 29, 9)}<circle cx="48" cy="29" r="3.5" fill="rgba(255,255,255,.6)"/>`;
+      } else {
+        cam = `<rect x="10" y="10" width="48" height="56" rx="15" fill="rgba(255,255,255,.14)" stroke="rgba(0,0,0,.15)"/>${lens(34, 26, 10)}${lens(34, 51, 10)}<circle cx="50" cy="38" r="2.6" fill="rgba(255,255,255,.55)"/>`;
+      }
+      return `<svg viewBox="0 0 120 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de iPhone">
+        <defs><linearGradient id="sh" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".28"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".22"/></linearGradient></defs>
+        ${body}${cam}</svg>`;
+    }
+    const paintPhones = (root = document) => $$('[data-phone]', root).forEach(el => el.innerHTML = phoneSVG(el.dataset.phone, el.dataset.color));
+
+    /* Dados gerais na página */
+    function applyConfig() {
+      const map = { parcelas: CONFIG.parcelas, endereco: CONFIG.endereco, cidade: CONFIG.cidade, instagramAt: '@' + CONFIG.instagram, whatsappFmt: fmtPhone(CONFIG.whatsapp) };
+      $$('[data-cfg]').forEach(el => el.textContent = map[el.dataset.cfg] ?? '');
+      $$('[data-wa]').forEach(el => el.href = waLink(el.dataset.wa));
+      $$('[data-ig]').forEach(el => el.href = igLink);
+      $('#hours').innerHTML = CONFIG.horarios.map(([d, h]) => `<li>${esc(d)}: <strong style="color:var(--text);font-weight:500">${esc(h)}</strong></li>`).join('');
+      $('#year').textContent = new Date().getFullYear();
+      if (CONFIG.mapsEmbed) $('#map').innerHTML = `<iframe src="${esc(CONFIG.mapsEmbed)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa da loja"></iframe>`;
+
+      // SEO local (schema.org)
+      const ld = document.createElement('script');
+      ld.type = 'application/ld+json';
+      ld.textContent = JSON.stringify({
+        '@context': 'https://schema.org', '@type': 'MobilePhoneStore', name: CONFIG.nome,
+        telephone: '+' + CONFIG.whatsapp, sameAs: [igLink],
+        address: { '@type': 'PostalAddress', streetAddress: CONFIG.endereco, addressLocality: CONFIG.cidade, addressCountry: 'BR' },
+        paymentAccepted: 'Pix, Dinheiro, Cartão de crédito, Cartão de débito',
+      });
+      document.head.appendChild(ld);
+    }
+
+    /* Catálogo */
+    const catLabel = { lacrado: 'Lacrado', seminovo: 'Seminovo', acessorio: 'Acessório' };
+    function renderProducts(filter = 'todos') {
+      const list = PRODUTOS.filter(p => filter === 'todos' || p.cat === filter);
+      $('#products').innerHTML = list.map((p) => {
+        const i = PRODUTOS.indexOf(p);
+        const precoHTML = p.preco
+          ? `<strong>${brl(p.preco)}</strong><small>ou ${CONFIG.parcelas}x de ${brl(p.preco / CONFIG.parcelas)}</small>`
+          : `<strong>Consulte o valor</strong><small>Condição especial no Pix · até ${CONFIG.parcelas}x</small>`;
+        if (p.cat === 'acessorio') {
+          return `<article class="card reveal in" data-i="${i}">
+            <div class="card-media"><svg class="acc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><use href="#${p.icon}"/></svg></div>
+            <h3>${esc(p.nome)}</h3><p class="meta">${esc(p.desc)}</p>
+            <div class="price">${precoHTML}</div>
+            <a class="btn btn-ghost btn-block" data-buy target="_blank" rel="noopener">Consultar disponibilidade</a>
+          </article>`;
+        }
+        const [corNome, corHex] = p.cores[0];
+        return `<article class="card reveal in" data-i="${i}" data-cor="${esc(corNome)}" data-armaz="${esc(p.armaz[0])}">
+          <div class="card-media" style="--glow:${corHex}40">
+            ${p.tag ? `<span class="tag ${p.cat === 'seminovo' ? 'alt' : ''}">${esc(p.tag)}</span>` : ''}
+            <div class="phone" data-phone="${p.tipo}" data-color="${corHex}"></div>
+          </div>
+          <h3>${esc(p.nome)}</h3>
+          <p class="meta">${catLabel[p.cat]}${p.bateria ? ` · Bateria ${esc(p.bateria)}` : ' · Garantia Apple'}</p>
+          <div class="opt-label">Cor: <b data-cor-label>${esc(corNome)}</b></div>
+          <div class="swatches">${p.cores.map(([n, h], k) => `<button class="swatch" style="background:${h}" aria-label="${esc(n)}" aria-pressed="${k === 0}" data-cor-n="${esc(n)}" data-cor-h="${h}"></button>`).join('')}</div>
+          <div class="opt-label">Armazenamento</div>
+          <div class="chips">${p.armaz.map((a, k) => `<button class="chip" aria-pressed="${k === 0}" data-arm="${a}">${a}</button>`).join('')}</div>
+          <div class="price">${precoHTML}</div>
+          <a class="btn btn-wa btn-block" data-buy target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><use href="#i-wa"/></svg> Quero este
+          </a>
+        </article>`;
+      }).join('');
+      paintPhones($('#products'));
+      $$('#products .card').forEach(updateBuyLink);
+    }
+
+    function updateBuyLink(card) {
+      const p = PRODUTOS[card.dataset.i];
+      const msg = p.cat === 'acessorio'
+        ? `Olá, B7 Phone! Quero saber sobre ${p.nome}. O que vocês têm disponível?`
+        : `Olá, B7 Phone! Tenho interesse no ${p.nome} ${card.dataset.armaz} na cor ${card.dataset.cor} (${catLabel[p.cat].toLowerCase()}). Pode me passar valor e condições?`;
+      $('[data-buy]', card).href = waLink(msg);
+    }
+
+    $('#products').addEventListener('click', e => {
+      const card = e.target.closest('.card');
+      if (!card) return;
+      const sw = e.target.closest('.swatch');
+      const ch = e.target.closest('.chip');
+      if (sw) {
+        $$('.swatch', card).forEach(b => b.setAttribute('aria-pressed', b === sw));
+        card.dataset.cor = sw.dataset.corN;
+        $('[data-cor-label]', card).textContent = sw.dataset.corN;
+        const ph = $('[data-phone]', card);
+        ph.dataset.color = sw.dataset.corH;
+        ph.innerHTML = phoneSVG(ph.dataset.phone, sw.dataset.corH);
+        $('.card-media', card).style.setProperty('--glow', sw.dataset.corH + '40');
+      }
+      if (ch) {
+        $$('.chip', card).forEach(b => b.setAttribute('aria-pressed', b === ch));
+        card.dataset.armaz = ch.dataset.arm;
+      }
+      if (sw || ch) updateBuyLink(card);
+    });
+
+    function setFilter(f) {
+      $$('.tab').forEach(t => t.setAttribute('aria-selected', t.dataset.filter === f));
+      renderProducts(f);
+    }
+    $$('.tab').forEach(t => t.addEventListener('click', () => setFilter(t.dataset.filter)));
+    $$('[data-goto]').forEach(a => a.addEventListener('click', () => setFilter(a.dataset.goto)));
+
+    /* Troca */
+    const MODELOS_TROCA = ['iPhone 11', 'iPhone 11 Pro / Pro Max', 'iPhone 12 / 12 mini', 'iPhone 12 Pro / Pro Max', 'iPhone 13 / 13 mini', 'iPhone 13 Pro / Pro Max', 'iPhone 14 / 14 Plus', 'iPhone 14 Pro / Pro Max', 'iPhone 15 / 15 Plus', 'iPhone 15 Pro / Pro Max', 'iPhone 16 / 16 Plus / 16e', 'iPhone 16 Pro / Pro Max', 'iPhone 17 / Air', 'iPhone 17 Pro / Pro Max', 'Outro modelo'];
+    $('#tModel').innerHTML = MODELOS_TROCA.map((m, k) => `<option ${k === 6 ? 'selected' : ''}>${m}</option>`).join('');
+    $('#tWant').innerHTML = PRODUTOS.filter(p => p.cat !== 'acessorio').map(p => `<option>${p.nome} (${catLabel[p.cat].toLowerCase()})</option>`).join('') + '<option>Ainda não sei, quero sugestões</option>';
+    $('#tBattery').addEventListener('input', e => $('#tBatteryOut').textContent = e.target.value);
+    $('#tradeForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const cond = $('input[name=tCond]:checked').value;
+      const msg = `Olá, B7 Phone! Quero avaliar meu aparelho na troca:\n\n` +
+        `• Modelo: ${$('#tModel').value}\n• Armazenamento: ${$('#tStorage').value}\n• Estado: ${cond}\n• Bateria: ${$('#tBattery').value}%\n\n` +
+        `Tenho interesse em: ${$('#tWant').value}`;
+      window.open(waLink(msg), '_blank', 'noopener');
+    });
+
+    /* Assistência */
+    $('#services').innerHTML = SERVICOS.map(([ic, t, d]) => `<div class="service reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#${ic}"/></svg></div><h3>${t}</h3><p>${d}</p></div>`).join('');
+    $('#rIssue').innerHTML = SERVICOS.map(s => `<option>${s[1]}</option>`).join('') + '<option>Outro / não sei</option>';
+    $('#repairForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const model = $('#rModel');
+      if (!model.value.trim()) { model.focus(); model.style.borderColor = 'var(--accent)'; return; }
+      const desc = $('#rDesc').value.trim();
+      const msg = `Olá, B7 Phone! Preciso de um orçamento na assistência:\n\n• Aparelho: ${model.value.trim()}\n• Problema: ${$('#rIssue').value}` + (desc ? `\n• Detalhes: ${desc}` : '');
+      window.open(waLink(msg), '_blank', 'noopener');
+    });
+
+    /* FAQ */
+    $('#faqList').innerHTML = FAQ.map(([q, a], k) => `<details class="reveal" ${k === 0 ? 'open' : ''}><summary>${q}</summary><p>${a}</p></details>`).join('');
+
+    /* Header, menu mobile e animações */
+    const header = $('.header');
+    const onScroll = () => header.classList.toggle('scrolled', scrollY > 20);
+    addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+    const menuBtn = $('.menu-btn'), mnav = $('#mobileNav');
+    const toggleMenu = (open = !mnav.classList.contains('open')) => {
+      mnav.classList.toggle('open', open);
+      menuBtn.setAttribute('aria-expanded', open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    };
+    menuBtn.addEventListener('click', () => toggleMenu());
+    $$('#mobileNav a').forEach(a => a.addEventListener('click', () => toggleMenu(false)));
+
+    applyConfig();
+    renderProducts();
+    paintPhones();
+
+    const io = new IntersectionObserver(entries => entries.forEach(en => {
+      if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+    }), { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    $$('.reveal:not(.in)').forEach(el => io.observe(el));
+  </script>
+</body>
+</html>
