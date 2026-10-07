@@ -16,7 +16,11 @@ Edite o bloco `CONFIG` no topo de `js/main.js`:
 
 ## 2. Fotos e vídeos
 
-Salve cada arquivo **com o nome exato** abaixo e recarregue a página. Enquanto um arquivo não existir, o site mostra um espaço reservado com o nome que ele espera.
+O site já vem com **fotos geradas por IA** (Higgsfield) em todos os espaços, listadas em `js/fotos.js`. Elas são carregadas da internet, então o site precisa estar online (ou o computador conectado) para aparecerem.
+
+Para trocar por uma foto real, salve o arquivo **com o nome exato** abaixo na pasta e recarregue a página: a foto local sempre tem prioridade sobre a da IA. Se não houver nem foto local nem reserva, o site mostra um espaço reservado com o nome do arquivo esperado.
+
+Dica: as fotos da IA são PNG grandes (2048 px). Para o site ficar mais rápido, abra cada link de `js/fotos.js`, baixe, comprima (ex.: squoosh.app) e salve em `assets/fotos/` com o nome indicado.
 
 ### `assets/fotos/`
 

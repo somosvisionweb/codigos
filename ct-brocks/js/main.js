@@ -75,10 +75,21 @@ const CONFIG = {
     if (file) slot.dataset.file = file;
   };
 
+  // Se a foto local não existir, tenta a foto reserva (js/fotos.js) antes do placeholder.
+  const RESERVA = window.FOTOS_RESERVA || {};
   const watchImage = (img, onFail) => {
-    const failed = () => img.complete && img.naturalWidth === 0;
-    if (failed()) onFail();
-    else img.addEventListener('error', onFail, { once: true });
+    const fail = () => {
+      const reserva = RESERVA[fileName(img.getAttribute('src'))];
+      if (reserva && !img.dataset.reserva) {
+        img.dataset.reserva = '1';
+        img.addEventListener('error', onFail, { once: true });
+        img.src = reserva;
+      } else {
+        onFail();
+      }
+    };
+    if (img.complete && img.naturalWidth === 0 && img.getAttribute('src')) fail();
+    else img.addEventListener('error', fail, { once: true });
   };
 
   const watchVideo = (video, onOk, onFail) => {
@@ -112,7 +123,9 @@ const CONFIG = {
   $$('.slot').forEach((slot) => {
     if (slot === heroMedia) return;
     const img = $(':scope > img', slot);
-    if (img) watchImage(img, () => markEmpty(slot, fileName(img.getAttribute('src'))));
+    if (!img) return;
+    const original = fileName(img.getAttribute('src'));
+    watchImage(img, () => markEmpty(slot, original));
   });
 
   // Vídeos da galeria: tocam só quando estão visíveis na tela
@@ -131,7 +144,19 @@ const CONFIG = {
     watchVideo(
       video,
       () => videoObserver && videoObserver.observe(video),
-      () => markEmpty(slot, fileName(src))
+      () => {
+        // sem vídeo: usa a capa (ou a foto reserva dela) como foto
+        const poster = video.getAttribute('poster');
+        const reserva = RESERVA[fileName(poster)];
+        if (!reserva) return markEmpty(slot, fileName(src));
+        const img = document.createElement('img');
+        img.alt = slot.dataset.label || '';
+        img.loading = 'lazy';
+        img.src = poster;
+        video.replaceWith(img);
+        slot.classList.remove('slot--video');
+        watchImage(img, () => markEmpty(slot, fileName(src)));
+      }
     );
   });
 
