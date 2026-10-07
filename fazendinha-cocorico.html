@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fazendinha Co-Có-Ri-Có | Buffet Rural em Cuiabá</title>
+  <meta name="description" content="Fazendinha Co-Có-Ri-Có, buffet rural em Cuiabá-MT. Day-Use aos domingos (10h às 16h), aniversários e confraternizações aos sábados e passeios escolares de segunda a sexta. Reserve pelo WhatsApp.">
+  <meta name="keywords" content="fazendinha Cuiabá, buffet rural Cuiabá, day use Cuiabá, aniversário fazendinha, passeio escolar Cuiabá, confraternização Cuiabá">
+  <meta name="theme-color" content="#C0392B">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Fazendinha Co-Có-Ri-Có | Buffet Rural em Cuiabá">
+  <meta property="og:description" content="Day-Use aos domingos, aniversários aos sábados e passeios escolares durante a semana. Diversão no campo para toda a família!">
+  <meta property="og:locale" content="pt_BR">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%90%93%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "EventVenue",
+    "name": "Fazendinha Co-Có-Ri-Có | Buffet Rural",
+    "description": "Buffet rural com Day-Use aos domingos, aniversários e confraternizações aos sábados e passeios escolares de segunda a sexta.",
+    "telephone": "+55 65 9982-0746",
+    "address": { "@type": "PostalAddress", "addressLocality": "Cuiabá", "addressRegion": "MT", "addressCountry": "BR" },
+    "sameAs": ["https://www.instagram.com/fazendinhacocorico/"],
+    "openingHoursSpecification": [
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "10:00", "closes": "16:00" }
+    ]
+  }
+  </script>
+
+  <style>
+    :root {
+      --red: #C0392B;
+      --red-dark: #962D22;
+      --yellow: #F4B400;
+      --yellow-soft: #FFE8A3;
+      --green: #2E7D32;
+      --green-dark: #1B5E20;
+      --green-soft: #E3F1DF;
+      --sky: #DFF1FB;
+      --cream: #FFF8EC;
+      --brown: #5D4037;
+      --ink: #2B2118;
+      --muted: #6E6257;
+      --line: #EADFCC;
+      --white: #FFFFFF;
+      --wa: #25D366;
+      --wa-dark: #128C7E;
+      --radius: 22px;
+      --shadow: 0 10px 30px rgba(93, 64, 55, .12);
+      --shadow-lg: 0 20px 50px rgba(93, 64, 55, .18);
+      --ease: cubic-bezier(.22, 1, .36, 1);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+    body {
+      font-family: 'Nunito', system-ui, sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    img, svg { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    h1, h2, h3, h4 { font-family: 'Fredoka', sans-serif; line-height: 1.15; font-weight: 700; }
+    .container { width: min(1180px, 100% - 32px); margin-inline: auto; }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+    /* ---------- Botões ---------- */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: .55rem;
+      padding: .95rem 1.6rem; border-radius: 999px; border: 0; cursor: pointer;
+      font: 800 1rem 'Nunito', sans-serif; transition: transform .25s var(--ease), box-shadow .25s, background .25s;
+      white-space: nowrap;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn:focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
+    .btn-wa { background: var(--wa); color: #fff; box-shadow: 0 8px 22px rgba(37, 211, 102, .35); }
+    .btn-wa:hover { background: var(--wa-dark); }
+    .btn-red { background: var(--red); color: #fff; box-shadow: 0 8px 22px rgba(192, 57, 43, .3); }
+    .btn-red:hover { background: var(--red-dark); }
+    .btn-ghost { background: #fff; color: var(--ink); border: 2px solid var(--line); }
+    .btn-ghost:hover { border-color: var(--red); color: var(--red); }
+    .btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+    /* ---------- Topo ---------- */
+    .topbar {
+      background: var(--green-dark); color: #fff; font-size: .88rem; font-weight: 700;
+      text-align: center; padding: .5rem 16px;
+    }
+    .topbar a { text-decoration: underline; text-underline-offset: 3px; }
+
+    header.nav {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(255, 248, 236, .92); backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; height: 72px; }
+    .logo { display: flex; align-items: center; gap: .6rem; }
+    .logo-mark {
+      width: 46px; height: 46px; border-radius: 50%; background: var(--yellow);
+      display: grid; place-items: center; font-size: 1.6rem; box-shadow: inset 0 -4px 0 rgba(0,0,0,.08);
+    }
+    .logo-text { font-family: 'Fredoka', sans-serif; line-height: 1; }
+    .logo-text strong { display: block; font-size: 1.2rem; color: var(--red); }
+    .logo-text span { font-size: .78rem; color: var(--green); font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+    .menu { display: flex; align-items: center; gap: 1.6rem; list-style: none; font-weight: 700; }
+    .menu a { position: relative; padding: .3rem 0; }
+    .menu a::after {
+      content: ''; position: absolute; left: 0; bottom: 0; width: 0; height: 3px; border-radius: 3px;
+      background: var(--yellow); transition: width .3s var(--ease);
+    }
+    .menu a:hover::after { width: 100%; }
+    .nav-cta { padding: .7rem 1.2rem; font-size: .95rem; }
+    .burger { display: none; background: none; border: 0; cursor: pointer; width: 44px; height: 44px; border-radius: 12px; }
+    .burger span { display: block; width: 24px; height: 3px; background: var(--ink); margin: 5px auto; border-radius: 3px; transition: .3s; }
+
+    /* ---------- Hero ---------- */
+    .hero {
+      position: relative; overflow: hidden;
+      background: linear-gradient(180deg, var(--sky) 0%, #F2FAFD 55%, var(--cream) 100%);
+      padding: 4.5rem 0 0;
+    }
+    .hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 2.5rem; align-items: center; position: relative; z-index: 2; }
+    .badge {
+      display: inline-flex; align-items: center; gap: .5rem; background: #fff; border: 2px solid var(--yellow-soft);
+      padding: .45rem 1rem; border-radius: 999px; font-weight: 800; font-size: .88rem; color: var(--brown);
+      box-shadow: var(--shadow);
+    }
+    .hero h1 { font-size: clamp(2.3rem, 5.4vw, 4rem); margin: 1.1rem 0 1rem; color: var(--ink); }
+    .hero h1 em { font-style: normal; color: var(--red); position: relative; white-space: nowrap; }
+    .hero h1 em::after {
+      content: ''; position: absolute; left: -2%; right: -2%; bottom: .05em; height: .28em;
+      background: var(--yellow); opacity: .55; z-index: -1; border-radius: 6px;
+    }
+    .hero p.lead { font-size: 1.18rem; color: var(--muted); max-width: 34rem; }
+    .hero-ctas { display: flex; flex-wrap: wrap; gap: .8rem; margin: 2rem 0 1.6rem; }
+    .hero-stats { display: flex; flex-wrap: wrap; gap: 1.8rem; }
+    .hero-stats div strong { display: block; font-family: 'Fredoka', sans-serif; font-size: 1.7rem; color: var(--green); }
+    .hero-stats div span { font-size: .9rem; color: var(--muted); font-weight: 700; }
+
+    .hero-art { position: relative; }
+    .hero-art svg { width: 100%; height: auto; filter: drop-shadow(0 20px 30px rgba(46,125,50,.15)); }
+    .sun { animation: spin 40s linear infinite; transform-origin: 400px 90px; }
+    .cloud { animation: drift 14s ease-in-out infinite alternate; }
+    .cloud.c2 { animation-duration: 18s; }
+    .rooster { animation: bob 2.4s ease-in-out infinite; transform-origin: 160px 330px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes drift { to { transform: translateX(30px); } }
+    @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+
+    .hills { display: block; width: 100%; height: auto; margin-top: -2rem; position: relative; z-index: 1; }
+
+    /* ---------- Seções ---------- */
+    section { padding: 5.5rem 0; }
+    .section-head { text-align: center; max-width: 720px; margin: 0 auto 3rem; }
+    .eyebrow {
+      display: inline-block; font-weight: 800; font-size: .82rem; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--green); background: var(--green-soft); padding: .35rem .9rem; border-radius: 999px; margin-bottom: 1rem;
+    }
+    .section-head h2 { font-size: clamp(1.9rem, 4vw, 2.8rem); margin-bottom: .8rem; }
+    .section-head p { color: var(--muted); font-size: 1.08rem; }
+
+    /* ---------- Escolha sua experiência ---------- */
+    .choices { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .choice {
+      background: #fff; border-radius: var(--radius); padding: 2rem 1.7rem; box-shadow: var(--shadow);
+      border-top: 8px solid var(--c); display: flex; flex-direction: column; gap: .9rem;
+      transition: transform .35s var(--ease), box-shadow .35s;
+    }
+    .choice:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+    .choice .icon { width: 64px; height: 64px; border-radius: 18px; display: grid; place-items: center; font-size: 2rem; background: var(--bg); }
+    .choice .day { font-weight: 800; font-size: .85rem; color: var(--c); text-transform: uppercase; letter-spacing: .08em; }
+    .choice h3 { font-size: 1.55rem; }
+    .choice p { color: var(--muted); flex: 1; }
+    .choice .when { display: flex; align-items: center; gap: .5rem; font-weight: 800; background: var(--bg); padding: .6rem .9rem; border-radius: 12px; font-size: .95rem; }
+    .choice a.more { font-weight: 800; color: var(--c); display: inline-flex; align-items: center; gap: .3rem; }
+    .choice a.more:hover { gap: .6rem; }
+    .c-dayuse { --c: #E08E00; --bg: #FFF4D6; }
+    .c-festa  { --c: var(--red); --bg: #FDE7E4; }
+    .c-escola { --c: var(--green); --bg: var(--green-soft); }
+
+    /* ---------- Blocos de serviço ---------- */
+    .service { display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem; align-items: center; }
+    .service.reverse .service-media { order: 2; }
+    .service-media {
+      position: relative; border-radius: 28px; overflow: hidden; aspect-ratio: 4/3.4;
+      background: var(--bgm); box-shadow: var(--shadow-lg);
+      display: grid; place-items: center;
+    }
+    .service-media .emoji-scene { font-size: clamp(4rem, 9vw, 6.5rem); text-align: center; line-height: 1.25; }
+    .service-media .tag {
+      position: absolute; left: 1rem; bottom: 1rem; background: #fff; padding: .6rem 1rem; border-radius: 14px;
+      font-weight: 800; box-shadow: var(--shadow); display: flex; align-items: center; gap: .5rem;
+    }
+    .service-media .tag b { color: var(--c); }
+    .service h2 { font-size: clamp(1.9rem, 3.6vw, 2.6rem); margin-bottom: 1rem; }
+    .service > div > p { color: var(--muted); font-size: 1.08rem; margin-bottom: 1.4rem; }
+    .features { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: .8rem 1.2rem; margin-bottom: 1.8rem; }
+    .features li { display: flex; gap: .6rem; align-items: flex-start; font-weight: 700; }
+    .features li::before {
+      content: '✓'; flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%; background: var(--c); color: #fff;
+      display: grid; place-items: center; font-size: .8rem; margin-top: 1px;
+    }
+    .info-pill {
+      display: inline-flex; align-items: center; gap: .6rem; background: #fff; border: 2px dashed var(--c);
+      padding: .7rem 1.1rem; border-radius: 14px; font-weight: 800; margin-bottom: 1.6rem;
+    }
+    .service-actions { display: flex; flex-wrap: wrap; gap: .8rem; }
+    .bg-white { background: #fff; }
+    .bg-green { background: var(--green-soft); }
+
+    /* ---------- Agenda semanal ---------- */
+    .week { display: grid; grid-template-columns: repeat(7, 1fr); gap: .7rem; }
+    .wday {
+      background: #fff; border-radius: 18px; padding: 1.2rem .6rem; text-align: center; box-shadow: var(--shadow);
+      border-bottom: 6px solid var(--c); display: flex; flex-direction: column; gap: .45rem; align-items: center;
+    }
+    .wday b { font-family: 'Fredoka', sans-serif; font-size: 1.15rem; }
+    .wday .e { font-size: 1.8rem; }
+    .wday small { font-weight: 700; color: var(--muted); font-size: .82rem; line-height: 1.3; }
+    .wday.today { outline: 3px solid var(--yellow); outline-offset: 3px; }
+    .wday.today::before { content: 'Hoje'; font-size: .7rem; font-weight: 800; background: var(--yellow); padding: .1rem .55rem; border-radius: 99px; }
+
+    /* ---------- Como funciona ---------- */
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; counter-reset: s; }
+    .step { background: #fff; border-radius: var(--radius); padding: 2rem 1.6rem; position: relative; box-shadow: var(--shadow); }
+    .step::before {
+      counter-increment: s; content: counter(s);
+      position: absolute; top: -18px; left: 1.6rem; width: 44px; height: 44px; border-radius: 50%;
+      background: var(--red); color: #fff; font: 700 1.3rem 'Fredoka', sans-serif; display: grid; place-items: center;
+      box-shadow: 0 6px 14px rgba(192,57,43,.3);
+    }
+    .step h3 { margin: .8rem 0 .5rem; font-size: 1.3rem; }
+    .step p { color: var(--muted); }
+
+    /* ---------- Galeria / Instagram ---------- */
+    .gallery { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 200px; gap: 1rem; }
+    .g-item {
+      border-radius: 20px; overflow: hidden; position: relative; display: grid; place-items: center;
+      font-size: 3.4rem; background: var(--g); transition: transform .35s var(--ease);
+    }
+    .g-item:hover { transform: scale(1.03); }
+    .g-item img { width: 100%; height: 100%; object-fit: cover; }
+    .g-item span {
+      position: absolute; left: .8rem; bottom: .8rem; font-size: .85rem; font-weight: 800; background: rgba(255,255,255,.92);
+      padding: .3rem .7rem; border-radius: 99px;
+    }
+    .g-item.tall { grid-row: span 2; }
+    .g-item.wide { grid-column: span 2; }
+    .insta-card {
+      margin-top: 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap;
+      background: linear-gradient(120deg, #833AB4, #E1306C 55%, #F77737); color: #fff; padding: 1.6rem 2rem; border-radius: var(--radius);
+    }
+    .insta-card .who { display: flex; align-items: center; gap: 1rem; }
+    .insta-card .avatar { width: 62px; height: 62px; border-radius: 50%; background: var(--yellow); display: grid; place-items: center; font-size: 2rem; border: 3px solid #fff; }
+    .insta-card strong { font-family: 'Fredoka', sans-serif; font-size: 1.25rem; display: block; }
+    .insta-nums { display: flex; gap: 1.8rem; text-align: center; }
+    .insta-nums b { display: block; font-family: 'Fredoka', sans-serif; font-size: 1.5rem; }
+    .insta-nums small { font-weight: 700; opacity: .9; }
+    .btn-insta { background: #fff; color: #C13584; }
+
+    /* ---------- Formulário de reserva ---------- */
+    .booking { display: grid; grid-template-columns: .9fr 1.1fr; gap: 3rem; align-items: start; }
+    .booking-info h2 { font-size: clamp(1.9rem, 3.6vw, 2.6rem); margin-bottom: 1rem; }
+    .booking-info p { color: var(--muted); margin-bottom: 1.5rem; font-size: 1.05rem; }
+    .contact-list { list-style: none; display: grid; gap: 1rem; }
+    .contact-list li { display: flex; gap: 1rem; align-items: center; background: #fff; padding: 1rem 1.2rem; border-radius: 16px; box-shadow: var(--shadow); }
+    .contact-list .ci { width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; font-size: 1.4rem; background: var(--green-soft); flex-shrink: 0; }
+    .contact-list small { display: block; color: var(--muted); font-weight: 700; font-size: .82rem; text-transform: uppercase; letter-spacing: .06em; }
+    .contact-list b { font-size: 1.05rem; }
+
+    form.card { background: #fff; padding: 2.2rem; border-radius: 28px; box-shadow: var(--shadow-lg); }
+    form h3 { font-size: 1.5rem; margin-bottom: .3rem; }
+    form > p { color: var(--muted); margin-bottom: 1.4rem; }
+    .types { display: grid; grid-template-columns: repeat(2, 1fr); gap: .7rem; margin-bottom: 1.2rem; }
+    .types input { position: absolute; opacity: 0; pointer-events: none; }
+    .types label {
+      display: flex; align-items: center; gap: .6rem; border: 2px solid var(--line); border-radius: 14px; padding: .8rem .9rem;
+      cursor: pointer; font-weight: 800; transition: .2s; font-size: .95rem; line-height: 1.25;
+    }
+    .types label small { display: block; font-weight: 700; color: var(--muted); font-size: .78rem; }
+    .types label .e { font-size: 1.5rem; }
+    .types input:checked + label { border-color: var(--red); background: #FDE7E4; }
+    .types input:focus-visible + label { outline: 3px solid var(--yellow); outline-offset: 2px; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .field { display: flex; flex-direction: column; gap: .35rem; margin-bottom: 1rem; }
+    .field label { font-weight: 800; font-size: .92rem; }
+    .field input, .field textarea, .field select {
+      font: 600 1rem 'Nunito', sans-serif; padding: .85rem 1rem; border: 2px solid var(--line); border-radius: 12px;
+      background: var(--cream); color: var(--ink); transition: border-color .2s; width: 100%;
+    }
+    .field input:focus, .field textarea:focus { outline: none; border-color: var(--green); background: #fff; }
+    .field textarea { min-height: 96px; resize: vertical; }
+    .hidden { display: none !important; }
+    .date-hint { font-size: .85rem; font-weight: 700; min-height: 1.2em; }
+    .date-hint.ok { color: var(--green); }
+    .date-hint.warn { color: #B26A00; }
+    .form-note { font-size: .82rem; color: var(--muted); text-align: center; margin-top: .8rem; }
+    form .btn { width: 100%; }
+
+    /* ---------- FAQ ---------- */
+    .faq { max-width: 820px; margin: 0 auto; display: grid; gap: .8rem; }
+    details { background: #fff; border-radius: 16px; box-shadow: var(--shadow); overflow: hidden; }
+    summary {
+      list-style: none; cursor: pointer; padding: 1.15rem 1.4rem; font-weight: 800; font-size: 1.05rem;
+      display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: '+'; font: 700 1.6rem 'Fredoka', sans-serif; color: var(--red); transition: transform .3s; flex-shrink: 0; }
+    details[open] summary::after { transform: rotate(45deg); }
+    details p { padding: 0 1.4rem 1.2rem; color: var(--muted); }
+
+    /* ---------- Localização ---------- */
+    .location {
+      background: var(--green-dark); color: #fff; border-radius: 32px; padding: 3rem; display: grid;
+      grid-template-columns: 1.2fr .8fr; gap: 2rem; align-items: center; position: relative; overflow: hidden;
+    }
+    .location::after { content: '🌻'; position: absolute; right: -20px; bottom: -40px; font-size: 12rem; opacity: .12; }
+    .location h2 { font-size: clamp(1.8rem, 3.5vw, 2.5rem); margin-bottom: .8rem; }
+    .location p { opacity: .9; font-size: 1.08rem; margin-bottom: 1.5rem; }
+    .location .pin { font-size: 6rem; text-align: center; animation: bob 2.4s ease-in-out infinite; }
+
+    /* ---------- Rodapé ---------- */
+    footer { background: var(--ink); color: #D8CFC4; padding: 3.5rem 0 1.5rem; margin-top: 5rem; }
+    .foot-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 2rem; margin-bottom: 2.5rem; }
+    footer h4 { color: #fff; margin-bottom: 1rem; font-size: 1.1rem; }
+    footer ul { list-style: none; display: grid; gap: .5rem; }
+    footer a:hover { color: var(--yellow); }
+    footer .logo-text strong { color: var(--yellow); }
+    footer .logo-text span { color: #9CCC65; }
+    footer .about { margin-top: 1rem; max-width: 30rem; }
+    .copy { border-top: 1px solid #43372D; padding-top: 1.4rem; font-size: .88rem; text-align: center; }
+
+    /* ---------- WhatsApp flutuante ---------- */
+    .wa-float {
+      position: fixed; right: 18px; bottom: 18px; z-index: 60; width: 62px; height: 62px; border-radius: 50%;
+      background: var(--wa); display: grid; place-items: center; box-shadow: 0 10px 25px rgba(37,211,102,.45);
+      transition: transform .3s var(--ease);
+    }
+    .wa-float:hover { transform: scale(1.08); }
+    .wa-float svg { width: 34px; height: 34px; fill: #fff; }
+    .wa-float::before {
+      content: ''; position: absolute; inset: 0; border-radius: 50%; background: var(--wa);
+      animation: pulse 2.2s ease-out infinite; z-index: -1;
+    }
+    @keyframes pulse { from { transform: scale(1); opacity: .6; } to { transform: scale(1.7); opacity: 0; } }
+
+    /* ---------- Revelar ao rolar ---------- */
+    .reveal { opacity: 0; transform: translateY(26px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
+    .reveal.in { opacity: 1; transform: none; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .reveal { opacity: 1; transform: none; }
+      html { scroll-behavior: auto; }
+    }
+
+    /* ---------- Responsivo ---------- */
+    @media (max-width: 1000px) {
+      .week { grid-template-columns: repeat(4, 1fr); }
+      .gallery { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 900px) {
+      .menu, .nav-cta { display: none; }
+      .burger { display: block; }
+      .menu.open {
+        display: flex; flex-direction: column; position: absolute; top: 72px; left: 0; right: 0;
+        background: var(--cream); padding: 1.2rem 16px 1.6rem; gap: 1rem; border-bottom: 1px solid var(--line);
+        box-shadow: var(--shadow);
+      }
+      .menu.open .menu-cta { display: block; }
+      .hero-grid, .service, .booking, .location { grid-template-columns: 1fr; }
+      .hero { padding-top: 3rem; }
+      .hero-art { max-width: 460px; margin: 0 auto; }
+      .service.reverse .service-media { order: 0; }
+      .choices, .steps { grid-template-columns: 1fr; }
+      .steps { gap: 2.2rem; }
+      .location { padding: 2.2rem 1.6rem; text-align: center; }
+      .location .pin { display: none; }
+      .foot-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      section { padding: 4rem 0; }
+      .features, .types, .row { grid-template-columns: 1fr; }
+      .week { grid-template-columns: repeat(2, 1fr); }
+      .week .wday:last-child { grid-column: span 2; }
+      .gallery { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 150px; }
+      .g-item.wide { grid-column: span 2; }
+      .hero-ctas .btn { width: 100%; }
+      form.card { padding: 1.5rem; }
+      .insta-card { padding: 1.4rem; }
+      .insta-nums { width: 100%; justify-content: space-around; }
+      .insta-card .btn { width: 100%; }
+    }
+    .menu-cta { display: none; }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    🐓 Domingo tem Day-Use, das 10h às 16h! <a href="#reservar">Garanta sua vaga</a>
+  </div>
+
+  <!-- ===================== MENU ===================== -->
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="#inicio" class="logo" aria-label="Fazendinha Co-Có-Ri-Có - início">
+        <div class="logo-mark" aria-hidden="true">🐓</div>
+        <div class="logo-text">
+          <strong>Co-Có-Ri-Có</strong>
+          <span>Fazendinha · Buffet Rural</span>
+        </div>
+      </a>
+      <ul class="menu" id="menu">
+        <li><a href="#day-use">Day-Use</a></li>
+        <li><a href="#aniversarios">Aniversários</a></li>
+        <li><a href="#escolas">Escolas</a></li>
+        <li><a href="#agenda">Agenda</a></li>
+        <li><a href="#duvidas">Dúvidas</a></li>
+        <li class="menu-cta"><a href="#reservar" class="btn btn-red">Reservar agora</a></li>
+      </ul>
+      <a href="#reservar" class="btn btn-red nav-cta">Reservar agora</a>
+      <button class="burger" id="burger" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+  <!-- ===================== HERO ===================== -->
+  <section class="hero" id="inicio">
+    <div class="container hero-grid">
+      <div class="reveal">
+        <span class="badge">📍 Cuiabá · MT &nbsp;·&nbsp; 🌿 Diversão no campo</span>
+        <h1>Um dia inteiro de <em>roça</em>, bichinhos e muita alegria!</h1>
+        <p class="lead">
+          Na Fazendinha Co-Có-Ri-Có, a criançada vive o campo de pertinho, e a família toda descansa.
+          Day-Use aos domingos, festas aos sábados e passeios escolares durante a semana.
+        </p>
+        <div class="hero-ctas">
+          <a class="btn btn-wa" data-wa="Olá! Vim pelo site e gostaria de mais informações sobre a Fazendinha Co-Có-Ri-Có. 🐓" href="#" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="#ico-wa"/></svg>
+            Falar no WhatsApp
+          </a>
+          <a class="btn btn-ghost" href="#experiencias">Ver experiências</a>
+        </div>
+        <div class="hero-stats">
+          <div><strong>34 mil</strong><span>seguidores no Instagram</span></div>
+          <div><strong>600+</strong><span>momentos compartilhados</span></div>
+          <div><strong>7 dias</strong><span>de programação</span></div>
+        </div>
+      </div>
+
+      <div class="hero-art reveal" aria-hidden="true">
+        <!-- Ilustração da fazendinha -->
+        <svg viewBox="0 0 500 420" xmlns="http://www.w3.org/2000/svg">
+          <g class="sun">
+            <circle cx="400" cy="90" r="42" fill="#F4B400"/>
+            <g stroke="#F4B400" stroke-width="7" stroke-linecap="round">
+              <line x1="400" y1="25" x2="400" y2="8"/><line x1="400" y1="155" x2="400" y2="172"/>
+              <line x1="335" y1="90" x2="318" y2="90"/><line x1="465" y1="90" x2="482" y2="90"/>
+              <line x1="354" y1="44" x2="342" y2="32"/><line x1="446" y1="136" x2="458" y2="148"/>
+              <line x1="446" y1="44" x2="458" y2="32"/><line x1="354" y1="136" x2="342" y2="148"/>
+            </g>
+          </g>
+          <g class="cloud" fill="#fff"><ellipse cx="110" cy="70" rx="48" ry="22"/><ellipse cx="140" cy="58" rx="30" ry="22"/><ellipse cx="85" cy="60" rx="24" ry="18"/></g>
+          <g class="cloud c2" fill="#fff" opacity=".9"><ellipse cx="270" cy="40" rx="36" ry="15"/><ellipse cx="290" cy="32" rx="22" ry="15"/></g>
+          <!-- colinas -->
+          <path d="M0 300 Q120 230 250 280 T500 260 V420 H0Z" fill="#7CB342"/>
+          <path d="M0 340 Q150 290 300 330 T500 320 V420 H0Z" fill="#558B2F"/>
+          <!-- celeiro -->
+          <g transform="translate(250 150)">
+            <polygon points="0,70 85,10 170,70" fill="#962D22"/>
+            <rect x="12" y="68" width="146" height="112" fill="#C0392B"/>
+            <rect x="12" y="68" width="146" height="10" fill="#962D22"/>
+            <rect x="60" y="110" width="50" height="70" fill="#FFF8EC"/>
+            <path d="M60 110 L110 180 M110 110 L60 180" stroke="#C0392B" stroke-width="6"/>
+            <rect x="60" y="110" width="50" height="70" fill="none" stroke="#FFF8EC" stroke-width="6"/>
+            <circle cx="85" cy="48" r="14" fill="#FFF8EC"/>
+            <path d="M85 38 V58 M75 48 H95" stroke="#962D22" stroke-width="4"/>
+          </g>
+          <!-- cerca -->
+          <g fill="#A1887F">
+            <rect x="20" y="300" width="10" height="55" rx="2"/><rect x="70" y="295" width="10" height="55" rx="2"/>
+            <rect x="120" y="292" width="10" height="55" rx="2"/><rect x="170" y="294" width="10" height="55" rx="2"/>
+            <rect x="10" y="312" width="180" height="8" rx="3"/><rect x="10" y="332" width="180" height="8" rx="3"/>
+          </g>
+          <!-- galo -->
+          <g class="rooster" transform="translate(110 250)">
+            <path d="M-20 30 Q-60 0 -40 -30 Q-20 0 0 10Z" fill="#2E7D32"/>
+            <path d="M-25 25 Q-55 10 -50 -15 Q-25 10 -5 15Z" fill="#F4B400"/>
+            <ellipse cx="10" cy="40" rx="38" ry="30" fill="#FFF8EC"/>
+            <ellipse cx="34" cy="0" rx="18" ry="22" fill="#FFF8EC"/>
+            <path d="M24 -20 q4 -14 10 -2 q5 -14 10 0 q6 -10 6 6Z" fill="#C0392B"/>
+            <polygon points="50,0 64,5 50,10" fill="#F4B400"/>
+            <path d="M44 12 q6 10 -2 14 q-6 -6 2 -14Z" fill="#C0392B"/>
+            <circle cx="40" cy="-3" r="3.5" fill="#2B2118"/>
+            <path d="M0 40 q10 -16 26 -4" stroke="#EADFCC" stroke-width="5" fill="none" stroke-linecap="round"/>
+            <g stroke="#F4B400" stroke-width="5" stroke-linecap="round"><line x1="2" y1="68" x2="0" y2="88"/><line x1="20" y1="68" x2="22" y2="88"/></g>
+          </g>
+          <!-- girassóis -->
+          <g transform="translate(460 300)"><line x1="0" y1="0" x2="0" y2="50" stroke="#2E7D32" stroke-width="5"/><circle r="14" fill="#F4B400"/><circle r="6" fill="#5D4037"/></g>
+          <g transform="translate(225 330)"><line x1="0" y1="0" x2="0" y2="40" stroke="#2E7D32" stroke-width="4"/><circle r="11" fill="#F4B400"/><circle r="5" fill="#5D4037"/></g>
+        </svg>
+      </div>
+    </div>
+    <svg class="hills" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 50 Q360 0 720 40 T1440 30 V90 H0Z" fill="#FFF8EC"/>
+    </svg>
+  </section>
+
+  <!-- ===================== EXPERIÊNCIAS ===================== -->
+  <section id="experiencias" style="padding-top:3rem">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Escolha sua experiência</span>
+        <h2>Cada dia da semana tem uma diversão diferente</h2>
+        <p>Família, festa ou escola: encontre o programa ideal e fale direto com a nossa equipe pelo WhatsApp.</p>
+      </div>
+      <div class="choices">
+        <article class="choice c-dayuse reveal">
+          <div class="icon">🏖️</div>
+          <span class="day">Domingo</span>
+          <h3>Day-Use em família</h3>
+          <p>Um domingo diferente, ao ar livre, com contato com os animais, espaço para as crianças brincarem e a família relaxar.</p>
+          <div class="when">🕙 Das 10h às 16h</div>
+          <a class="more" href="#day-use">Saiba mais →</a>
+        </article>
+        <article class="choice c-festa reveal">
+          <div class="icon">🎉</div>
+          <span class="day">Sábado</span>
+          <h3>Aniversários & Confraternizações</h3>
+          <p>Festas com o charme da roça: aniversário infantil temático, encontro de família, confraternização de empresa ou da turma.</p>
+          <div class="when">📅 Datas sob consulta</div>
+          <a class="more" href="#aniversarios">Saiba mais →</a>
+        </article>
+        <article class="choice c-escola reveal">
+          <div class="icon">🚌</div>
+          <span class="day">Segunda a sexta</span>
+          <h3>Passeios Escolares</h3>
+          <p>Aprendizado fora da sala de aula: a turma conhece a vida no campo, os animais e de onde vêm os alimentos.</p>
+          <div class="when">🏫 Agendamento para escolas</div>
+          <a class="more" href="#escolas">Saiba mais →</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== DAY-USE ===================== -->
+  <section id="day-use" class="bg-white">
+    <div class="container service c-dayuse">
+      <div class="service-media reveal" style="--bgm: linear-gradient(160deg,#FFF4D6,#FFE08A)">
+        <!-- Troque o conteúdo abaixo por uma foto real: <img src="fotos/day-use.jpg" alt="Família no Day-Use" style="width:100%;height:100%;object-fit:cover"> -->
+        <div class="emoji-scene">🐐🐓🐄<br>🌳☀️🧺</div>
+        <div class="tag">🕙 <span>Domingo · <b>10h às 16h</b></span></div>
+      </div>
+      <div class="reveal">
+        <span class="eyebrow">Domingo · Day-Use</span>
+        <h2>Seu domingo no campo, sem sair de Cuiabá</h2>
+        <p>Chegue às 10h e aproveite até às 16h. É o programa perfeito para desligar da rotina, deixar a criançada correr livre e curtir a natureza em família.</p>
+        <ul class="features">
+          <li>Contato com os animais da fazendinha</li>
+          <li>Área verde para brincar à vontade</li>
+          <li>Ambiente pensado para crianças</li>
+          <li>Ótimo para fotos em família</li>
+        </ul>
+        <div class="info-pill">🎟️ Vagas, valores e cardápio do dia pelo WhatsApp</div>
+        <div class="service-actions">
+          <a class="btn btn-wa" data-wa="Olá! Gostaria de informações sobre o Day-Use de domingo (valores, vagas e o que está incluso). 🏖️" href="#" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="#ico-wa"/></svg>
+            Reservar Day-Use
+          </a>
+          <a class="btn btn-ghost" href="#reservar" data-pick="dayuse">Preencher reserva</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ANIVERSÁRIOS ===================== -->
+  <section id="aniversarios">
+    <div class="container service reverse c-festa">
+      <div class="service-media reveal" style="--bgm: linear-gradient(160deg,#FDE7E4,#F8B4AA)">
+        <!-- Troque por uma foto real de festa -->
+        <div class="emoji-scene">🎂🎈🐷<br>🎁🤠🎉</div>
+        <div class="tag">📅 <span>Todo <b>sábado</b></span></div>
+      </div>
+      <div class="reveal">
+        <span class="eyebrow">Sábado · Festas</span>
+        <h2>Aniversários e confraternizações com sabor de roça</h2>
+        <p>Uma festa ao ar livre, em contato com a natureza, que as crianças não esquecem e os adultos aproveitam. Fazemos aniversários infantis, festas de família e confraternizações de empresas e turmas.</p>
+        <ul class="features">
+          <li>Buffet rural completo</li>
+          <li>Espaço amplo ao ar livre</li>
+          <li>Aniversário infantil temático</li>
+          <li>Confraternização de empresas</li>
+          <li>Encontros de família e amigos</li>
+          <li>Diversão garantida para a criançada</li>
+        </ul>
+        <div class="info-pill">⚠️ Os sábados lotam rápido. Consulte sua data com antecedência!</div>
+        <div class="service-actions">
+          <a class="btn btn-wa" data-wa="Olá! Quero fazer um orçamento de festa num sábado na Fazendinha Co-Có-Ri-Có. 🎉" href="#" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="#ico-wa"/></svg>
+            Consultar data
+          </a>
+          <a class="btn btn-ghost" href="#reservar" data-pick="aniversario">Pedir orçamento</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ESCOLAS ===================== -->
+  <section id="escolas" class="bg-green">
+    <div class="container service c-escola">
+      <div class="service-media reveal" style="--bgm: linear-gradient(160deg,#FFFFFF,#C5E1A5)">
+        <!-- Troque por uma foto real de passeio escolar -->
+        <div class="emoji-scene">🚌🧒👧<br>🌽🥚🐑</div>
+        <div class="tag">🏫 <span><b>Segunda a sexta</b></span></div>
+      </div>
+      <div class="reveal">
+        <span class="eyebrow">Seg. a Sex. · Escolas</span>
+        <h2>Passeio escolar: a sala de aula vai para o campo</h2>
+        <p>Uma vivência educativa e divertida para educação infantil e ensino fundamental. Os alunos aprendem sobre os animais, a natureza e a vida rural na prática, num ambiente seguro e preparado para receber turmas.</p>
+        <ul class="features">
+          <li>Vivência com os animais</li>
+          <li>Educação ambiental na prática</li>
+          <li>De onde vêm os alimentos</li>
+          <li>Ambiente seguro para turmas</li>
+          <li>Roteiro alinhado com a escola</li>
+          <li>Lanche para os alunos (consulte)</li>
+        </ul>
+        <div class="info-pill">👩‍🏫 Coordenador(a)? Envie o nº de alunos e a faixa etária</div>
+        <div class="service-actions">
+          <a class="btn btn-wa" data-wa="Olá! Sou da escola e gostaria de agendar um passeio escolar na Fazendinha Co-Có-Ri-Có. 🚌" href="#" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="#ico-wa"/></svg>
+            Agendar passeio
+          </a>
+          <a class="btn btn-ghost" href="#reservar" data-pick="escola">Solicitar proposta</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== AGENDA ===================== -->
+  <section id="agenda">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Agenda da semana</span>
+        <h2>O que acontece em cada dia</h2>
+        <p>Planeje sua visita: confira o que a fazendinha oferece em cada dia da semana.</p>
+      </div>
+      <div class="week reveal" id="week">
+        <div class="wday c-escola" data-d="1"><span class="e">🚌</span><b>Segunda</b><small>Passeios escolares</small></div>
+        <div class="wday c-escola" data-d="2"><span class="e">🚌</span><b>Terça</b><small>Passeios escolares</small></div>
+        <div class="wday c-escola" data-d="3"><span class="e">🚌</span><b>Quarta</b><small>Passeios escolares</small></div>
+        <div class="wday c-escola" data-d="4"><span class="e">🚌</span><b>Quinta</b><small>Passeios escolares</small></div>
+        <div class="wday c-escola" data-d="5"><span class="e">🚌</span><b>Sexta</b><small>Passeios escolares</small></div>
+        <div class="wday c-festa"  data-d="6"><span class="e">🎉</span><b>Sábado</b><small>Aniversários e confraternizações</small></div>
+        <div class="wday c-dayuse" data-d="0"><span class="e">🏖️</span><b>Domingo</b><small>Day-Use<br>10h às 16h</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== COMO FUNCIONA ===================== -->
+  <section class="bg-white">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Como reservar</span>
+        <h2>Reservar é simples como um co-có-ri-có</h2>
+      </div>
+      <div class="steps">
+        <div class="step reveal">
+          <h3>Escolha a experiência</h3>
+          <p>Day-Use no domingo, festa no sábado ou passeio escolar durante a semana.</p>
+        </div>
+        <div class="step reveal">
+          <h3>Fale com a gente</h3>
+          <p>Preencha o formulário ou chame no WhatsApp. Respondemos com valores, disponibilidade e tudo o que está incluso.</p>
+        </div>
+        <div class="step reveal">
+          <h3>É só vir se divertir!</h3>
+          <p>Com a reserva confirmada, enviamos a localização pelo WhatsApp. Aí é só chegar e aproveitar.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== GALERIA ===================== -->
+  <section id="galeria">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Momentos na fazendinha</span>
+        <h2>Veja como é a diversão por aqui</h2>
+        <p>Mais de 600 momentos compartilhados com a nossa comunidade no Instagram.</p>
+      </div>
+      <!-- Para usar fotos reais, troque o emoji de cada .g-item por: <img src="fotos/arquivo.jpg" alt="descrição"> -->
+      <div class="gallery reveal">
+        <div class="g-item tall" style="--g:#FFE08A">🐓<span>Nossos bichinhos</span></div>
+        <div class="g-item" style="--g:#C5E1A5">🐐<span>Day-Use</span></div>
+        <div class="g-item" style="--g:#F8B4AA">🎂<span>Aniversários</span></div>
+        <div class="g-item tall" style="--g:#B3E5FC">🚌<span>Passeio escolar</span></div>
+        <div class="g-item wide" style="--g:#FFCC80">🌻<span>Natureza</span></div>
+        <div class="g-item" style="--g:#E1BEE7">🎈<span>Festas</span></div>
+        <div class="g-item" style="--g:#DCEDC8">🐄<span>Vida no campo</span></div>
+        <div class="g-item" style="--g:#FFF59D">🐣<span>Pintinhos</span></div>
+      </div>
+
+      <div class="insta-card reveal">
+        <div class="who">
+          <div class="avatar" aria-hidden="true">🐓</div>
+          <div>
+            <strong>@fazendinhacocorico</strong>
+            <small>Acompanhe novidades, datas e bastidores</small>
+          </div>
+        </div>
+        <div class="insta-nums">
+          <div><b>627</b><small>publicações</small></div>
+          <div><b>34 mil</b><small>seguidores</small></div>
+        </div>
+        <a class="btn btn-insta" href="https://www.instagram.com/fazendinhacocorico/" target="_blank" rel="noopener">Seguir no Instagram</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== RESERVA ===================== -->
+  <section id="reservar" class="bg-white">
+    <div class="container booking">
+      <div class="booking-info reveal">
+        <span class="eyebrow">Reservas e orçamentos</span>
+        <h2>Vamos marcar o seu dia na fazendinha?</h2>
+        <p>Preencha os dados ao lado e sua mensagem chega pronta no nosso WhatsApp. Assim a gente responde mais rápido, com valores e disponibilidade.</p>
+        <ul class="contact-list">
+          <li>
+            <div class="ci">📲</div>
+            <div><small>WhatsApp</small><b><a data-wa="Olá! Vim pelo site. 🐓" href="#" target="_blank" rel="noopener" class="wa-number">+55 65 9982-0746</a></b></div>
+          </li>
+          <li>
+            <div class="ci">📍</div>
+            <div><small>Localização</small><b>Cuiabá · MT (enviamos pelo WhatsApp)</b></div>
+          </li>
+          <li>
+            <div class="ci">📸</div>
+            <div><small>Instagram</small><b><a href="https://www.instagram.com/fazendinhacocorico/" target="_blank" rel="noopener">@fazendinhacocorico</a></b></div>
+          </li>
+        </ul>
+      </div>
+
+      <form class="card reveal" id="form" novalidate>
+        <h3>Solicitar reserva / orçamento</h3>
+        <p>Leva menos de 1 minuto. 😉</p>
+
+        <fieldset style="border:0">
+          <legend class="field" style="font-weight:800;font-size:.92rem;margin-bottom:.5rem">O que você deseja?</legend>
+          <div class="types">
+            <input type="radio" name="tipo" id="t-dayuse" value="dayuse" checked>
+            <label for="t-dayuse"><span class="e">🏖️</span><span>Day-Use<small>Domingo, 10h–16h</small></span></label>
+
+            <input type="radio" name="tipo" id="t-aniversario" value="aniversario">
+            <label for="t-aniversario"><span class="e">🎂</span><span>Aniversário<small>Sábado</small></span></label>
+
+            <input type="radio" name="tipo" id="t-confra" value="confra">
+            <label for="t-confra"><span class="e">🥂</span><span>Confraternização<small>Sábado</small></span></label>
+
+            <input type="radio" name="tipo" id="t-escola" value="escola">
+            <label for="t-escola"><span class="e">🚌</span><span>Passeio escolar<small>Segunda a sexta</small></span></label>
+          </div>
+        </fieldset>
+
+        <div class="row">
+          <div class="field">
+            <label for="nome">Seu nome *</label>
+            <input id="nome" name="nome" type="text" autocomplete="name" required placeholder="Como podemos te chamar?">
+          </div>
+          <div class="field">
+            <label for="data">Data desejada</label>
+            <input id="data" name="data" type="date">
+            <span class="date-hint" id="dateHint" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="pessoas" id="pessoasLabel">Quantas pessoas?</label>
+            <input id="pessoas" name="pessoas" type="number" min="1" inputmode="numeric" placeholder="Ex.: 4">
+          </div>
+          <div class="field" id="campoAniv">
+            <label for="aniversariante">Aniversariante e idade</label>
+            <input id="aniversariante" name="aniversariante" type="text" placeholder="Ex.: Laura, 5 anos">
+          </div>
+          <div class="field" id="campoEscola">
+            <label for="escola">Nome da escola</label>
+            <input id="escola" name="escola" type="text" placeholder="Ex.: Escola Municipal...">
+          </div>
+          <div class="field" id="campoEmpresa">
+            <label for="grupo">Empresa / grupo</label>
+            <input id="grupo" name="grupo" type="text" placeholder="Ex.: Equipe da empresa X">
+          </div>
+        </div>
+
+        <div class="field" id="campoIdade">
+          <label for="idade">Série / faixa etária da turma</label>
+          <input id="idade" name="idade" type="text" placeholder="Ex.: Infantil 4 e 5 / 2º ano">
+        </div>
+
+        <div class="field">
+          <label for="msg">Mensagem (opcional)</label>
+          <textarea id="msg" name="msg" placeholder="Conte pra gente o que você imagina..."></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-wa">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="#ico-wa"/></svg>
+          Enviar pelo WhatsApp
+        </button>
+        <p class="form-note">Ao enviar, o WhatsApp abre com a sua mensagem pronta. É só tocar em enviar.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ===================== FAQ ===================== -->
+  <section id="duvidas">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Dúvidas frequentes</span>
+        <h2>Perguntas que a gente sempre recebe</h2>
+      </div>
+      <div class="faq reveal">
+        <details>
+          <summary>Qual o horário do Day-Use?</summary>
+          <p>O Day-Use acontece aos domingos, das 10h às 16h. Recomendamos garantir sua vaga antes pelo WhatsApp.</p>
+        </details>
+        <details>
+          <summary>Onde fica a fazendinha?</summary>
+          <p>Estamos em Cuiabá, MT. Para facilitar sua chegada, enviamos a localização exata pelo WhatsApp. É só pedir!</p>
+        </details>
+        <details>
+          <summary>Preciso reservar com antecedência?</summary>
+          <p>Sim, principalmente para festas aos sábados e passeios escolares, que costumam ter as datas disputadas. Para o Day-Use, consulte a disponibilidade de vagas.</p>
+        </details>
+        <details>
+          <summary>Quais são os valores?</summary>
+          <p>Os valores variam conforme a experiência (Day-Use, festa ou passeio escolar), a quantidade de pessoas e o pacote escolhido. Envie sua solicitação pelo formulário e respondemos com um orçamento.</p>
+        </details>
+        <details>
+          <summary>Vocês fazem festas em outros dias além do sábado?</summary>
+          <p>Os sábados são dedicados a aniversários e confraternizações. Para outras datas, fale com a gente pelo WhatsApp e vemos a disponibilidade.</p>
+        </details>
+        <details>
+          <summary>Como funciona o passeio escolar?</summary>
+          <p>Recebemos turmas de segunda a sexta. A escola informa a quantidade de alunos, a faixa etária e a data desejada, e montamos a proposta da visita com a coordenação.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== LOCALIZAÇÃO ===================== -->
+  <section style="padding-top:0">
+    <div class="container">
+      <div class="location reveal">
+        <div>
+          <h2>Estamos esperando por você em Cuiabá!</h2>
+          <p>Peça nossa localização pelo WhatsApp e receba o caminho direto no seu celular. Pertinho da cidade, com cara de interior.</p>
+          <a class="btn btn-wa" data-wa="Olá! Poderia me enviar a localização da Fazendinha Co-Có-Ri-Có? 📍" href="#" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="#ico-wa"/></svg>
+            Pedir localização
+          </a>
+        </div>
+        <div class="pin" aria-hidden="true">📍</div>
+      </div>
+    </div>
+  </section>
+  </main>
+
+  <!-- ===================== RODAPÉ ===================== -->
+  <footer>
+    <div class="container">
+      <div class="foot-grid">
+        <div>
+          <div class="logo">
+            <div class="logo-mark" aria-hidden="true">🐓</div>
+            <div class="logo-text"><strong>Co-Có-Ri-Có</strong><span>Fazendinha · Buffet Rural</span></div>
+          </div>
+          <p class="about">Diversão, natureza e o jeitinho do campo para famílias, festas e escolas de Cuiabá e região.</p>
+        </div>
+        <div>
+          <h4>Programação</h4>
+          <ul>
+            <li><a href="#day-use">🏖️ Domingo: Day-Use, 10h às 16h</a></li>
+            <li><a href="#aniversarios">🎉 Sábado: Aniversários e confraternizações</a></li>
+            <li><a href="#escolas">🚌 Seg. a sex.: Passeios escolares</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contato</h4>
+          <ul>
+            <li><a data-wa="Olá! Vim pelo site. 🐓" href="#" target="_blank" rel="noopener">📲 +55 65 9982-0746</a></li>
+            <li><a href="https://www.instagram.com/fazendinhacocorico/" target="_blank" rel="noopener">📸 @fazendinhacocorico</a></li>
+            <li>📍 Cuiabá · MT</li>
+          </ul>
+        </div>
+      </div>
+      <div class="copy">© <span id="year"></span> Fazendinha Co-Có-Ri-Có | Buffet Rural · Cuiabá, MT</div>
+    </div>
+  </footer>
+
+  <a class="wa-float" data-wa="Olá! Vim pelo site e gostaria de mais informações. 🐓" href="#" target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-wa"/></svg>
+  </a>
+
+  <!-- Ícone do WhatsApp (reutilizado) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="ico-wa" viewBox="0 0 24 24">
+      <path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.21 3.08.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35M12.05 21.5h-.01a9.43 9.43 0 0 1-4.8-1.31l-.35-.21-3.57.94.95-3.48-.22-.36A9.4 9.4 0 0 1 2.6 12c0-5.2 4.24-9.44 9.46-9.44a9.38 9.38 0 0 1 6.68 2.77 9.38 9.38 0 0 1 2.77 6.68c0 5.21-4.24 9.45-9.45 9.45m8.04-17.5A11.3 11.3 0 0 0 12.05.7C5.79.7.7 5.79.7 12.05c0 2 .52 3.95 1.52 5.67L.6 23.6l6.02-1.58a11.33 11.33 0 0 0 5.42 1.38h.01c6.26 0 11.35-5.09 11.35-11.35 0-3.03-1.18-5.88-3.32-8.03"/>
+    </symbol>
+  </svg>
+
+  <script>
+    // ===== Configuração: número do WhatsApp (somente dígitos, com DDI 55 + DDD) =====
+    const WHATSAPP = '556599820746';
+
+    const waLink = (text) => `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(text)}`;
+
+    document.querySelectorAll('[data-wa]').forEach((a) => { a.href = waLink(a.dataset.wa); });
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ===== Menu mobile =====
+    const burger = document.getElementById('burger');
+    const menu = document.getElementById('menu');
+    burger.addEventListener('click', () => {
+      const open = menu.classList.toggle('open');
+      burger.setAttribute('aria-expanded', open);
+      burger.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+    });
+    menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => {
+      menu.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+    }));
+
+    // ===== Destaca o dia de hoje na agenda =====
+    const today = new Date().getDay();
+    const todayEl = document.querySelector(`.wday[data-d="${today}"]`);
+    if (todayEl) todayEl.classList.add('today');
+
+    // ===== Animação ao rolar =====
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+
+    // ===== Formulário inteligente =====
+    const form = document.getElementById('form');
+    const dataInput = document.getElementById('data');
+    const hint = document.getElementById('dateHint');
+    const pessoasLabel = document.getElementById('pessoasLabel');
+    const pessoasInput = document.getElementById('pessoas');
+
+    const TIPOS = {
+      dayuse:      { nome: 'Day-Use (domingo, 10h às 16h)', dias: [0], diasTxt: 'domingo', pessoas: 'Quantas pessoas? (adultos e crianças)', ph: 'Ex.: 2 adultos e 2 crianças', campos: [] },
+      aniversario: { nome: 'Festa de aniversário (sábado)', dias: [6], diasTxt: 'sábado', pessoas: 'Número de convidados', ph: 'Ex.: 80', campos: ['campoAniv'] },
+      confra:      { nome: 'Confraternização (sábado)', dias: [6], diasTxt: 'sábado', pessoas: 'Número de convidados', ph: 'Ex.: 50', campos: ['campoEmpresa'] },
+      escola:      { nome: 'Passeio escolar (segunda a sexta)', dias: [1, 2, 3, 4, 5], diasTxt: 'segunda a sexta', pessoas: 'Número de alunos', ph: 'Ex.: 40 alunos + 4 professores', campos: ['campoEscola', 'campoIdade'] },
+    };
+    const OPCIONAIS = ['campoAniv', 'campoEscola', 'campoEmpresa', 'campoIdade'];
+
+    const tipoAtual = () => form.querySelector('input[name="tipo"]:checked').value;
+
+    function atualizarCampos() {
+      const t = TIPOS[tipoAtual()];
+      OPCIONAIS.forEach((id) => document.getElementById(id).classList.toggle('hidden', !t.campos.includes(id)));
+      pessoasLabel.textContent = t.pessoas;
+      pessoasInput.placeholder = t.ph;
+      validarData();
+    }
+
+    function validarData() {
+      hint.className = 'date-hint';
+      hint.textContent = '';
+      if (!dataInput.value) return;
+      const [y, m, d] = dataInput.value.split('-').map(Number);
+      const dia = new Date(y, m - 1, d).getDay();
+      const t = TIPOS[tipoAtual()];
+      if (t.dias.includes(dia)) {
+        hint.classList.add('ok');
+        hint.textContent = '✓ Data compatível';
+      } else {
+        hint.classList.add('warn');
+        hint.textContent = `Atenção: essa opção acontece de ${t.diasTxt}.`;
+      }
+    }
+
+    form.querySelectorAll('input[name="tipo"]').forEach((r) => r.addEventListener('change', atualizarCampos));
+    dataInput.addEventListener('change', validarData);
+    const hoje = new Date();
+    dataInput.min = `${hoje.getFullYear()}-${String(hoje.getMonth() + 1).padStart(2, '0')}-${String(hoje.getDate()).padStart(2, '0')}`;
+
+    // Botões "Preencher reserva" já marcam o tipo certo
+    document.querySelectorAll('[data-pick]').forEach((b) => b.addEventListener('click', () => {
+      document.getElementById('t-' + b.dataset.pick).checked = true;
+      atualizarCampos();
+    }));
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const nome = form.nome.value.trim();
+      if (!nome) { form.nome.focus(); form.nome.style.borderColor = 'var(--red)'; return; }
+      form.nome.style.borderColor = '';
+
+      const tipo = tipoAtual();
+      const t = TIPOS[tipo];
+      const linhas = [`Olá! Vim pelo site da Fazendinha Co-Có-Ri-Có 🐓`, ``, `*Nome:* ${nome}`, `*Interesse:* ${t.nome}`];
+
+      if (dataInput.value) {
+        const [y, m, d] = dataInput.value.split('-');
+        linhas.push(`*Data desejada:* ${d}/${m}/${y}`);
+      }
+      if (pessoasInput.value) linhas.push(`*${t.pessoas.split('?')[0].replace(/\s*\(.*\)/, '')}:* ${pessoasInput.value}`);
+      if (tipo === 'aniversario' && form.aniversariante.value.trim()) linhas.push(`*Aniversariante:* ${form.aniversariante.value.trim()}`);
+      if (tipo === 'confra' && form.grupo.value.trim()) linhas.push(`*Empresa/grupo:* ${form.grupo.value.trim()}`);
+      if (tipo === 'escola') {
+        if (form.escola.value.trim()) linhas.push(`*Escola:* ${form.escola.value.trim()}`);
+        if (form.idade.value.trim()) linhas.push(`*Turma/faixa etária:* ${form.idade.value.trim()}`);
+      }
+      if (form.msg.value.trim()) linhas.push(``, form.msg.value.trim());
+      linhas.push(``, `Gostaria de saber valores e disponibilidade. Obrigado(a)!`);
+
+      window.open(waLink(linhas.join('\n')), '_blank', 'noopener');
+    });
+
+    atualizarCampos();
+  </script>
+</body>
+</html>
