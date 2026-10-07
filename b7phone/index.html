@@ -506,7 +506,7 @@
             <div class="phone phone-b" data-phone="base" data-color="#9DB4C8"></div>
           </div>
           <figure class="hero-photo main" data-photo-box="remove" data-hero-main><img data-foto="hero" data-w="1100" alt="Cliente segurando um iPhone Pro" fetchpriority="high"></figure>
-          <figure class="hero-photo sub" data-photo-box="remove"><img data-foto="hero2" data-w="600" alt="Câmera traseira de um iPhone Pro"></figure>
+          <figure class="hero-photo sub" data-photo-box="remove"><img data-foto="hero2" data-w="600" alt="iPhone 17 Pro na cor laranja-cósmico"></figure>
           <div class="hero-chip chip-1">
             <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-swap"/></svg></div>
             <div><b>Seu usado vale entrada</b><small>Avaliação na hora</small></div>
@@ -560,7 +560,7 @@
             <p>Todo seminovo passa por revisão completa antes de ir pra vitrine. Você sabe exatamente o estado do aparelho antes de comprar.</p>
           </div>
           <figure class="photo reveal" data-photo-box="remove">
-            <img data-foto="seminovos" alt="iPhone Pro seminovo sobre a mesa" loading="lazy">
+            <img data-foto="seminovos" alt="iPhone 15 Pro seminovo em titânio natural" loading="lazy">
             <figcaption class="ph-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-shield"/></svg> Revisado e com garantia</figcaption>
           </figure>
         </div>
@@ -609,7 +609,7 @@
             <div class="step"><div class="n">3</div><div><b>Escolha o novo</b><span>A diferença você paga no Pix ou parcela no cartão.</span></div></div>
           </div>
           <figure class="photo steps-photo" data-photo-box="remove">
-            <img data-foto="troca" alt="Cliente abrindo a caixa de um iPhone novo" loading="lazy">
+            <img data-foto="troca" alt="iPhone 15 Pro Max fora da caixa, com cabo e manual" loading="lazy">
             <figcaption class="ph-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-swap"/></svg> Saia com o novo no mesmo dia</figcaption>
           </figure>
         </div>
@@ -819,7 +819,7 @@
         <span>© <span id="year"></span> B7 Phone. Todos os direitos reservados.</span>
         <span>iPhone é marca registrada da Apple Inc. Revenda independente.</span>
       </div>
-      <p class="photo-note" style="margin-top: 12px;">Imagens meramente ilustrativas. Fotos: <a href="https://www.pexels.com" target="_blank" rel="noopener" style="text-decoration: underline;">Pexels</a> (Ana Quirosa, Zana Latif <a href="https://instagram.com/zana_qaradaghy" target="_blank" rel="noopener">@zana_qaradaghy</a>, Ingo Joseph e outros fotógrafos).</p>
+      <p class="photo-note" style="margin-top: 12px;">Imagens meramente ilustrativas. Fotos: <a href="https://www.pexels.com" target="_blank" rel="noopener" style="text-decoration: underline;">Pexels</a> (Ana Quirosa, Zana Latif <a href="https://instagram.com/zana_qaradaghy" target="_blank" rel="noopener">@zana_qaradaghy</a>, Ingo Joseph e outros fotógrafos), uso gratuito pela licença Pexels.</p>
     </div>
   </footer>
 
@@ -872,25 +872,25 @@
       parcelas: 12,
     };
 
-    /* FOTOS — use o número de uma foto do Pexels (pexels.com/photo/...-NÚMERO/)
-       ou o caminho de uma foto própria, ex.: 'fotos/vitrine.jpg'.
-       O ideal é trocar pelas fotos reais da loja (as mesmas do Instagram).
+    /* FOTOS — ficam na pasta fotos/. Para trocar, substitua o arquivo (mesmo nome)
+       ou aponte para outro caminho. Também aceita o número de uma foto do Pexels.
+       O ideal é usar as fotos reais da loja (as mesmas do Instagram).
        Se uma foto não carregar, o site mostra a ilustração no lugar. */
     const FOTOS = {
-      hero: 19060767,        // pessoa segurando iPhone 15 Pro
-      hero2: 19060954,       // close da câmera do iPhone 15 Pro
-      seminovos: 10914594,   // mão segurando iPhone
-      troca: 18525574,       // unboxing iPhone 15 Pro Max — Zana Latif (@zana_qaradaghy)
-      assistencia: 6755075,  // conserto com chave de precisão
-      instagram: [9995704, 18780711, 17469184, 4351905, 5053985, 9667337],
+      hero: 'fotos/hero.jpg',               // cliente segurando iPhone Pro
+      hero2: 'fotos/hero2.jpg',             // iPhone 17 Pro laranja-cósmico
+      seminovos: 'fotos/seminovos.jpg',     // iPhone 15 Pro titânio natural
+      troca: 'fotos/troca.jpg',             // unboxing iPhone 15 Pro Max — Zana Latif (@zana_qaradaghy)
+      assistencia: 'fotos/assistencia.jpg', // conserto com chave de precisão
+      instagram: ['fotos/ig-1.jpg', 'fotos/ig-2.jpg', 'fotos/ig-3.jpg', 'fotos/ig-4.jpg', 'fotos/ig-5.jpg', 'fotos/ig-6.jpg'],
     };
 
     /* PRODUTOS — preco: null mostra "Consulte o valor". Ex.: preco: 7499
        foto: opcional (mesmo formato de FOTOS). Sem foto, aparece a ilustração na cor escolhida. */
     const PRODUTOS = [
-      { nome: 'iPhone 17 Pro Max', cat: 'lacrado', tipo: 'pro', tag: 'Lançamento', armaz: ['256GB', '512GB', '1TB', '2TB'],
+      { nome: 'iPhone 17 Pro Max', cat: 'lacrado', tipo: 'pro', tag: 'Lançamento', armaz: ['256GB', '512GB', '1TB', '2TB'], foto: 'fotos/p-17promax.jpg',
         cores: [['Laranja-cósmico', '#C8692F'], ['Azul-profundo', '#2E3B57'], ['Prateado', '#D7D7DA']], preco: null },
-      { nome: 'iPhone 17 Pro', cat: 'lacrado', tipo: 'pro', tag: 'Lançamento', armaz: ['256GB', '512GB', '1TB'],
+      { nome: 'iPhone 17 Pro', cat: 'lacrado', tipo: 'pro', tag: 'Lançamento', armaz: ['256GB', '512GB', '1TB'], foto: 'fotos/p-17pro.jpg',
         cores: [['Laranja-cósmico', '#C8692F'], ['Azul-profundo', '#2E3B57'], ['Prateado', '#D7D7DA']], preco: null },
       { nome: 'iPhone Air', cat: 'lacrado', tipo: 'air', armaz: ['256GB', '512GB', '1TB'],
         cores: [['Azul-céu', '#C9D8E8'], ['Dourado-claro', '#E9DCC4'], ['Branco-nuvem', '#EEEEEC'], ['Preto-espacial', '#2A2A2E']], preco: null },
@@ -898,22 +898,22 @@
         cores: [['Azul-névoa', '#9DB4C8'], ['Lavanda', '#B6A9D6'], ['Sálvia', '#A9BFA3'], ['Branco', '#EDEDED'], ['Preto', '#2B2B2F']], preco: null },
       { nome: 'iPhone 16', cat: 'lacrado', tipo: 'base', armaz: ['128GB', '256GB'],
         cores: [['Ultramarino', '#5A6FD8'], ['Verde-acinzentado', '#8FB9B2'], ['Rosa', '#EBB9C9'], ['Branco', '#EDEDED'], ['Preto', '#2B2B2F']], preco: null },
-      { nome: 'iPhone 16 Pro Max', cat: 'seminovo', tipo: 'pro', tag: 'Grau A+', bateria: '90%+', armaz: ['256GB', '512GB'],
-        cores: [['Titânio-deserto', '#C2A88C'], ['Titânio natural', '#A8A49C'], ['Titânio preto', '#3A3A3C']], preco: null },
-      { nome: 'iPhone 16 Pro', cat: 'seminovo', tipo: 'pro', tag: 'Grau A', bateria: '90%+', armaz: ['128GB', '256GB'],
-        cores: [['Titânio-deserto', '#C2A88C'], ['Titânio branco', '#E5E3DE'], ['Titânio preto', '#3A3A3C']], preco: null },
-      { nome: 'iPhone 15 Pro Max', cat: 'seminovo', tipo: 'pro', tag: 'Grau A', bateria: '85%+', armaz: ['256GB', '512GB'], foto: 19060954,
-        cores: [['Titânio azul', '#3F4A5C'], ['Titânio natural', '#A8A49C'], ['Titânio preto', '#3A3A3C']], preco: null },
-      { nome: 'iPhone 15', cat: 'seminovo', tipo: 'base', tag: 'Custo-benefício', bateria: '85%+', armaz: ['128GB', '256GB'],
-        cores: [['Azul', '#C9D6E0'], ['Rosa', '#EBCFD3'], ['Preto', '#3A3B3D']], preco: null },
+      { nome: 'iPhone 16 Pro Max', cat: 'seminovo', tipo: 'pro', tag: 'Grau A+', bateria: '90%+', armaz: ['256GB', '512GB'], foto: 'fotos/p-16promax.jpg',
+        cores: [['Titânio natural', '#A8A49C'], ['Titânio-deserto', '#C2A88C'], ['Titânio preto', '#3A3A3C']], preco: null },
+      { nome: 'iPhone 16 Pro', cat: 'seminovo', tipo: 'pro', tag: 'Grau A', bateria: '90%+', armaz: ['128GB', '256GB'], foto: 'fotos/p-16pro.jpg',
+        cores: [['Titânio branco', '#E5E3DE'], ['Titânio-deserto', '#C2A88C'], ['Titânio preto', '#3A3A3C']], preco: null },
+      { nome: 'iPhone 15 Pro Max', cat: 'seminovo', tipo: 'pro', tag: 'Grau A', bateria: '85%+', armaz: ['256GB', '512GB'], foto: 'fotos/p-15promax.jpg',
+        cores: [['Titânio natural', '#A8A49C'], ['Titânio azul', '#3F4A5C'], ['Titânio preto', '#3A3A3C']], preco: null },
+      { nome: 'iPhone 15', cat: 'seminovo', tipo: 'base', tag: 'Custo-benefício', bateria: '85%+', armaz: ['128GB', '256GB'], foto: 'fotos/p-15.jpg',
+        cores: [['Rosa', '#EBCFD3'], ['Azul', '#C9D6E0'], ['Preto', '#3A3B3D']], preco: null },
       { nome: 'iPhone 14', cat: 'seminovo', tipo: 'base', bateria: '85%+', armaz: ['128GB', '256GB'],
         cores: [['Meia-noite', '#2B2F36'], ['Estelar', '#ECE6DC'], ['Roxo', '#C9BFD9']], preco: null },
-      { nome: 'iPhone 13', cat: 'seminovo', tipo: 'base', tag: 'Menor preço', bateria: '85%+', armaz: ['128GB', '256GB'], foto: 9667337,
-        cores: [['Meia-noite', '#2B2F36'], ['Estelar', '#ECE6DC'], ['Azul', '#2E5A7A']], preco: null },
-      { nome: 'AirPods', cat: 'acessorio', icon: 'i-buds', desc: 'AirPods 4 e AirPods Pro', preco: null, foto: 5099868 },
-      { nome: 'Apple Watch', cat: 'acessorio', icon: 'i-watch', desc: 'Series e SE, várias pulseiras', preco: null, foto: 1682821 },
-      { nome: 'Carregadores e cabos', cat: 'acessorio', icon: 'i-bolt', desc: 'Fontes 20W/35W e cabos USB-C', preco: null, foto: 3921630 },
-      { nome: 'Capas e películas', cat: 'acessorio', icon: 'i-case', desc: 'Proteção para todos os modelos', preco: null },
+      { nome: 'iPhone 13', cat: 'seminovo', tipo: 'base', tag: 'Menor preço', bateria: '85%+', armaz: ['128GB', '256GB'], foto: 'fotos/p-13.jpg',
+        cores: [['Azul', '#2E5A7A'], ['Meia-noite', '#2B2F36'], ['Estelar', '#ECE6DC']], preco: null },
+      { nome: 'AirPods', cat: 'acessorio', icon: 'i-buds', desc: 'AirPods 4 e AirPods Pro', preco: null, foto: 'fotos/a-airpods.jpg' },
+      { nome: 'Apple Watch', cat: 'acessorio', icon: 'i-watch', desc: 'Series e SE, várias pulseiras', preco: null, foto: 'fotos/a-watch.jpg' },
+      { nome: 'Carregadores e cabos', cat: 'acessorio', icon: 'i-bolt', desc: 'Fontes 20W/35W e cabos USB-C', preco: null, foto: 'fotos/a-carregadores.jpg' },
+      { nome: 'Capas e películas', cat: 'acessorio', icon: 'i-case', desc: 'Proteção para todos os modelos', preco: null, foto: 'fotos/a-capas.jpg' },
     ];
 
     const SERVICOS = [
