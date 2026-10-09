@@ -1,0 +1,154 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>Orçamento Hevy</title>
+<style>
+@page{size:A4;margin:0}
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#05050A;--blue:#1852E8;--blue2:#4F7DFF;--ink:#0D0D1A;--muted:#5A5A72;--line:#E4E6F0;--soft:#F4F6FC;--green:#12A150}
+body{font-family:Inter,sans-serif;color:var(--ink);font-size:10.5pt;line-height:1.5;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.page{width:210mm;height:297mm;position:relative;overflow:hidden;page-break-after:always}
+.page:last-child{page-break-after:auto}
+.hero{background:var(--bg);color:#F0F0FF;padding:13mm 16mm 10mm;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;right:-60mm;top:-60mm;width:150mm;height:150mm;border-radius:50%;background:radial-gradient(circle,rgba(24,82,232,.55),rgba(24,82,232,0) 65%)}
+.brand{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1;font-size:9pt;color:#9A9AB8}
+.logo{font-weight:800;font-size:13pt;color:#fff;letter-spacing:-.3px}.logo b{color:var(--blue2)}
+.tag{display:inline-block;margin-top:9mm;font-size:8pt;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue2);position:relative;z-index:1}
+h1{font-size:25pt;line-height:1.1;font-weight:800;letter-spacing:-.8px;margin-top:3mm;position:relative;z-index:1;max-width:175mm}
+h1 span{color:var(--blue2)}
+.sub{margin-top:4mm;color:#B8B8D0;font-size:11pt;max-width:145mm;position:relative;z-index:1}
+.meta{display:flex;gap:9mm;margin-top:6mm;position:relative;z-index:1;font-size:8.5pt;color:#9A9AB8}
+.meta strong{display:block;color:#fff;font-size:10pt;font-weight:600}
+.body{padding:8mm 16mm}
+h2{font-size:14pt;font-weight:800;letter-spacing:-.3px;margin-bottom:3mm}
+h2 small{display:block;font-size:7.5pt;letter-spacing:2px;text-transform:uppercase;color:var(--blue);font-weight:700;margin-bottom:1mm}
+p.lead{color:var(--muted);margin-bottom:4mm}
+.pain{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm;margin-bottom:6mm}
+.card{background:var(--soft);border-radius:3mm;padding:4.5mm}
+.card .n{font-size:17pt;font-weight:800;color:var(--blue);line-height:1}
+.card p{font-size:9pt;color:var(--muted);margin-top:1.5mm}
+.feat{display:grid;grid-template-columns:1fr 1fr;gap:0 6mm}
+.f{display:flex;gap:3mm;align-items:flex-start;padding:2mm 0;border-bottom:1px solid var(--line)}
+.ck{flex:0 0 5mm;height:5mm;border-radius:50%;background:var(--blue);color:#fff;font-size:8pt;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:.3mm}
+.f b{display:block;font-size:10pt}.f span{font-size:8.6pt;color:var(--muted)}
+.foot{position:absolute;bottom:0;left:0;right:0;padding:5mm 16mm;font-size:8pt;color:var(--muted);display:flex;justify-content:space-between;border-top:1px solid var(--line)}
+/* page 2 */
+.price{display:grid;grid-template-columns:1.35fr 1fr;gap:5mm;margin-bottom:7mm}
+.main{background:var(--bg);color:#fff;border-radius:4mm;padding:7mm;position:relative;overflow:hidden}
+.main:after{content:"";position:absolute;right:-30mm;bottom:-40mm;width:90mm;height:90mm;border-radius:50%;background:radial-gradient(circle,rgba(24,82,232,.6),rgba(24,82,232,0) 65%)}
+.main>*{position:relative;z-index:1}
+.lbl{font-size:7.5pt;letter-spacing:2px;text-transform:uppercase;color:var(--blue2);font-weight:700}
+.old{color:#8A8AA8;text-decoration:line-through;font-size:11pt;margin-top:3mm}
+.val{font-size:38pt;font-weight:800;letter-spacing:-1.5px;line-height:1.05}
+.val small{font-size:15pt;font-weight:700;margin-right:1mm}
+.save{display:inline-block;background:var(--green);color:#fff;font-size:8pt;font-weight:700;padding:1mm 3mm;border-radius:10mm;margin-top:2mm}
+.split{display:flex;gap:3mm;margin-top:5mm}
+.split div{flex:1;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:2.5mm;padding:3mm}
+.split b{display:block;font-size:12.5pt;white-space:nowrap}.split span{font-size:8pt;color:#B8B8D0}
+.maint{border:2px dashed #BFCBEF;border-radius:4mm;padding:6mm;background:#F8FAFF}
+.opt{display:inline-block;font-size:7pt;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;background:#E3EAFD;color:var(--blue);padding:.8mm 2.5mm;border-radius:10mm}
+.maint .v{font-size:24pt;font-weight:800;color:var(--ink);margin-top:2mm;letter-spacing:-.8px}.maint .v small{font-size:10pt;color:var(--muted);font-weight:600}
+.maint ul{list-style:none;margin-top:2mm;font-size:8.6pt;color:var(--muted)}
+.maint li{padding:1mm 0 1mm 4mm;position:relative}.maint li:before{content:"";position:absolute;left:0;top:2.6mm;width:1.6mm;height:1.6mm;border-radius:50%;background:var(--blue)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:3mm;margin-bottom:7mm}
+.st{border-top:3px solid var(--blue);padding-top:2.5mm}
+.st em{font-style:normal;font-size:7.5pt;font-weight:700;color:var(--blue);letter-spacing:1px}
+.st b{display:block;font-size:9.8pt;margin-top:.5mm}.st span{font-size:8.3pt;color:var(--muted)}
+.guar{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm;margin-bottom:7mm}
+.g{background:var(--soft);border-radius:3mm;padding:4mm}
+.g b{display:block;font-size:9.8pt}.g span{font-size:8.4pt;color:var(--muted)}
+.cta{background:linear-gradient(120deg,#1852E8,#3A6BFF);color:#fff;border-radius:4mm;padding:6mm 7mm;display:flex;justify-content:space-between;align-items:center;gap:6mm}
+.cta h3{font-size:14pt;font-weight:800;letter-spacing:-.3px}.cta p{font-size:9pt;opacity:.9;margin-top:1mm}
+.btn{background:#fff;color:var(--blue);font-weight:800;font-size:10pt;padding:3.5mm 5mm;border-radius:2.5mm;white-space:nowrap;text-decoration:none}
+.urg{margin-top:4mm;font-size:8.6pt;color:var(--muted);text-align:center}
+.urg b{color:#D2335C}
+</style></head><body>
+
+<section class="page">
+  <div class="hero">
+    <div class="brand"><div class="logo">Vision<b>Web</b></div><div>Proposta Comercial Nº 2026-1009</div></div>
+    <div class="tag">Proposta exclusiva para</div>
+    <h1>Hevy Centro de Movimento: um site que <span>enche a agenda</span> de alunos.</h1>
+    <p class="sub">Um site profissional, rápido e pensado para transformar quem pesquisa no Google e no Instagram em alunos matriculados — direto no seu WhatsApp.</p>
+    <div class="meta">
+      <div>Cliente<strong>Hevy Centro de Movimento</strong></div>
+      <div>Emissão<strong>09/10/2026</strong></div>
+      <div>Validade<strong>7 dias</strong></div>
+    </div>
+  </div>
+  <div class="body">
+    <h2><small>Por que agora</small>Seus futuros alunos já estão procurando por você</h2>
+    <p class="lead">Antes de entrar em contato, a maioria das pessoas pesquisa o estúdio na internet. Se não encontra um site claro e confiável, ela segue para o concorrente. Com um site profissional, a Hevy passa a aparecer bem e a receber contatos o dia inteiro, sem depender só do boca a boca.</p>
+    <div class="pain">
+      <div class="card"><div class="n">24h</div><p>Seu estúdio apresentado e captando contatos todos os dias, inclusive fora do horário de atendimento.</p></div>
+      <div class="card"><div class="n">1 clique</div><p>Do site direto para o WhatsApp da Hevy, já com uma mensagem pronta para agendar a aula experimental.</p></div>
+      <div class="card"><div class="n">+ Confiança</div><p>Fotos, modalidades, depoimentos e localização: tudo o que a pessoa precisa ver para escolher a Hevy.</p></div>
+    </div>
+    <h2><small>O que está incluso</small>Tudo pronto para vender, sem dor de cabeça</h2>
+    <div class="feat">
+      <div class="f"><div class="ck">✓</div><div><b>Design exclusivo e moderno</b><span>Identidade da Hevy, nada de modelo pronto.</span></div></div>
+      <div class="f"><div class="ck">✓</div><div><b>100% adaptado ao celular</b><span>Perfeito em smartphone, tablet e computador.</span></div></div>
+      <div class="f"><div class="ck">✓</div><div><b>Páginas estratégicas</b><span>Modalidades, horários, depoimentos e contato.</span></div></div>
+      <div class="f"><div class="ck">✓</div><div><b>Botão de WhatsApp integrado</b><span>Botão flutuante e convite à aula experimental.</span></div></div>
+      <div class="f"><div class="ck">✓</div><div><b>Textos persuasivos</b><span>Feitos para convencer o visitante a chamar.</span></div></div>
+      <div class="f"><div class="ck">✓</div><div><b>SEO para Google</b><span>Otimizado para buscas na sua região.</span></div></div>
+      <div class="f"><div class="ck">✓</div><div><b>Mapa e localização</b><span>Google Maps integrado para chegar fácil.</span></div></div>
+      <div class="f"><div class="ck">✓</div><div><b>Integração com Instagram</b><span>Destaque para as redes sociais da Hevy.</span></div></div>
+      <div class="f"><div class="ck">✓</div><div><b>Carregamento rápido</b><span>Ninguém desiste esperando a página abrir.</span></div></div>
+      <div class="f"><div class="ck">✓</div><div><b>Publicação e suporte inicial</b><span>Site no ar e acompanhamento inicial.</span></div></div>
+    </div>
+  </div>
+  <div class="foot"><span>Vision Web — Tecnologia &amp; Design</span><span>Página 1 de 2</span></div>
+</section>
+
+<section class="page">
+  <div class="body" style="padding-top:14mm">
+    <h2><small>Investimento</small>Um valor que se paga com poucos alunos novos</h2>
+    <p class="lead">Basta um ou dois alunos novos vindos do site para cobrir o investimento. Depois disso, cada novo aluno é lucro para a Hevy.</p>
+    <div class="price">
+      <div class="main">
+        <div class="lbl">Criação do site completo</div>
+        <div class="old" style="text-decoration:none;color:#B8B8D0;font-size:9.5pt">Investimento único</div>
+        <div class="val"><small>R$</small>697</div>
+        <div class="save">Pagamento facilitado em 2 etapas</div>
+        <div class="split">
+          <div><span>Na aprovação (início)</span><b>R$ 348,50</b><span>50%</span></div>
+          <div><span>Na entrega (site pronto)</span><b>R$ 348,50</b><span>50%</span></div>
+        </div>
+      </div>
+      <div class="maint">
+        <span class="opt">Opcional</span>
+        <div style="font-weight:800;font-size:11pt;margin-top:2.5mm">Plano de Manutenção</div>
+        <div class="v">R$ 50<small> /mês</small></div>
+        <ul>
+          <li>Atualização de textos, fotos, preços e horários</li>
+          <li>Backups e monitoramento do site</li>
+          <li>Correções e ajustes técnicos</li>
+          <li>Suporte prioritário pelo WhatsApp</li>
+          <li>Sem fidelidade: cancele quando quiser</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2><small>Como funciona</small>Do “sim” ao site no ar em 4 passos</h2>
+    <div class="steps">
+      <div class="st"><em>PASSO 01</em><b>Aprovação</b><span>Você aprova a proposta e paga os primeiros 50%.</span></div>
+      <div class="st"><em>PASSO 02</em><b>Briefing</b><span>Recebemos logo, fotos e as informações do estúdio.</span></div>
+      <div class="st"><em>PASSO 03</em><b>Criação</b><span>Desenvolvemos o site e você revisa e pede ajustes.</span></div>
+      <div class="st"><em>PASSO 04</em><b>Entrega</b><span>Site aprovado e no ar. Só então os 50% finais.</span></div>
+    </div>
+
+    <h2><small>Sua segurança</small>Risco mínimo para a Hevy</h2>
+    <div class="guar">
+      <div class="g"><b>Só paga o restante no final</b><span>A segunda metade só é paga com o site pronto e aprovado por você.</span></div>
+      <div class="g"><b>Ajustes inclusos</b><span>Rodadas de revisão até o site ficar do jeito que a Hevy precisa.</span></div>
+      <div class="g"><b>O site é seu</b><span>Depois de quitado, o site pertence à Hevy. Sem taxas escondidas.</span></div>
+    </div>
+
+    <div class="cta">
+      <div><h3>Vamos colocar a Hevy em destaque?</h3><p>Responda “APROVADO” no WhatsApp e já começamos o projeto.</p></div>
+      <a class="btn" href="https://wa.me/558189963849">WhatsApp · (81) 8996-3849</a>
+    </div>
+    <p class="urg"><b>Condição especial válida por 7 dias</b> a partir da emissão. Agenda de projetos limitada por mês.</p>
+    <p class="urg" style="margin-top:2mm;font-size:7.8pt">Domínio (.com.br) e hospedagem, se necessários, não estão inclusos e são contratados em nome do cliente. Contato: somosvisionweb@gmail.com</p>
+  </div>
+  <div class="foot"><span>Vision Web — Tecnologia &amp; Design</span><span>Página 2 de 2</span></div>
+</section>
+</body></html>
