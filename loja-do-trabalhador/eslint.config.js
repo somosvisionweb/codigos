@@ -2,7 +2,7 @@ import js from '@eslint/js';
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
-  { ignores: ['dist/**', '.netlify/**', '.astro/**', 'node_modules/**', 'test-results/**', 'playwright-report/**', 'backups/**', '**/*.astro'] },
+  { ignores: ['dist/**', 'dist-local/**', '.lighthouse/**', '.netlify/**', '.astro/**', 'node_modules/**', 'test-results/**', 'playwright-report/**', 'backups/**', '**/*.astro'] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {

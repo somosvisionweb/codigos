@@ -7,6 +7,7 @@
   NODE_VERSION = "22"
 
 # Cabeçalhos de segurança para todo o site.
+# A Content-Security-Policy é definida em src/middleware.ts (páginas e /admin).
 [[headers]]
   for = "/*"
   [headers.values]
@@ -15,7 +16,6 @@
     X-Frame-Options = "DENY"
     Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
     Strict-Transport-Security = "max-age=31536000; includeSubDomains"
-    Content-Security-Policy = "default-src 'self'; script-src 'self' https://www.googletagmanager.com https://connect.facebook.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://firebasestorage.googleapis.com https://storage.googleapis.com https://www.google-analytics.com https://*.google-analytics.com https://www.facebook.com; font-src 'self'; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://connect.facebook.net https://www.facebook.com; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests"
 
 # Painel: nunca indexar e nunca guardar em cache compartilhado.
 [[headers]]

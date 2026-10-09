@@ -1,6 +1,7 @@
 ---
-// Painel administrativo (SPA). Página estática: nenhum dado é renderizado no servidor.
-export const prerender = true;
+// Painel administrativo (SPA). Nenhum dado é renderizado no servidor.
+export const prerender = false; // SSR para receber a CSP do middleware
+Astro.response.headers.set('Cache-Control', 'no-store');
 ---
 <!doctype html>
 <html lang="pt-BR">

@@ -3,10 +3,15 @@ import { defineConfig } from 'astro/config';
 import netlify from '@astrojs/netlify';
 import preact from '@astrojs/preact';
 
+// LOCAL_NODE=1 gera um build com servidor Node só para medir (Lighthouse) localmente; o deploy usa Netlify.
+const localNode = process.env.LOCAL_NODE === '1';
+const adapter = localNode ? (await import('@astrojs/node')).default({ mode: 'standalone' }) : netlify({ cacheOnDemandPages: false });
+
 export default defineConfig({
   site: process.env.SITE_URL || 'http://localhost:4321',
   output: 'server',
-  adapter: netlify({ cacheOnDemandPages: false }),
+  adapter,
+  ...(localNode ? { outDir: 'dist-local' } : {}),
   integrations: [preact({ include: ['src/admin/**/*.tsx'] })],
   trailingSlash: 'never',
   build: { inlineStylesheets: 'auto' },

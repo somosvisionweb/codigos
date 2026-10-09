@@ -237,6 +237,9 @@ export async function createOrder(input: OrderInput, staff: Staff | null, now = 
     notes: cleanText(input.notes, 500),
   });
 
+  // P2 — Pagamento online (não implementado): este é o ponto de extensão. Aqui entraria a criação da
+  // cobrança no provedor (Pix dinâmico/cartão) usando result.number como referência; um webhook em
+  // src/pages/api/ confirmaria o pagamento atualizando `paymentStatus: 'pago'` com firebase-admin.
   let pix: CreateOrderResult['pix'] = null;
   if (input.paymentMethod === 'pix' && isPixConfigured(settings.pixKey, settings.pixReceiverName, settings.pixReceiverCity)) {
     const payload = buildPixPayload({

@@ -34,3 +34,14 @@ export async function lastOrder(): Promise<Order & { id: string }> {
 }
 
 export { db, adminAuth };
+
+/** Login no painel. Espera a rede acalmar (no dev, o Vite pode recarregar a página ao otimizar dependências). */
+export async function adminLogin(page: import('@playwright/test').Page, who = ADMIN) {
+  const { expect } = await import('@playwright/test');
+  await page.goto('/admin');
+  await page.waitForLoadState('networkidle');
+  await page.getByLabel('E-mail').fill(who.email);
+  await page.getByLabel('Senha').fill(who.password);
+  await page.getByRole('button', { name: 'Entrar' }).click();
+  await expect(page.locator('.adm-top')).toBeVisible({ timeout: 20_000 });
+}

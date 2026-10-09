@@ -20,13 +20,13 @@
   --line-2: #e9eff5;
 
   /* Estados */
-  --ok: #17803d;
+  --ok: #146c34;
   --ok-bg: #e6f4ea;
   --warn: #9a5b00;
   --warn-bg: #fff4dc;
   --danger: #b42318;
   --danger-bg: #fdecea;
-  --whatsapp: #128c4a; /* verde mais escuro para contraste AA com texto branco */
+  --whatsapp: #0f7a3f; /* verde escuro: contraste AA (5,4:1) com texto branco */
 
   /* Tipografia */
   --font-display: 'Barlow Condensed', 'Arial Narrow', system-ui, sans-serif;

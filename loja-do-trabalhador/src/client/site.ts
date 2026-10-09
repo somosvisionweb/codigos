@@ -33,10 +33,11 @@ let release: (() => void) | null = null;
 let lastFocus: HTMLElement | null = null;
 
 function qtyControl(line: StoredLine, onChange: (q: number) => void): HTMLElement {
-  const input = el('input', { type: 'number', min: 1, max: 99, inputmode: 'numeric', value: line.quantity, 'aria-label': `Quantidade de ${line.name}` }) as HTMLInputElement;
+  const k = keyOf(line);
+  const input = el('input', { type: 'number', min: 1, max: 99, inputmode: 'numeric', value: line.quantity, 'aria-label': `Quantidade de ${line.name}`, 'data-fk': `qty:${k}` }) as HTMLInputElement;
   input.addEventListener('change', () => onChange(clampQty(Number(input.value))));
-  const minus = el('button', { type: 'button', 'aria-label': `Diminuir quantidade de ${line.name}` }, svgIcon('minus'));
-  const plus = el('button', { type: 'button', 'aria-label': `Aumentar quantidade de ${line.name}` }, svgIcon('plus'));
+  const minus = el('button', { type: 'button', 'aria-label': `Diminuir quantidade de ${line.name}`, 'data-fk': `minus:${k}` }, svgIcon('minus'));
+  const plus = el('button', { type: 'button', 'aria-label': `Aumentar quantidade de ${line.name}`, 'data-fk': `plus:${k}` }, svgIcon('plus'));
   minus.addEventListener('click', () => onChange(clampQty(line.quantity - 1)));
   plus.addEventListener('click', () => onChange(clampQty(line.quantity + 1)));
   if (line.quantity <= 1) minus.setAttribute('disabled', '');
@@ -46,7 +47,7 @@ function qtyControl(line: StoredLine, onChange: (q: number) => void): HTMLElemen
 
 export function renderLine(line: StoredLine): HTMLElement {
   const key = keyOf(line);
-  const remove = el('button', { type: 'button', class: 'btn btn-ghost btn-sm', 'aria-label': `Remover ${line.name}` }, svgIcon('trash'), 'Remover');
+  const remove = el('button', { type: 'button', class: 'btn btn-ghost btn-sm', 'aria-label': `Remover ${line.name}`, 'data-fk': `rm:${key}` }, svgIcon('trash'), 'Remover');
   remove.addEventListener('click', () => {
     cart.remove(key);
     toast(`${line.name} removido do carrinho.`);
@@ -58,7 +59,7 @@ export function renderLine(line: StoredLine): HTMLElement {
     el(
       'div',
       {},
-      el('a', { class: 'cart-line-name', href: `/produto/${line.slug}`, text: line.name }),
+      el('a', { class: 'cart-line-name', href: `/produto/${line.slug}`, text: line.name, 'data-fk': `link:${key}` }),
       line.variantLabel ? el('div', { class: 'hint', text: line.variantLabel }) : null,
       el(
         'div',
@@ -75,16 +76,25 @@ export function renderLine(line: StoredLine): HTMLElement {
 
 function renderDrawer() {
   if (!linesBox || !foot) return;
+  // Preserva o foco (ex.: botão "+") quando a lista é redesenhada.
+  const active = document.activeElement as HTMLElement | null;
+  const focusKey = active && linesBox.contains(active) ? active.dataset.fk ?? null : null;
+  const lostFocus = Boolean(active && linesBox.contains(active));
   linesBox.replaceChildren();
   if (!cart.lines.length) {
     linesBox.append(
       el('div', { class: 'empty' }, el('p', { text: 'Seu carrinho está vazio.' }), el('a', { class: 'btn btn-primary', href: '/loja', text: 'Ver produtos' })),
     );
     foot.hidden = true;
+    if (lostFocus) drawer?.querySelector<HTMLElement>('[data-cart-close]')?.focus();
     return;
   }
   foot.hidden = false;
   for (const l of cart.lines) linesBox.append(renderLine(l));
+  if (lostFocus) {
+    const again = [...linesBox.querySelectorAll<HTMLElement>('[data-fk]')].find((x) => x.dataset.fk === focusKey && !x.hasAttribute('disabled'));
+    (again ?? drawer?.querySelector<HTMLElement>('[data-cart-close]'))?.focus();
+  }
   const sub = document.getElementById('cart-subtotal');
   if (sub) sub.textContent = fmt(cart.subtotal());
   const blocked = cart.lines.some((l) => l.warning);

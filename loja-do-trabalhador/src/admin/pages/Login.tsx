@@ -17,7 +17,13 @@ export function Login({ denied }: { denied: string }) {
       await signInWithEmailAndPassword(auth, email.trim(), password);
     } catch (err) {
       const code = (err as { code?: string }).code ?? '';
-      setError(code.includes('too-many') ? 'Muitas tentativas. Aguarde alguns minutos.' : 'E-mail ou senha incorretos.');
+      setError(
+        code.includes('too-many')
+          ? 'Muitas tentativas. Aguarde alguns minutos.'
+          : code.includes('network')
+            ? 'Sem conexão com o servidor de login. Verifique a internet.'
+            : 'E-mail ou senha incorretos.',
+      );
     } finally {
       setBusy(false);
     }

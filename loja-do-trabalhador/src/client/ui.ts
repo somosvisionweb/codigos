@@ -68,6 +68,11 @@ export function trapFocus(container: HTMLElement, onEscape: () => void): () => v
     if (!items.length) return;
     const first = items[0];
     const last = items[items.length - 1];
+    if (!container.contains(document.activeElement)) {
+      e.preventDefault();
+      (e.shiftKey ? last : first).focus();
+      return;
+    }
     if (e.shiftKey && document.activeElement === first) {
       e.preventDefault();
       last.focus();

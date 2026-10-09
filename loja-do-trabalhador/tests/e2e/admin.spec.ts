@@ -1,12 +1,8 @@
 import { test, expect, type Page, type APIRequestContext } from '@playwright/test';
-import { ADMIN, SELLER, db, productStock, setStock, orderByNumber } from './helpers';
+import { ADMIN, SELLER, adminLogin, db, productStock, setStock, orderByNumber } from './helpers';
 
 async function login(page: Page, who = ADMIN) {
-  await page.goto('/admin');
-  await page.getByLabel('E-mail').fill(who.email);
-  await page.getByLabel('Senha').fill(who.password);
-  await page.getByRole('button', { name: 'Entrar' }).click();
-  await expect(page.locator('.adm-top')).toBeVisible();
+  await adminLogin(page, who);
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -48,9 +44,10 @@ test.describe('painel admin', () => {
     await expect(page.locator('.badge.b-confirmado').first()).toBeVisible();
     await page.getByRole('button', { name: 'Marcar como pago' }).click();
     await expect(page.locator('.badge.b-pago').first()).toBeVisible();
+    // A tela atualiza antes do servidor confirmar (compensação de latência): espera o banco.
+    await expect.poll(async () => (await orderByNumber(o.number)).paymentStatus).toBe('pago');
     let saved = await orderByNumber(o.number);
     expect(saved.status).toBe('confirmado');
-    expect(saved.paymentStatus).toBe('pago');
 
     // Cancelar devolve estoque
     await page.getByRole('button', { name: 'Cancelar pedido (devolve estoque)' }).click();
