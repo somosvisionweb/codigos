@@ -1,0 +1,51 @@
+rules_version = '2';
+// Regras do Firestore — Loja do Trabalhador (versão simples).
+// Cole este conteúdo em: Firebase → Firestore Database → Regras → Publicar.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function admin() {
+      return request.auth != null
+        && exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+        && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.ativo == true;
+    }
+
+    // Produtos: o site lê os ativos; só o admin escreve.
+    match /produtos/{id} {
+      allow read: if resource.data.ativo == true || admin();
+      allow write: if admin();
+    }
+
+    // Configurações públicas da loja (WhatsApp, endereço...). Nada secreto aqui.
+    match /config/{id} {
+      allow read: if id == 'site';
+      allow write: if admin();
+    }
+
+    // Pedidos: o site só CRIA (com formato validado); só o admin lê e altera.
+    match /pedidos/{id} {
+      allow read, update, delete: if admin();
+      allow create: if request.resource.data.keys().hasOnly(['codigo', 'itens', 'total', 'cliente', 'recebimento', 'bairro', 'cidade', 'endereco', 'pagamento', 'obs', 'status', 'estoqueBaixado', 'criadoEm'])
+        && request.resource.data.status == 'novo'
+        && request.resource.data.estoqueBaixado == false
+        && request.resource.data.criadoEm == request.time
+        && request.resource.data.codigo is string && request.resource.data.codigo.size() <= 20
+        && request.resource.data.itens is list && request.resource.data.itens.size() > 0 && request.resource.data.itens.size() <= 40
+        && request.resource.data.total is int && request.resource.data.total >= 0
+        && request.resource.data.cliente.nome is string && request.resource.data.cliente.nome.size() <= 80
+        && request.resource.data.cliente.telefone is string && request.resource.data.cliente.telefone.size() <= 15
+        && request.resource.data.obs is string && request.resource.data.obs.size() <= 500
+        && request.resource.data.endereco is string && request.resource.data.endereco.size() <= 160;
+    }
+
+    // Lista de quem pode entrar no painel (criada à mão no console — ver LEIA-ME).
+    match /admins/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow write: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

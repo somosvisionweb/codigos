@@ -1,0 +1,2 @@
+Para regerar firebase.js (só se quiser atualizar a versão do Firebase), dentro de loja-do-trabalhador/:
+  npx esbuild --bundle --format=esm --minify --target=es2020 --legal-comments=eof --outfile=../loja-simples/firebase.js --sourcefile=firebase-entrada.js < ../loja-simples/ferramentas/firebase-entrada.js

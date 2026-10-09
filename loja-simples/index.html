@@ -1,0 +1,670 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Loja do Trabalhador — Material de limpeza, EPI, ferramentas e automotivo</title>
+  <meta name="description" content="Material de limpeza, EPIs, botina de segurança, ferramentas e produtos automotivos. 10 anos de mercado e frete grátis na região local. Peça pelo site ou WhatsApp." />
+  <meta name="theme-color" content="#0B2E4F" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta property="og:title" content="Loja do Trabalhador" />
+  <meta property="og:description" content="Tudo para limpar, proteger e trabalhar, com frete grátis na sua região. Entender para melhor atender." />
+  <meta property="og:image" content="img/og-image.png" />
+  <link rel="icon" href="img/favicon-32.png" type="image/png" />
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png" />
+  <link rel="stylesheet" href="estilo.css" />
+</head>
+<body>
+  <div class="barra-aviso" id="aviso">Frete grátis para a região local · Atendimento pelo WhatsApp</div>
+  <header class="topo">
+    <div class="wrap">
+      <!-- Logo: troque o texto por <img src="img/logo.png" alt="Loja do Trabalhador"> quando tiver o arquivo -->
+      <a class="logo" href="#inicio" aria-label="Loja do Trabalhador — início">Loja <small>do</small><br />Trabalhador</a>
+      <nav class="menu" aria-label="Principal">
+        <a href="#produtos">Produtos</a>
+        <a href="#empresas">Empresas</a>
+        <a href="#duvidas">Dúvidas</a>
+        <a href="#contato">Contato</a>
+      </nav>
+      <button class="btn-carrinho" id="abrir-carrinho" type="button" aria-label="Abrir carrinho">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+        <span class="contador" id="contador" data-n="0">0</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="inicio">
+    <section class="hero">
+      <div class="wrap hero-grade">
+        <div>
+        <p style="color:#9cc8ef;font-weight:600;margin-bottom:8px">10 anos de mercado · Entender para melhor atender.</p>
+        <h1>Tudo para limpar, proteger e trabalhar, com frete grátis na sua região.</h1>
+        <p>Material de limpeza, EPIs, calçados de segurança, ferramentas e produtos automotivos. Há 10 anos atendendo quem trabalha.</p>
+        <div class="linha-botoes">
+          <a class="btn btn-comprar" href="#produtos">Ver produtos</a>
+          <a class="btn" id="hero-whats" href="#" target="_blank" rel="noopener">Pedir orçamento no WhatsApp</a>
+        </div>
+        </div>
+        <div class="hero-atalhos" aria-hidden="true">
+          <a class="hero-atalho" href="#produtos" data-cat="Limpeza" tabindex="-1"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3h.01"/><path d="M7 5h.01"/><path d="M11 7h.01"/><path d="M3 7h.01"/><path d="M7 9h.01"/><path d="M3 11h.01"/><rect width="4" height="4" x="15" y="5"/><path d="m19 9 2 2v10c0 .6-.4 1-1 1h-6c-.6 0-1-.4-1-1V11l2-2"/><path d="m13 14 8-2"/><path d="m13 19 8-2"/></svg><strong>Limpeza</strong></a>
+          <a class="hero-atalho" href="#produtos" data-cat="EPIs" tabindex="-1"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5"/><path d="M14 6a6 6 0 0 1 6 6v3"/><path d="M4 15v-3a6 6 0 0 1 6-6"/><rect x="2" y="15" width="20" height="4" rx="1"/></svg><strong>EPIs</strong></a>
+          <a class="hero-atalho" href="#produtos" data-cat="Calçados" tabindex="-1"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 16v-2.38C4 11.5 2.97 10.5 3 8c.03-2.72 1.49-6 4.5-6C9.37 2 10 3.8 10 5.5c0 3.11-2 5.66-2 8.68V16a2 2 0 1 1-4 0Z"/><path d="M20 20v-2.38c0-2.12 1.03-3.12 1-5.62-.03-2.72-1.49-6-4.5-6C14.63 6 14 7.8 14 9.5c0 3.11 2 5.66 2 8.68V20a2 2 0 1 0 4 0Z"/><path d="M16 17h4"/><path d="M4 13h4"/></svg><strong>Calçados</strong></a>
+          <a class="hero-atalho" href="#produtos" data-cat="Ferramentas" tabindex="-1"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z"/></svg><strong>Ferramentas</strong></a>
+        </div>
+      </div>
+    </section>
+
+    <div class="confianca">
+      <ul class="wrap">
+        <li><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m16 9-5.5 5.5L8 12"/></svg> 10 anos de mercado</li>
+        <li><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg> Frete grátis na região local</li>
+        <li><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m11 17 2 2a1 1 0 1 0 3-3"/><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"/><path d="m21 3 1 11h-2"/><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"/><path d="M3 4h8"/></svg> Atendimento que entende sua necessidade</li>
+        <li><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 12h4"/><path d="M10 8h4"/><path d="M14 21v-3a2 2 0 0 0-4 0v3"/><path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"/><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"/></svg> Compra para empresas e condomínios</li>
+      </ul>
+    </div>
+
+    <section class="secao" aria-labelledby="t-cat">
+      <div class="wrap">
+        <div class="cab-secao"><h2 id="t-cat">Categorias</h2><a href="#produtos">Ver tudo</a></div>
+        <div class="categorias">
+          <a class="categoria" href="#produtos" data-cat="Limpeza"><svg class="ico ico-g" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3h.01"/><path d="M7 5h.01"/><path d="M11 7h.01"/><path d="M3 7h.01"/><path d="M7 9h.01"/><path d="M3 11h.01"/><rect width="4" height="4" x="15" y="5"/><path d="m19 9 2 2v10c0 .6-.4 1-1 1h-6c-.6 0-1-.4-1-1V11l2-2"/><path d="m13 14 8-2"/><path d="m13 19 8-2"/></svg>Limpeza</a>
+          <a class="categoria" href="#produtos" data-cat="EPIs"><svg class="ico ico-g" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5"/><path d="M14 6a6 6 0 0 1 6 6v3"/><path d="M4 15v-3a6 6 0 0 1 6-6"/><rect x="2" y="15" width="20" height="4" rx="1"/></svg>EPIs</a>
+          <a class="categoria" href="#produtos" data-cat="Calçados"><svg class="ico ico-g" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 16v-2.38C4 11.5 2.97 10.5 3 8c.03-2.72 1.49-6 4.5-6C9.37 2 10 3.8 10 5.5c0 3.11-2 5.66-2 8.68V16a2 2 0 1 1-4 0Z"/><path d="M20 20v-2.38c0-2.12 1.03-3.12 1-5.62-.03-2.72-1.49-6-4.5-6C14.63 6 14 7.8 14 9.5c0 3.11 2 5.66 2 8.68V20a2 2 0 1 0 4 0Z"/><path d="M16 17h4"/><path d="M4 13h4"/></svg>Calçados</a>
+          <a class="categoria" href="#produtos" data-cat="Ferramentas"><svg class="ico ico-g" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z"/></svg>Ferramentas</a>
+          <a class="categoria" href="#produtos" data-cat="Automotivo"><svg class="ico ico-g" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>Automotivo</a>
+          <a class="categoria" href="#produtos" data-cat="Kits"><svg class="ico ico-g" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/><path d="M12 22V12"/><polyline points="3.29 7 12 12 20.71 7"/><path d="m7.5 4.27 9 5.15"/></svg>Kits</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao" style="padding-top:0" aria-labelledby="t-dest" id="bloco-destaques" hidden>
+      <div class="wrap">
+        <div class="cab-secao"><h2 id="t-dest">Destaques da loja</h2><a href="#produtos">Ver todos os produtos</a></div>
+        <div class="grade" id="destaques"></div>
+      </div>
+    </section>
+
+    <section class="secao" style="padding-top:0" aria-labelledby="t-kits" id="bloco-kits" hidden>
+      <div class="wrap">
+        <p class="sobretitulo">Economize tempo</p>
+        <h2 id="t-kits">Kits prontos</h2>
+        <div class="grade" id="kits"></div>
+      </div>
+    </section>
+
+    <section class="secao" id="produtos" aria-labelledby="t-produtos">
+      <div class="wrap">
+        <h2 id="t-produtos">Todos os produtos</h2>
+        <div class="chips" id="chips" role="group" aria-label="Categorias"></div>
+        <div class="ferramentas">
+          <label class="sr" for="busca">Buscar produtos</label>
+          <input class="entrada" id="busca" type="search" placeholder="Buscar: botina, luva, desinfetante..." autocomplete="off" />
+          <label class="sr" for="ordem">Ordenar</label>
+          <select class="entrada" id="ordem">
+            <option value="destaque">Destaques primeiro</option>
+            <option value="menor">Menor preço</option>
+            <option value="maior">Maior preço</option>
+            <option value="az">A–Z</option>
+          </select>
+        </div>
+        <p class="cinza" id="resultado" aria-live="polite">Carregando produtos...</p>
+        <div class="grade" id="grade"></div>
+        <div class="vazio" id="nada" hidden>
+          <p><strong>Não achou?</strong> Chame no WhatsApp que a gente procura para você.</p>
+          <a class="btn btn-whats" id="nada-whats" href="#" target="_blank" rel="noopener">Chamar no WhatsApp</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao" id="empresas" style="padding-top:0">
+      <div class="wrap">
+        <div class="b2b">
+          <div>
+            <h2>Compra para empresa, condomínio ou obra?</h2>
+            <p style="margin:0">Orçamento por quantidade, compra recorrente e atendimento dedicado. Conte o que você precisa e a gente monta a proposta.</p>
+          </div>
+          <form id="form-orcamento" class="grade-form duas" style="background:#fff;color:var(--texto);border-radius:12px;padding:16px">
+            <div class="campo"><label for="o-nome">Seu nome</label><input class="entrada" id="o-nome" required maxlength="80" autocomplete="name" /></div>
+            <div class="campo"><label for="o-empresa">Empresa / condomínio</label><input class="entrada" id="o-empresa" required maxlength="100" autocomplete="organization" /></div>
+            <div class="campo" style="grid-column:1/-1"><label for="o-itens">O que você precisa (itens e quantidades)</label><textarea class="entrada" id="o-itens" required maxlength="1000" placeholder="Ex.: 10 galões de desinfetante, 20 pares de luva G..."></textarea></div>
+            <button class="btn btn-comprar" type="submit" style="grid-column:1/-1">Pedir orçamento no WhatsApp</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao" style="padding-top:0">
+      <div class="wrap">
+        <h2>Por que a Loja do Trabalhador</h2>
+        <div class="pilares">
+          <div class="pilar"><svg class="ico ico-g" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m11 17 2 2a1 1 0 1 0 3-3"/><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"/><path d="m21 3 1 11h-2"/><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"/><path d="M3 4h8"/></svg><h3>Entender para melhor atender</h3><p class="cinza" style="margin:0">Antes de vender, a gente entende o que você precisa. Você leva o produto certo, na quantidade certa.</p></div>
+          <div class="pilar"><svg class="ico ico-g" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg><h3>Frete grátis na região</h3><p class="cinza" style="margin:0">Entrega sem custo de frete na nossa região local. Fora dela, combinamos pelo WhatsApp.</p></div>
+          <div class="pilar"><svg class="ico ico-g" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.97 12.92A2 2 0 0 0 2 14.63v3.24a2 2 0 0 0 .97 1.71l3 1.8a2 2 0 0 0 2.06 0L12 19v-5.5l-5-3-4.03 2.42Z"/><path d="m7 16.5-4.74-2.85"/><path d="m7 16.5 5-3"/><path d="M7 16.5v5.17"/><path d="M12 13.5V19l3.97 2.38a2 2 0 0 0 2.06 0l3-1.8a2 2 0 0 0 .97-1.71v-3.24a2 2 0 0 0-.97-1.71L17 10.5l-5 3Z"/><path d="m17 16.5-5-3"/><path d="m17 16.5 4.74-2.85"/><path d="M17 16.5v5.17"/><path d="M7.97 4.42A2 2 0 0 0 7 6.13v4.37l5 3 5-3V6.13a2 2 0 0 0-.97-1.71l-3-1.8a2 2 0 0 0-2.06 0l-3 1.8Z"/><path d="M12 8 7.26 5.15"/><path d="m12 8 4.74-2.85"/><path d="M12 13.5V8"/></svg><h3>Tudo em um só lugar</h3><p class="cinza" style="margin:0">Limpeza, EPIs, calçados de segurança, ferramentas e automotivo numa parada só.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao" style="padding-top:0" aria-label="Avaliações">
+      <div class="wrap">
+        <div class="convite">
+          <p style="margin:0 0 6px"><strong>Já comprou com a gente?</strong> Conte como foi — sua opinião ajuda outros clientes.</p>
+          <a id="convite-whats" href="#" target="_blank" rel="noopener">Enviar meu depoimento pelo WhatsApp</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao faq" id="duvidas" style="padding-top:0">
+      <div class="wrap" style="max-width:860px">
+        <h2>Perguntas frequentes</h2>
+        <details><summary>Vocês têm frete grátis? Para onde?</summary><p>Sim, para a nossa região local. Ao finalizar o pedido, informe bairro e cidade: o site mostra na hora se tem frete grátis. Fora da área, o frete é combinado pelo WhatsApp.</p></details>
+        <details><summary>Quais as formas de pagamento?</summary><p>Pix, cartão e dinheiro. Você escolhe ao finalizar e confirmamos tudo pelo WhatsApp.</p></details>
+        <details><summary>Como funciona o pedido pelo site?</summary><p>Você monta o carrinho, preenche seus dados e envia. O pedido é registrado com um código e o WhatsApp abre com o resumo pronto para confirmarmos.</p></details>
+        <details><summary>Vendem em quantidade para empresas e condomínios?</summary><p>Sim. Use o formulário “Compra para empresa” acima e conte o que precisa.</p></details>
+        <details><summary>Posso trocar um produto?</summary><p>Pode. Fale com a gente pelo WhatsApp informando o código do pedido. Compras com entrega têm direito de arrependimento em até 7 dias.</p></details>
+      </div>
+    </section>
+
+    <section class="secao" id="contato" style="padding-top:0">
+      <div class="wrap">
+        <h2>Onde estamos</h2>
+        <div class="caixa" id="contato-dados"><p class="cinza" style="margin:0">Fale com a gente pelo WhatsApp.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <div class="wrap">
+      <div class="rodape-grade">
+        <div>
+          <p class="logo" style="font-size:1.6rem">Loja <small>do</small><br />Trabalhador</p>
+          <p>Entender para melhor atender.</p>
+          <p>Material de limpeza, EPIs, calçados de segurança, ferramentas e produtos automotivos.</p>
+        </div>
+        <div>
+          <h2>Navegue</h2>
+          <ul>
+            <li><a href="#produtos" data-cat="Limpeza">Limpeza</a></li>
+            <li><a href="#produtos" data-cat="EPIs">EPIs</a></li>
+            <li><a href="#produtos" data-cat="Calçados">Calçados</a></li>
+            <li><a href="#produtos" data-cat="Ferramentas">Ferramentas</a></li>
+            <li><a href="#produtos" data-cat="Automotivo">Automotivo</a></li>
+            <li><a href="#produtos" data-cat="Kits">Kits</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Atendimento</h2>
+          <ul>
+            <li><a href="#empresas">Compra para empresas</a></li>
+            <li><a href="#duvidas">Perguntas frequentes</a></li>
+            <li><a href="#contato">Endereço e horário</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Privacidade</h2>
+          <p>O carrinho fica só no seu navegador. Guardamos nome, telefone e endereço apenas para atender o seu pedido. Não pedimos dados de cartão no site.</p>
+        </div>
+      </div>
+      <div class="linha">
+        <span>© <span id="ano"></span> Loja do Trabalhador. Todos os direitos reservados.</span>
+        <a href="https://instagram.com/visionwebagencia" target="_blank" rel="noopener">Site por VisionWeb</a>
+      </div>
+    </div>
+  </footer>
+
+  <a class="flutuante" id="whats-flutuante" href="#" target="_blank" rel="noopener" aria-label="Conversar no WhatsApp">
+    <svg class="ico" style="width:30px;height:30px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+  </a>
+
+  <!-- Janela do produto -->
+  <div class="fundo-escuro" id="fundo" hidden></div>
+  <div class="janela" id="janela" role="dialog" aria-modal="true" aria-labelledby="j-nome" hidden></div>
+
+  <!-- Carrinho -->
+  <aside class="gaveta" id="gaveta" role="dialog" aria-modal="true" aria-labelledby="g-titulo" hidden>
+    <div class="gaveta-topo">
+      <h2 id="g-titulo">Seu carrinho</h2>
+      <button class="fechar" type="button" id="fechar-carrinho" aria-label="Fechar carrinho">×</button>
+    </div>
+    <div class="gaveta-corpo" id="gaveta-corpo"></div>
+    <div class="gaveta-pe" id="gaveta-pe"></div>
+  </aside>
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <script type="module">
+    import { firebaseConfig, usarEmulador } from './config.js';
+    import { produtosIniciais, categorias as categoriasPadrao, configPadrao } from './dados.js';
+    import { reais, semAcento, telefone, linkWhats, precoAtual, freteGratis, el, configurado } from './comum.js';
+
+    const CHAVE = 'ldt_carrinho_v1';
+    const POUCOS = 5;
+    let produtos = [];
+    let cfg = { ...configPadrao };
+    let categoria = '';
+    let carrinho = ler();
+    const $ = (id) => document.getElementById(id);
+    document.getElementById('ano').textContent = new Date().getFullYear();
+
+    // ---------- Firestore via REST (sem SDK: site leve) ----------
+    const pid = firebaseConfig.projectId;
+    const base = usarEmulador
+      ? `http://127.0.0.1:8080/v1/projects/${pid}/databases/(default)/documents`
+      : `https://firestore.googleapis.com/v1/projects/${pid}/databases/(default)/documents`;
+    const chave = !usarEmulador && firebaseConfig.apiKey ? `?key=${encodeURIComponent(firebaseConfig.apiKey)}` : '';
+
+    function deFs(v) {
+      if (!v) return null;
+      if ('stringValue' in v) return v.stringValue;
+      if ('integerValue' in v) return Number(v.integerValue);
+      if ('doubleValue' in v) return v.doubleValue;
+      if ('booleanValue' in v) return v.booleanValue;
+      if ('nullValue' in v) return null;
+      if ('timestampValue' in v) return v.timestampValue;
+      if ('arrayValue' in v) return (v.arrayValue.values || []).map(deFs);
+      if ('mapValue' in v) return campos(v.mapValue.fields || {});
+      return null;
+    }
+    const campos = (f) => Object.fromEntries(Object.entries(f).map(([k, v]) => [k, deFs(v)]));
+    function paraFs(v) {
+      if (v === null || v === undefined) return { nullValue: null };
+      if (typeof v === 'boolean') return { booleanValue: v };
+      if (typeof v === 'number') return Number.isInteger(v) ? { integerValue: String(v) } : { doubleValue: v };
+      if (typeof v === 'string') return { stringValue: v };
+      if (Array.isArray(v)) return { arrayValue: { values: v.map(paraFs) } };
+      return { mapValue: { fields: Object.fromEntries(Object.entries(v).map(([k, x]) => [k, paraFs(x)])) } };
+    }
+
+    async function carregar() {
+      if (!configurado(firebaseConfig)) {
+        produtos = produtosIniciais.filter((p) => p.ativo);
+        return;
+      }
+      const [rp, rc] = await Promise.all([
+        fetch(`${base}:runQuery${chave}`, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ structuredQuery: { from: [{ collectionId: 'produtos' }], where: { fieldFilter: { field: { fieldPath: 'ativo' }, op: 'EQUAL', value: { booleanValue: true } } } } }),
+        }),
+        fetch(`${base}/config/site${chave}`),
+      ]);
+      if (!rp.ok) throw new Error('produtos');
+      const lista = await rp.json();
+      produtos = lista.filter((r) => r.document).map((r) => ({ id: r.document.name.split('/').pop(), ...campos(r.document.fields || {}) }));
+      if (rc.ok) cfg = { ...configPadrao, ...campos((await rc.json()).fields || {}) };
+    }
+
+    async function gravarPedido(pedido) {
+      const id = Array.from(crypto.getRandomValues(new Uint8Array(10)), (b) => b.toString(16).padStart(2, '0')).join('');
+      const nome = `projects/${pid}/databases/(default)/documents/pedidos/${id}`;
+      const res = await fetch(`${base}:commit${chave}`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          writes: [{
+            update: { name: nome, fields: paraFs(pedido).mapValue.fields },
+            currentDocument: { exists: false },
+            updateTransforms: [{ fieldPath: 'criadoEm', setToServerValue: 'REQUEST_TIME' }],
+          }],
+        }),
+      });
+      if (!res.ok) throw new Error('pedido');
+    }
+
+    // ---------- Carrinho (localStorage) ----------
+    function ler() {
+      try {
+        const d = JSON.parse(localStorage.getItem(CHAVE) || 'null');
+        return d && d.v === 1 && Array.isArray(d.itens) ? d.itens : [];
+      } catch { return []; }
+    }
+    function salvar() {
+      try { localStorage.setItem(CHAVE, JSON.stringify({ v: 1, itens: carrinho })); } catch { /* modo privado */ }
+      contar();
+      if (!$('gaveta').hidden) desenharCarrinho();
+    }
+    function contar() {
+      const n = carrinho.reduce((s, i) => s + i.qtd, 0);
+      $('contador').textContent = n > 99 ? '99+' : n;
+      $('contador').dataset.n = n;
+      $('abrir-carrinho').setAttribute('aria-label', n ? `Abrir carrinho (${n} itens)` : 'Abrir carrinho');
+    }
+    const limite = (q) => Math.max(1, Math.min(99, Math.floor(Number(q) || 1)));
+    function adicionar(p, opcao, qtd) {
+      const chaveItem = `${p.id}::${opcao || ''}`;
+      const ex = carrinho.find((i) => i.chave === chaveItem);
+      if (ex) ex.qtd = limite(ex.qtd + qtd);
+      else carrinho.push({ chave: chaveItem, id: p.id, nome: p.nome, opcao: opcao || '', preco: precoAtual(p), foto: p.foto, qtd: limite(qtd) });
+      salvar();
+      const b = $('abrir-carrinho');
+      b.classList.remove('pulo'); void b.offsetWidth; b.classList.add('pulo');
+      aviso(`${qtd}x ${p.nome}${opcao ? ` (${opcao})` : ''} no carrinho.`);
+    }
+    const subtotal = () => carrinho.reduce((s, i) => s + i.preco * i.qtd, 0);
+
+    function aviso(texto, erro = false) {
+      const t = $('toast');
+      t.textContent = texto;
+      t.className = `toast${erro ? ' erro' : ''}`;
+      t.hidden = false;
+      clearTimeout(aviso.t);
+      aviso.t = setTimeout(() => (t.hidden = true), 3200);
+    }
+
+    // ---------- Vitrine ----------
+    function disponibilidade(p) {
+      if ((p.estoque ?? 0) <= 0) return ['Indisponível', 'selo-sem'];
+      if (p.estoque <= POUCOS) return ['Últimas unidades', 'selo-pouco'];
+      return null;
+    }
+
+    function desenharChips() {
+      const cats = [...new Set([...categoriasPadrao, ...produtos.map((p) => p.categoria)])].filter((c) => produtos.some((p) => p.categoria === c));
+      $('chips').replaceChildren(
+        ...['', ...cats].map((c) =>
+          el('button', { type: 'button', class: 'chip', 'aria-pressed': String(categoria === c), onclick: () => { categoria = c; desenharChips(); desenharGrade(); } }, c || 'Todos'),
+        ),
+      );
+    }
+
+    function desenharGrade() {
+      const termo = semAcento($('busca').value);
+      let lista = produtos.filter((p) => (!categoria || p.categoria === categoria) && (!termo || termo.split(' ').every((t) => semAcento(`${p.nome} ${p.categoria} ${p.descricao}`).includes(t))));
+      const o = $('ordem').value;
+      lista.sort((a, b) =>
+        o === 'menor' ? precoAtual(a) - precoAtual(b)
+        : o === 'maior' ? precoAtual(b) - precoAtual(a)
+        : o === 'az' ? a.nome.localeCompare(b.nome, 'pt-BR')
+        : Number(b.destaque) - Number(a.destaque) || a.nome.localeCompare(b.nome, 'pt-BR'));
+      $('resultado').textContent = `${lista.length} ${lista.length === 1 ? 'produto' : 'produtos'}`;
+      $('nada').hidden = lista.length > 0;
+      $('nada-whats').href = linkWhats(cfg.whatsapp, `Olá! Procurei "${$('busca').value || 'um produto'}" no site e não encontrei. Vocês têm?`);
+      $('grade').replaceChildren(...lista.map(cartao));
+    }
+
+    function cartao(p) {
+      const disp = disponibilidade(p);
+      const promo = precoAtual(p) !== p.preco;
+      const semEstoque = (p.estoque ?? 0) <= 0;
+      const temOpcoes = (p.opcoes || []).length > 0;
+      const botao = semEstoque
+        ? el('a', { class: 'btn btn-p btn-bloco', href: linkWhats(cfg.whatsapp, `Olá! O produto "${p.nome}" está indisponível no site. Pode me avisar quando chegar?`), target: '_blank', rel: 'noopener' }, 'Avisar no WhatsApp')
+        : el('button', { type: 'button', class: 'btn btn-comprar btn-p btn-bloco', 'aria-label': `${temOpcoes ? 'Escolher opção de' : 'Adicionar'} ${p.nome}`, onclick: () => (temOpcoes ? abrirProduto(p) : adicionar(p, '', 1)) }, temOpcoes ? 'Escolher opção' : 'Adicionar');
+      return el('article', { class: 'card' },
+        el('div', { class: 'selos' }, promo && el('span', { class: 'selo selo-promo' }, 'Oferta'), disp && el('span', { class: `selo ${disp[1]}` }, disp[0])),
+        el('button', { type: 'button', class: 'foto', 'aria-label': `Ver detalhes de ${p.nome}`, onclick: () => abrirProduto(p) }, el('img', { src: p.foto || 'img/produtos/sem-foto.webp', alt: '', loading: 'lazy', width: 400, height: 400 })),
+        el('div', { class: 'corpo' },
+          el('button', { type: 'button', class: 'nome', onclick: () => abrirProduto(p) }, p.nome),
+          el('span', { class: 'unid' }, p.unidade || ''),
+          el('div', { class: 'preco' }, promo && el('span', { class: 'antes' }, reais(p.preco)), el('span', { class: 'agora' }, reais(precoAtual(p)))),
+          botao,
+        ),
+      );
+    }
+
+    // ---------- Janelas (foco preso + ESC) ----------
+    let voltarFoco = null;
+    function prender(box, fechar) {
+      const tecla = (e) => {
+        if (e.key === 'Escape') { e.preventDefault(); fechar(); return; }
+        if (e.key !== 'Tab') return;
+        const f = [...box.querySelectorAll('a[href],button:not([disabled]),input:not([disabled]),select,textarea')].filter((x) => x.offsetParent !== null || x.type === 'radio');
+        if (!f.length) return;
+        const a = f[0], z = f[f.length - 1];
+        if (!box.contains(document.activeElement)) { e.preventDefault(); a.focus(); }
+        else if (e.shiftKey && document.activeElement === a) { e.preventDefault(); z.focus(); }
+        else if (!e.shiftKey && document.activeElement === z) { e.preventDefault(); a.focus(); }
+      };
+      document.addEventListener('keydown', tecla);
+      return () => document.removeEventListener('keydown', tecla);
+    }
+    let soltar = null;
+    function abrir(box) {
+      voltarFoco = document.activeElement;
+      $('fundo').hidden = false;
+      box.hidden = false;
+      document.body.style.overflow = 'hidden';
+      soltar = prender(box, fecharTudo);
+      box.querySelector('.fechar')?.focus();
+    }
+    function fecharTudo() {
+      $('fundo').hidden = true;
+      $('janela').hidden = true;
+      $('gaveta').hidden = true;
+      document.body.style.overflow = '';
+      soltar?.();
+      voltarFoco?.focus?.();
+    }
+    $('fundo').addEventListener('click', fecharTudo);
+
+    function abrirProduto(p) {
+      let qtd = 1;
+      const temOpcoes = (p.opcoes || []).length > 0;
+      const erro = el('p', { class: 'aviso aviso-erro', hidden: true, role: 'alert' }, `Escolha: ${p.opcoesNome || 'uma opção'}.`);
+      const valorQtd = el('span', { 'aria-live': 'polite' }, '1');
+      const semEstoque = (p.estoque ?? 0) <= 0;
+      const opcaoEscolhida = () => $('janela').querySelector('input[name="opcao"]:checked')?.value || '';
+      const promo = precoAtual(p) !== p.preco;
+      const disp = disponibilidade(p);
+      $('janela').replaceChildren(
+        el('div', { style: 'display:flex;justify-content:space-between;gap:8px;align-items:start' },
+          el('h2', { id: 'j-nome', style: 'margin:0' }, p.nome),
+          el('button', { type: 'button', class: 'fechar', 'aria-label': 'Fechar', onclick: fecharTudo }, '×')),
+        el('div', { class: 'grade-form duas', style: 'margin-top:8px' },
+          el('img', { src: p.foto || 'img/produtos/sem-foto.webp', alt: p.nome, style: 'width:100%;aspect-ratio:1;object-fit:contain;background:#fff;border:1px solid var(--linha);border-radius:12px' }),
+          el('div', { class: 'grade-form', style: 'align-content:start' },
+            el('div', {}, disp ? el('span', { class: `selo ${disp[1]}` }, disp[0]) : el('span', { class: 'selo selo-ok' }, 'Em estoque')),
+            el('div', { class: 'preco' }, promo && el('span', { class: 'antes' }, reais(p.preco)), el('span', { class: 'agora', style: 'font-size:2.2rem' }, reais(precoAtual(p)))),
+            el('p', { class: 'cinza', style: 'margin:0' }, p.unidade || ''),
+            p.ca ? el('p', { style: 'margin:0;font-weight:600' }, `CA nº ${p.ca}`) : null,
+            el('p', { style: 'margin:0;white-space:pre-line' }, p.descricao || ''),
+            temOpcoes && el('fieldset', { class: 'opcoes' }, el('legend', {}, `${p.opcoesNome || 'Opção'} (obrigatório)`),
+              ...p.opcoes.map((o) => el('label', { class: 'opcao' }, el('input', { type: 'radio', name: 'opcao', value: o, onchange: () => (erro.hidden = true) }), el('span', {}, o)))),
+            erro,
+            semEstoque
+              ? el('a', { class: 'btn btn-whats', href: linkWhats(cfg.whatsapp, `Olá! O produto "${p.nome}" está indisponível no site. Pode me avisar quando chegar?`), target: '_blank', rel: 'noopener' }, 'Avisar no WhatsApp quando chegar')
+              : el('div', { class: 'linha-botoes', style: 'align-items:center' },
+                  el('div', { class: 'qtd', role: 'group', 'aria-label': 'Quantidade' },
+                    el('button', { type: 'button', 'aria-label': 'Diminuir quantidade', onclick: () => { qtd = limite(qtd - 1); valorQtd.textContent = qtd; } }, '−'),
+                    valorQtd,
+                    el('button', { type: 'button', 'aria-label': 'Aumentar quantidade', onclick: () => { qtd = limite(qtd + 1); valorQtd.textContent = qtd; } }, '+')),
+                  el('button', { type: 'button', class: 'btn btn-comprar', style: 'flex:1', onclick: () => {
+                    if (temOpcoes && !opcaoEscolhida()) { erro.hidden = false; return; }
+                    adicionar(p, opcaoEscolhida(), qtd);
+                    fecharTudo();
+                  } }, 'Adicionar ao carrinho')),
+          ),
+        ),
+      );
+      abrir($('janela'));
+    }
+
+    // ---------- Carrinho e pedido ----------
+    $('abrir-carrinho').addEventListener('click', () => { desenharCarrinho(); abrir($('gaveta')); });
+    $('fechar-carrinho').addEventListener('click', fecharTudo);
+
+    function desenharCarrinho() {
+      const corpo = $('gaveta-corpo');
+      const pe = $('gaveta-pe');
+      // Atualiza preços com o cadastro atual (o painel confere de novo ao confirmar).
+      for (const i of carrinho) {
+        const p = produtos.find((x) => x.id === i.id);
+        if (p) i.preco = precoAtual(p);
+        i.indisponivel = !p || (p.estoque ?? 0) <= 0;
+      }
+      if (!carrinho.length) {
+        corpo.replaceChildren(el('div', { class: 'vazio' }, el('p', {}, 'Seu carrinho está vazio.'), el('a', { class: 'btn btn-azul', href: '#produtos', onclick: fecharTudo }, 'Ver produtos')));
+        pe.replaceChildren();
+        return;
+      }
+      corpo.replaceChildren(...carrinho.map((i) =>
+        el('div', { class: 'item-carrinho' },
+          el('img', { src: i.foto || 'img/produtos/sem-foto.webp', alt: '' }),
+          el('div', {},
+            el('strong', {}, i.nome), i.opcao && el('div', { class: 'cinza' }, i.opcao),
+            i.indisponivel && el('div', { class: 'aviso aviso-erro', style: 'padding:4px 8px;margin-top:4px' }, 'Indisponível — remova do carrinho.'),
+            el('div', { style: 'display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:6px;flex-wrap:wrap' },
+              el('div', { class: 'qtd' },
+                el('button', { type: 'button', 'aria-label': `Diminuir ${i.nome}`, onclick: () => { i.qtd = limite(i.qtd - 1); salvar(); } }, '−'),
+                el('span', {}, String(i.qtd)),
+                el('button', { type: 'button', 'aria-label': `Aumentar ${i.nome}`, onclick: () => { i.qtd = limite(i.qtd + 1); salvar(); } }, '+')),
+              el('strong', {}, reais(i.preco * i.qtd)),
+              el('button', { type: 'button', class: 'btn btn-leve btn-p', 'aria-label': `Remover ${i.nome}`, onclick: () => { carrinho = carrinho.filter((x) => x !== i); salvar(); } }, 'Remover'))))));
+      pe.replaceChildren(
+        el('div', { class: 'linha-total' }, el('span', {}, 'Total dos produtos'), el('strong', {}, reais(subtotal()))),
+        el('button', { type: 'button', class: 'btn btn-comprar btn-bloco', onclick: desenharFormulario }, 'Finalizar pedido'),
+      );
+    }
+
+    function desenharFormulario() {
+      if (carrinho.some((i) => i.indisponivel)) return aviso('Remova os itens indisponíveis antes de continuar.', true);
+      const campo = (id, rotulo, attrs = {}) => el('div', { class: 'campo' }, el('label', { for: id }, rotulo), el(attrs.tag || 'input', { class: 'entrada', id, ...attrs, tag: null }));
+      const freteInfo = el('div', { class: 'aviso aviso-info', 'aria-live': 'polite' }, 'Informe bairro e cidade para ver o frete.');
+      const erro = el('div', { class: 'aviso aviso-erro', role: 'alert', hidden: true, tabindex: '-1' });
+      const radio = (nome, valor, texto, marcado) => el('label', { class: 'opcao' }, el('input', { type: 'radio', name: nome, value: valor, checked: marcado }), el('span', {}, texto));
+      const form = el('form', { class: 'grade-form', novalidate: true },
+        el('button', { type: 'button', class: 'btn btn-leve btn-p', style: 'justify-self:start', onclick: desenharCarrinho }, '← Voltar ao carrinho'),
+        erro,
+        campo('f-nome', 'Nome *', { autocomplete: 'name', maxlength: 80 }),
+        campo('f-tel', 'Telefone / WhatsApp *', { type: 'tel', autocomplete: 'tel', maxlength: 20, placeholder: '(00) 00000-0000' }),
+        el('fieldset', { class: 'opcoes' }, el('legend', {}, 'Recebimento *'), radio('receb', 'entrega', 'Entrega', true), radio('receb', 'retirada', 'Retirar na loja')),
+        campo('f-bairro', 'Bairro *', { maxlength: 80 }),
+        campo('f-cidade', 'Cidade *', { maxlength: 80 }),
+        el('div', { id: 'f-end-box' }, campo('f-end', 'Rua, número e complemento *', { maxlength: 160, autocomplete: 'street-address' })),
+        freteInfo,
+        el('fieldset', { class: 'opcoes' }, el('legend', {}, 'Pagamento *'), radio('pag', 'Pix', 'Pix', true), radio('pag', 'Cartão', 'Cartão'), radio('pag', 'Dinheiro', 'Dinheiro')),
+        campo('f-obs', 'Observações', { tag: 'textarea', maxlength: 500, placeholder: 'Ponto de referência, CNPJ, cor do capacete...' }),
+        el('label', { class: 'marca' }, el('input', { type: 'checkbox', id: 'f-aceite' }), el('span', {}, 'Aceito que meus dados sejam usados só para atender este pedido.')),
+        el('button', { type: 'submit', class: 'btn btn-comprar btn-bloco', id: 'f-enviar' }, `Enviar pedido · ${reais(subtotal())}`),
+      );
+      const v = (id) => form.querySelector(`#${id}`).value.trim();
+      const marcado = (n) => form.querySelector(`input[name="${n}"]:checked`).value;
+      const tipoFrete = () => (marcado('receb') === 'retirada' ? 'Retirada na loja' : freteGratis(cfg.areasFrete, v('f-bairro'), v('f-cidade')) ? 'Entrega — Frete grátis' : 'Entrega — Frete a combinar');
+      form.addEventListener('input', () => {
+        form.querySelector('#f-end-box').hidden = marcado('receb') === 'retirada';
+        const t = tipoFrete();
+        freteInfo.className = `aviso ${t.includes('grátis') ? 'aviso-ok' : t.includes('combinar') ? 'aviso-alerta' : 'aviso-info'}`;
+        freteInfo.textContent = !v('f-bairro') && !v('f-cidade') && marcado('receb') === 'entrega' ? 'Informe bairro e cidade para ver o frete.' : t.includes('combinar') ? 'Frete a combinar no WhatsApp (fora da área de frete grátis).' : t;
+      });
+      form.addEventListener('change', () => form.dispatchEvent(new Event('input')));
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const problemas = [];
+        if (v('f-nome').length < 2) problemas.push('Informe seu nome.');
+        if (!telefone(v('f-tel'))) problemas.push('Informe um telefone com DDD.');
+        if (!v('f-bairro') || !v('f-cidade')) problemas.push('Informe bairro e cidade.');
+        if (marcado('receb') === 'entrega' && !v('f-end')) problemas.push('Informe rua e número para a entrega.');
+        if (!form.querySelector('#f-aceite').checked) problemas.push('Marque o aceite de uso dos dados.');
+        if (problemas.length) { erro.textContent = problemas.join(' '); erro.hidden = false; erro.focus(); return; }
+        const codigo = 'LT' + Date.now().toString(36).slice(-5).toUpperCase();
+        const pedido = {
+          codigo,
+          itens: carrinho.map((i) => ({ id: i.id, nome: i.nome, opcao: i.opcao, preco: i.preco, qtd: i.qtd })),
+          total: subtotal(),
+          cliente: { nome: v('f-nome'), telefone: telefone(v('f-tel')) },
+          recebimento: tipoFrete(),
+          bairro: v('f-bairro'),
+          cidade: v('f-cidade'),
+          endereco: marcado('receb') === 'entrega' ? v('f-end') : '',
+          pagamento: marcado('pag'),
+          obs: v('f-obs'),
+          status: 'novo',
+          estoqueBaixado: false,
+        };
+        const msg = [
+          `Olá, Loja do Trabalhador! Acabei de fazer o pedido *${codigo}* pelo site:`, '', '*Itens*',
+          ...pedido.itens.map((i) => `• ${i.qtd}x ${i.nome}${i.opcao ? ` (${i.opcao})` : ''} — ${reais(i.preco * i.qtd)}`), '',
+          `*Total dos produtos:* ${reais(pedido.total)}`,
+          `*Recebimento:* ${pedido.recebimento}`,
+          `*Nome:* ${pedido.cliente.nome}`,
+          `*Bairro/Cidade:* ${pedido.bairro} / ${pedido.cidade}`,
+          `*Pagamento:* ${pedido.pagamento}`,
+          pedido.obs ? `*Observações:* ${pedido.obs}` : '', '', 'Pode confirmar pra mim, por favor?',
+        ].filter((l, i, a) => l !== '' || a[i - 1] !== '').join('\n');
+        const btn = form.querySelector('#f-enviar');
+        btn.disabled = true;
+        btn.textContent = 'Enviando...';
+        let registrado = false;
+        if (configurado(firebaseConfig)) {
+          try { await gravarPedido(pedido); registrado = true; } catch { registrado = false; }
+        }
+        const link = linkWhats(cfg.whatsapp, registrado ? msg : msg.replace('Acabei de fazer o pedido', 'Quero fazer o pedido'));
+        if (registrado) { carrinho = []; salvar(); }
+        $('gaveta-corpo').replaceChildren(el('div', { class: 'grade-form', style: 'text-align:center' },
+          registrado
+            ? el('h2', { tabindex: '-1', id: 'conf' }, `Pedido ${codigo} recebido!`)
+            : el('h2', { tabindex: '-1', id: 'conf' }, 'Envie seu pedido pelo WhatsApp'),
+          el('p', {}, registrado ? 'Seu pedido já está registrado. Agora é só confirmar com a gente pelo WhatsApp.' : 'Não conseguimos registrar o pedido no site agora. Envie pelo WhatsApp que a gente atende por lá (o pedido ainda não está registrado).'),
+          el('a', { class: 'btn btn-whats btn-bloco', href: link, target: '_blank', rel: 'noopener' }, registrado ? 'Confirmar no WhatsApp' : 'Enviar pedido só pelo WhatsApp')));
+        $('gaveta-pe').replaceChildren();
+        $('conf').focus();
+        if (registrado) {
+          const w = window.open(link, '_blank');
+          if (w) w.opener = null;
+        }
+      });
+      $('gaveta-corpo').replaceChildren(form);
+      $('gaveta-pe').replaceChildren();
+      form.querySelector('#f-nome').focus();
+    }
+
+    // ---------- Contato, WhatsApp, orçamento ----------
+    function aplicarConfig() {
+      const geral = linkWhats(cfg.whatsapp, 'Olá, Loja do Trabalhador! Vim pelo site e gostaria de atendimento.');
+      $('whats-flutuante').href = geral;
+      $('convite-whats').href = linkWhats(cfg.whatsapp, 'Olá! Já comprei com vocês e quero contar como foi a minha experiência.');
+      $('hero-whats').href = linkWhats(cfg.whatsapp, 'Olá, Loja do Trabalhador! Gostaria de pedir um orçamento.');
+      if (cfg.aviso) $('aviso').textContent = cfg.aviso; else $('aviso').hidden = true;
+      const linhas = [
+        cfg.endereco && `Endereço: ${cfg.endereco}${cfg.cidade ? ` — ${cfg.cidade}` : ''}`,
+        cfg.horario && `Horário: ${cfg.horario}`,
+        (cfg.areasFrete || []).length && `Frete grátis: ${cfg.areasFrete.join(', ')}`,
+      ].filter(Boolean);
+      $('contato-dados').replaceChildren(
+        ...linhas.map((l) => el('p', {}, l)),
+        el('div', { class: 'linha-botoes' },
+          cfg.whatsapp && el('a', { class: 'btn btn-whats', href: geral, target: '_blank', rel: 'noopener' }, 'WhatsApp'),
+          cfg.instagram && el('a', { class: 'btn', href: `https://instagram.com/${cfg.instagram.replace(/^@/, '')}`, target: '_blank', rel: 'noopener' }, `Instagram @${cfg.instagram.replace(/^@/, '')}`),
+          cfg.mapsUrl && el('a', { class: 'btn btn-azul', href: cfg.mapsUrl, target: '_blank', rel: 'noopener' }, 'Ver no mapa')),
+      );
+    }
+    $('form-orcamento').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const nome = $('o-nome').value.trim(), empresa = $('o-empresa').value.trim(), itens = $('o-itens').value.trim();
+      if (!nome || !empresa || !itens) return aviso('Preencha nome, empresa e o que você precisa.', true);
+      const w = window.open(linkWhats(cfg.whatsapp, `Olá, Loja do Trabalhador! Quero um orçamento.\n\n*Nome:* ${nome}\n*Empresa/Condomínio:* ${empresa}\n\n*O que preciso:*\n${itens}`), '_blank');
+      if (w) w.opener = null;
+    });
+
+    function desenharVitrines() {
+      const dest = produtos.filter((p) => p.destaque && p.categoria !== 'Kits').slice(0, 8);
+      const kits = produtos.filter((p) => p.categoria === 'Kits').slice(0, 4);
+      $('bloco-destaques').hidden = !dest.length;
+      $('bloco-kits').hidden = !kits.length;
+      $('destaques').replaceChildren(...dest.map(cartao));
+      $('kits').replaceChildren(...kits.map(cartao));
+    }
+    document.addEventListener('click', (e) => {
+      const a = e.target.closest('[data-cat]');
+      if (!a) return;
+      categoria = produtos.some((p) => p.categoria === a.dataset.cat) ? a.dataset.cat : '';
+      desenharChips();
+      desenharGrade();
+    });
+
+    $('busca').addEventListener('input', desenharGrade);
+    $('ordem').addEventListener('change', desenharGrade);
+
+    contar();
+    try {
+      await carregar();
+    } catch {
+      produtos = [];
+      $('resultado').textContent = 'Não foi possível carregar os produtos agora. Fale com a gente pelo WhatsApp.';
+    }
+    aplicarConfig();
+    desenharChips();
+    if (produtos.length) { desenharGrade(); desenharVitrines(); }
+    contar();
+  </script>
+</body>
+</html>

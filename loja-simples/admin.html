@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#0B2E4F" />
+  <title>Painel — Loja do Trabalhador</title>
+  <link rel="icon" href="img/favicon-32.png" type="image/png" />
+  <link rel="stylesheet" href="estilo.css" />
+</head>
+<body class="painel">
+  <div id="app"><p style="padding:24px">Carregando painel...</p></div>
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  <div class="fundo-escuro" id="fundo" hidden></div>
+  <div class="janela" id="janela" role="dialog" aria-modal="true" hidden></div>
+
+  <script type="module">
+    import { firebaseConfig, usarEmulador } from './config.js';
+    import { produtosIniciais, categorias, configPadrao } from './dados.js';
+    import { reais, paraCentavos, centavosTexto, semAcento, telefone, linkWhats, precoAtual, el, configurado } from './comum.js';
+
+    const app = document.getElementById('app');
+    const $ = (id) => document.getElementById(id);
+
+    if (!configurado(firebaseConfig)) {
+      app.replaceChildren(el('div', { class: 'login' }, el('div', { class: 'caixa', style: 'max-width:520px' },
+        el('h1', {}, 'Falta configurar o Firebase'),
+        el('p', {}, 'Abra o arquivo config.js e cole os dados do app web do Firebase (apiKey, authDomain, projectId e appId). Depois publique de novo no Netlify.'),
+        el('p', { class: 'cinza' }, 'O passo a passo está no arquivo LEIA-ME.md.'))));
+      throw new Error('Firebase não configurado');
+    }
+
+    const fb = await import('./firebase.js');
+    const {
+      initializeApp, getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail, connectAuthEmulator,
+      setPersistence, browserSessionPersistence, getFirestore, connectFirestoreEmulator, collection, doc, getDoc, getDocs, setDoc,
+      updateDoc, deleteDoc, onSnapshot, query, orderBy, limit, runTransaction, writeBatch,
+    } = fb;
+
+    const fbApp = initializeApp(firebaseConfig);
+    const auth = getAuth(fbApp);
+    const db = getFirestore(fbApp);
+    if (usarEmulador) {
+      connectAuthEmulator(auth, 'http://127.0.0.1:9099', { disableWarnings: true });
+      connectFirestoreEmulator(db, '127.0.0.1', 8080);
+    }
+    await setPersistence(auth, browserSessionPersistence).catch(() => {});
+
+    // ---------- Estado ----------
+    let produtos = [];
+    let pedidos = [];
+    let cfg = { ...configPadrao };
+    let aba = 'inicio';
+    let filtroPedidos = 'abertos';
+    let buscaProdutos = '';
+    let parar = [];
+    let primeiraCarga = true;
+    let novosAntes = 0;
+
+    // ---------- Utilidades ----------
+    function aviso(texto, erro = false) {
+      const t = $('toast');
+      t.textContent = texto;
+      t.className = `toast${erro ? ' erro' : ''}`;
+      t.hidden = false;
+      clearTimeout(aviso.t);
+      aviso.t = setTimeout(() => (t.hidden = true), erro ? 6000 : 3200);
+    }
+    const ms = (v) => (v && typeof v.toMillis === 'function' ? v.toMillis() : typeof v === 'number' ? v : 0);
+    const dataHora = (v) => (ms(v) ? new Date(ms(v)).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo', dateStyle: 'short', timeStyle: 'short' }) : '—');
+    const statusTexto = { novo: 'Novo', confirmado: 'Confirmado', entregue: 'Entregue', cancelado: 'Cancelado' };
+
+    // Início do dia/semana/mês/ano no fuso de São Paulo
+    function inicioSP(tipo) {
+      const agora = new Date();
+      const p = Object.fromEntries(new Intl.DateTimeFormat('en-US', { timeZone: 'America/Sao_Paulo', year: 'numeric', month: '2-digit', day: '2-digit', weekday: 'short' }).formatToParts(agora).map((x) => [x.type, x.value]));
+      let y = +p.year, m = +p.month, d = +p.day;
+      if (tipo === 'mes') d = 1;
+      if (tipo === 'ano') { m = 1; d = 1; }
+      if (tipo === 'semana') {
+        const dia = { Mon: 0, Tue: 1, Wed: 2, Thu: 3, Fri: 4, Sat: 5, Sun: 6 }[p.weekday];
+        const dt = new Date(Date.UTC(y, m - 1, d - dia));
+        y = dt.getUTCFullYear(); m = dt.getUTCMonth() + 1; d = dt.getUTCDate();
+      }
+      return Date.UTC(y, m - 1, d, 3); // 00:00 em São Paulo (UTC-3)
+    }
+
+    let soltarJanela = null;
+    let focoAntes = null;
+    function janela(titulo, ...conteudo) {
+      focoAntes = document.activeElement;
+      const box = $('janela');
+      box.setAttribute('aria-label', titulo);
+      box.replaceChildren(
+        el('div', { style: 'display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px' },
+          el('h2', { style: 'margin:0' }, titulo), el('button', { type: 'button', class: 'fechar', 'aria-label': 'Fechar', onclick: fecharJanela }, '×')),
+        ...conteudo);
+      $('fundo').hidden = false;
+      box.hidden = false;
+      const tecla = (e) => {
+        if (e.key === 'Escape') fecharJanela();
+        if (e.key !== 'Tab') return;
+        const f = [...box.querySelectorAll('a[href],button:not([disabled]),input:not([disabled]),select,textarea')];
+        const a = f[0], z = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === a) { e.preventDefault(); z.focus(); }
+        else if (!e.shiftKey && document.activeElement === z) { e.preventDefault(); a.focus(); }
+      };
+      document.addEventListener('keydown', tecla);
+      soltarJanela = () => document.removeEventListener('keydown', tecla);
+      (box.querySelector('input,select,textarea') || box.querySelector('.fechar')).focus();
+    }
+    function fecharJanela() {
+      $('fundo').hidden = true;
+      $('janela').hidden = true;
+      soltarJanela?.();
+      focoAntes?.focus?.();
+    }
+    $('fundo').addEventListener('click', fecharJanela);
+
+    function confirmar(titulo, texto, rotulo, acao, perigo = true) {
+      janela(titulo, el('p', {}, texto), el('div', { class: 'botoes', style: 'justify-content:flex-end' },
+        el('button', { type: 'button', class: 'btn', onclick: fecharJanela }, 'Voltar'),
+        el('button', { type: 'button', class: `btn ${perigo ? 'btn-perigo' : 'btn-azul'}`, onclick: async (e) => {
+          e.currentTarget.disabled = true;
+          try { await acao(); fecharJanela(); } catch (err) { aviso(err.message || 'Não foi possível concluir.', true); e.currentTarget.disabled = false; }
+        } }, rotulo)));
+    }
+
+    // ---------- Login ----------
+    function telaLogin(msg = '') {
+      parar.forEach((f) => f()); parar = [];
+      const erro = el('div', { class: 'aviso aviso-erro', role: 'alert', hidden: !msg }, msg);
+      const email = el('input', { class: 'entrada', id: 'email', type: 'email', autocomplete: 'username', required: true });
+      const senha = el('input', { class: 'entrada', id: 'senha', type: 'password', autocomplete: 'current-password', required: true });
+      const form = el('form', { class: 'grade-form' },
+        el('h1', { style: 'margin:0' }, 'Painel da loja'),
+        el('p', { class: 'cinza', style: 'margin:0' }, 'Entre com seu e-mail e senha.'),
+        erro,
+        el('div', { class: 'campo' }, el('label', { for: 'email' }, 'E-mail'), email),
+        el('div', { class: 'campo' }, el('label', { for: 'senha' }, 'Senha'), senha),
+        el('button', { class: 'btn btn-azul', type: 'submit' }, 'Entrar'),
+        el('button', { class: 'btn btn-leve', type: 'button', onclick: async () => {
+          if (!email.value) { erro.textContent = 'Digite seu e-mail para receber o link.'; erro.hidden = false; return; }
+          try { await sendPasswordResetEmail(auth, email.value.trim()); } catch { /* não revela */ }
+          aviso('Se o e-mail estiver cadastrado, enviamos o link de nova senha.');
+        } }, 'Esqueci minha senha'));
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        erro.hidden = true;
+        try {
+          await signInWithEmailAndPassword(auth, email.value.trim(), senha.value);
+        } catch (err) {
+          erro.textContent = String(err.code).includes('network') ? 'Sem conexão. Verifique a internet.' : String(err.code).includes('too-many') ? 'Muitas tentativas. Aguarde alguns minutos.' : 'E-mail ou senha incorretos.';
+          erro.hidden = false;
+        }
+      });
+      app.replaceChildren(el('div', { class: 'login' }, form));
+      email.focus();
+    }
+
+    onAuthStateChanged(auth, async (u) => {
+      if (!u) return telaLogin();
+      const snap = await getDoc(doc(db, 'admins', u.uid)).catch(() => null);
+      if (!snap?.exists() || snap.data().ativo !== true) {
+        await signOut(auth);
+        return telaLogin('Este usuário não tem acesso ao painel. Veja o LEIA-ME (passo "Liberar o seu acesso").');
+      }
+      iniciar(u);
+    });
+
+    // Sai sozinho após 30 minutos sem uso
+    let ocioso;
+    const renovar = () => { clearTimeout(ocioso); ocioso = setTimeout(() => auth.currentUser && signOut(auth), 30 * 60 * 1000); };
+    ['pointerdown', 'keydown', 'scroll'].forEach((ev) => addEventListener(ev, renovar, { passive: true }));
+
+    // ---------- Painel ----------
+    function iniciar(u) {
+      renovar();
+      parar.push(onSnapshot(collection(db, 'produtos'), (s) => { produtos = s.docs.map((d) => ({ id: d.id, ...d.data() })).sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR')); desenhar(); }));
+      parar.push(onSnapshot(query(collection(db, 'pedidos'), orderBy('criadoEm', 'desc'), limit(500)), (s) => {
+        pedidos = s.docs.map((d) => ({ id: d.id, ...d.data() }));
+        const novos = pedidos.filter((p) => p.status === 'novo').length;
+        document.title = novos ? `(${novos}) Novos pedidos — Painel` : 'Painel — Loja do Trabalhador';
+        if (!primeiraCarga && novos > novosAntes) { aviso('Chegou pedido novo!'); bip(); }
+        primeiraCarga = false;
+        novosAntes = novos;
+        desenhar();
+      }, () => aviso('Sem permissão para ler pedidos. Confira as regras (LEIA-ME).', true)));
+      parar.push(onSnapshot(doc(db, 'config', 'site'), (s) => { cfg = { ...configPadrao, ...(s.data() || {}) }; if (aba === 'inicio') desenhar(); }));
+      app.replaceChildren(
+        el('header', { class: 'p-topo' },
+          el('strong', {}, 'Painel · Loja do Trabalhador'),
+          el('a', { class: 'btn btn-leve btn-p', href: './', target: '_blank', rel: 'noopener' }, 'Ver site'),
+          el('button', { type: 'button', class: 'btn btn-leve btn-p', onclick: () => signOut(auth) }, 'Sair')),
+        el('nav', { class: 'abas', id: 'abas', role: 'tablist', 'aria-label': 'Seções' }),
+        el('main', { class: 'p-conteudo', id: 'conteudo' }));
+      desenhar();
+    }
+
+    function bip() {
+      try {
+        if (localStorage.getItem('ldt_som') !== '1') return;
+        const c = new AudioContext(), o = c.createOscillator(), g = c.createGain();
+        o.frequency.value = 880; g.gain.value = 0.15; o.connect(g).connect(c.destination); o.start(); o.stop(c.currentTime + 0.4);
+      } catch { /* sem áudio */ }
+    }
+
+    function desenhar() {
+      const abas = $('abas');
+      if (!abas) return;
+      const novos = pedidos.filter((p) => p.status === 'novo').length;
+      const itens = [['inicio', 'Início'], ['pedidos', 'Pedidos', novos], ['produtos', 'Produtos'], ['config', 'Configurações']];
+      abas.replaceChildren(...itens.map(([id, nome, n]) =>
+        el('button', { type: 'button', class: 'aba', role: 'tab', 'aria-selected': String(aba === id), onclick: () => { aba = id; desenhar(); scrollTo(0, 0); } }, nome, n ? el('span', { class: 'n' }, String(n)) : null)));
+      const c = $('conteudo');
+      if (aba === 'inicio') c.replaceChildren(...telaInicio());
+      if (aba === 'pedidos') c.replaceChildren(...telaPedidos());
+      if (aba === 'produtos') c.replaceChildren(...telaProdutos());
+      if (aba === 'config' && !c.querySelector('#form-config')) c.replaceChildren(...telaConfig());
+    }
+
+    // ---------- Início ----------
+    function telaInicio() {
+      const validos = pedidos.filter((p) => p.status !== 'cancelado');
+      const soma = (desde) => validos.filter((p) => ms(p.criadoEm) >= desde).reduce((s, p) => s + (p.total || 0), 0);
+      const baixo = produtos.filter((p) => p.ativo && (p.estoque ?? 0) <= (p.minimo ?? 5));
+      const novos = pedidos.filter((p) => p.status === 'novo');
+      const metrica = (r, v) => el('div', { class: 'metrica' }, el('div', { class: 'r' }, r), el('div', { class: 'v' }, v));
+      let som = false;
+      try { som = localStorage.getItem('ldt_som') === '1'; } catch { /* */ }
+      return [
+        el('h1', {}, 'Início'),
+        el('div', { class: 'metricas' }, metrica('Vendido hoje', reais(soma(inicioSP('dia')))), metrica('Na semana', reais(soma(inicioSP('semana')))), metrica('No mês', reais(soma(inicioSP('mes')))), metrica('No ano', reais(soma(inicioSP('ano'))))),
+        el('div', { class: 'metricas', style: 'margin-top:10px' },
+          el('button', { type: 'button', class: 'metrica', style: 'text-align:left;cursor:pointer', onclick: () => { aba = 'pedidos'; filtroPedidos = 'novo'; desenhar(); } }, el('div', { class: 'r' }, 'Pedidos novos'), el('div', { class: 'v', style: novos.length ? 'color:var(--erro)' : '' }, String(novos.length))),
+          el('button', { type: 'button', class: 'metrica', style: 'text-align:left;cursor:pointer', onclick: () => { aba = 'produtos'; buscaProdutos = ''; desenhar(); } }, el('div', { class: 'r' }, 'Estoque baixo'), el('div', { class: 'v', style: baixo.length ? 'color:var(--erro)' : '' }, String(baixo.length))),
+          metrica('Pedidos no mês', String(validos.filter((p) => ms(p.criadoEm) >= inicioSP('mes')).length)),
+          metrica('Produtos ativos', String(produtos.filter((p) => p.ativo).length))),
+        el('label', { class: 'marca', style: 'margin-top:12px' }, el('input', { type: 'checkbox', checked: som, onchange: (e) => { try { localStorage.setItem('ldt_som', e.target.checked ? '1' : '0'); } catch { /* */ } } }), 'Tocar aviso sonoro quando chegar pedido (com o painel aberto)'),
+        baixo.length ? el('div', { class: 'caixa', style: 'margin-top:12px' }, el('h2', {}, 'Estoque baixo'), el('ul', { style: 'margin:0;padding-left:18px' }, ...baixo.map((p) => el('li', {}, `${p.nome} — ${p.estoque ?? 0} em estoque`)))) : null,
+        !cfg.whatsapp ? el('div', { class: 'aviso aviso-alerta', style: 'margin-top:12px' }, 'Preencha o WhatsApp da loja em Configurações para os pedidos chegarem até você.') : null,
+        !produtos.length ? el('div', { class: 'caixa', style: 'margin-top:12px' },
+          el('h2', {}, 'Comece por aqui'),
+          el('p', {}, 'Ainda não há produtos. Carregue o catálogo inicial (16 produtos com preços e estoques de exemplo) e depois ajuste.'),
+          el('button', { type: 'button', class: 'btn btn-comprar', onclick: carregarIniciais }, 'Carregar produtos iniciais')) : null,
+      ];
+    }
+
+    async function carregarIniciais() {
+      const lote = writeBatch(db);
+      produtosIniciais.forEach((p, i) => { const { id, ...dados } = p; lote.set(doc(db, 'produtos', id), { ...dados, minimo: 5, ordem: i, criadoEm: Date.now() }); });
+      lote.set(doc(db, 'config', 'site'), { ...configPadrao, ...cfg }, { merge: true });
+      await lote.commit();
+      aviso('Catálogo inicial carregado. Ajuste preços e estoques em Produtos.');
+    }
+
+    // ---------- Pedidos ----------
+    function telaPedidos() {
+      const filtros = [['abertos', 'Em aberto'], ['novo', 'Novos'], ['confirmado', 'Confirmados'], ['entregue', 'Entregues'], ['cancelado', 'Cancelados'], ['todos', 'Todos']];
+      const lista = pedidos.filter((p) => filtroPedidos === 'todos' || (filtroPedidos === 'abertos' ? ['novo', 'confirmado'].includes(p.status) : p.status === filtroPedidos));
+      return [
+        el('h1', {}, 'Pedidos'),
+        el('div', { class: 'chips' }, ...filtros.map(([id, nome]) => el('button', { type: 'button', class: 'chip', 'aria-pressed': String(filtroPedidos === id), onclick: () => { filtroPedidos = id; desenhar(); } }, nome))),
+        lista.length ? el('div', { class: 'lista' }, ...lista.map(cartaoPedido)) : el('div', { class: 'vazio' }, 'Nenhum pedido aqui.'),
+      ];
+    }
+
+    function cartaoPedido(p) {
+      // Confere os preços enviados com o cadastro atual (o site roda no navegador do cliente).
+      const divergente = (p.itens || []).some((i) => { const pr = produtos.find((x) => x.id === i.id); return pr && precoAtual(pr) !== i.preco; });
+      const totalCalc = (p.itens || []).reduce((s, i) => s + i.preco * i.qtd, 0);
+      const tel = p.cliente?.telefone || '';
+      return el('article', { class: 'linha-item' },
+        el('div', { class: 'cab' },
+          el('div', {}, el('strong', { style: 'font-size:1.1rem' }, `${p.codigo || p.id.slice(0, 6)} · ${p.cliente?.nome || ''}`), el('div', { class: 'cinza' }, `${dataHora(p.criadoEm)} · ${p.recebimento || ''} · ${p.pagamento || ''}`)),
+          el('span', { class: `st st-${p.status}` }, statusTexto[p.status] || p.status)),
+        el('ul', { style: 'margin:8px 0;padding-left:18px' }, ...(p.itens || []).map((i) => el('li', {}, `${i.qtd}x ${i.nome}${i.opcao ? ` (${i.opcao})` : ''} — ${reais(i.preco * i.qtd)}`))),
+        el('div', {}, el('strong', {}, `Total: ${reais(p.total)}`)),
+        (divergente || totalCalc !== p.total) ? el('div', { class: 'aviso aviso-alerta', style: 'margin-top:6px' }, 'Atenção: o preço deste pedido está diferente do cadastro atual. Confira antes de confirmar.') : null,
+        el('div', { class: 'cinza', style: 'margin-top:4px' }, [p.endereco, p.bairro, p.cidade].filter(Boolean).join(' · '), tel ? ` · ${tel.replace(/^55(\d{2})(\d+)(\d{4})$/, '($1) $2-$3')}` : ''),
+        p.obs ? el('div', { style: 'margin-top:4px' }, `Obs.: ${p.obs}`) : null,
+        el('div', { class: 'botoes' },
+          tel ? el('a', { class: 'btn btn-whats btn-p', href: linkWhats(tel, `Olá, ${(p.cliente?.nome || '').split(' ')[0]}! Aqui é da Loja do Trabalhador, sobre o seu pedido ${p.codigo}.`), target: '_blank', rel: 'noopener' }, 'WhatsApp') : null,
+          p.status === 'novo' ? el('button', { type: 'button', class: 'btn btn-azul btn-p', onclick: () => confirmarPedido(p) }, 'Confirmar (baixa estoque)') : null,
+          p.status === 'confirmado' ? el('button', { type: 'button', class: 'btn btn-azul btn-p', onclick: () => mudarStatus(p, 'entregue') }, 'Marcar entregue') : null,
+          ['novo', 'confirmado'].includes(p.status) ? el('button', { type: 'button', class: 'btn btn-p', onclick: () => confirmar('Cancelar pedido', p.estoqueBaixado ? 'O pedido será cancelado e os itens voltam para o estoque.' : 'O pedido será cancelado.', 'Cancelar pedido', () => cancelarPedido(p)) }, 'Cancelar') : null,
+          el('button', { type: 'button', class: 'btn btn-p', onclick: () => imprimir(p) }, 'Imprimir'),
+          el('button', { type: 'button', class: 'btn btn-leve btn-p', onclick: () => confirmar('Excluir pedido', 'O pedido será apagado e sai do faturamento. Excluir NÃO devolve o estoque — se não foi entregue, cancele antes.', 'Excluir', () => deleteDoc(doc(db, 'pedidos', p.id))) }, 'Excluir')));
+    }
+
+    async function confirmarPedido(p) {
+      try {
+        await runTransaction(db, async (tx) => {
+          const ref = doc(db, 'pedidos', p.id);
+          const atual = await tx.get(ref);
+          if (!atual.exists() || atual.data().estoqueBaixado) return;
+          const ids = [...new Set(p.itens.map((i) => i.id))];
+          const snaps = await Promise.all(ids.map((id) => tx.get(doc(db, 'produtos', id))));
+          const estoque = Object.fromEntries(snaps.map((s) => [s.id, s.exists() ? s.data().estoque ?? 0 : null]));
+          for (const i of p.itens) {
+            if (estoque[i.id] == null) throw new Error(`${i.nome} não existe mais no cadastro.`);
+            if (estoque[i.id] < i.qtd) throw new Error(`Estoque insuficiente: ${i.nome} (tem ${estoque[i.id]}).`);
+            estoque[i.id] -= i.qtd;
+          }
+          for (const id of ids) tx.update(doc(db, 'produtos', id), { estoque: estoque[id] });
+          tx.update(ref, { status: 'confirmado', estoqueBaixado: true });
+        });
+        aviso('Pedido confirmado. Estoque atualizado.');
+      } catch (e) {
+        aviso(e.message || 'Não foi possível confirmar.', true);
+      }
+    }
+
+    async function cancelarPedido(p) {
+      await runTransaction(db, async (tx) => {
+        const ref = doc(db, 'pedidos', p.id);
+        const atual = await tx.get(ref);
+        if (!atual.exists() || atual.data().status === 'cancelado') return;
+        if (atual.data().estoqueBaixado) {
+          const ids = [...new Set(p.itens.map((i) => i.id))];
+          const snaps = await Promise.all(ids.map((id) => tx.get(doc(db, 'produtos', id))));
+          const estoque = Object.fromEntries(snaps.filter((s) => s.exists()).map((s) => [s.id, s.data().estoque ?? 0]));
+          for (const i of p.itens) if (i.id in estoque) estoque[i.id] += i.qtd;
+          for (const id of Object.keys(estoque)) tx.update(doc(db, 'produtos', id), { estoque: estoque[id] });
+        }
+        tx.update(ref, { status: 'cancelado', estoqueBaixado: false });
+      });
+      aviso('Pedido cancelado.');
+    }
+
+    async function mudarStatus(p, status) {
+      await updateDoc(doc(db, 'pedidos', p.id), { status });
+      aviso(`Pedido ${statusTexto[status].toLowerCase()}.`);
+    }
+
+    function imprimir(p) {
+      const w = window.open('', '_blank', 'width=420,height=700');
+      if (!w) return aviso('Permita pop-ups para imprimir.', true);
+      const d = w.document;
+      d.title = `Pedido ${p.codigo}`;
+      const st = d.createElement('style');
+      st.textContent = 'body{font:12px/1.4 system-ui,sans-serif;width:76mm;margin:0 auto;padding:2mm}h1{font-size:16px;text-align:center;margin:0}p{margin:2px 0}hr{border:0;border-top:1px dashed #000}td{padding:2px 0;vertical-align:top}.r{text-align:right}@page{size:80mm auto;margin:0}';
+      d.head.append(st);
+      const add = (tag, texto, attrs = {}) => { const n = d.createElement(tag); n.textContent = texto; Object.assign(n, attrs); d.body.append(n); return n; };
+      add('h1', 'LOJA DO TRABALHADOR');
+      add('p', 'Entender para melhor atender.', { style: 'text-align:center' });
+      if (cfg.endereco) add('p', `${cfg.endereco}${cfg.cidade ? ' — ' + cfg.cidade : ''}`, { style: 'text-align:center' });
+      d.body.append(d.createElement('hr'));
+      add('p', `Pedido ${p.codigo} · ${dataHora(p.criadoEm)}`);
+      add('p', `${p.cliente?.nome || ''} · ${p.recebimento || ''}`);
+      if (p.endereco || p.bairro) add('p', [p.endereco, p.bairro, p.cidade].filter(Boolean).join(', '));
+      d.body.append(d.createElement('hr'));
+      const t = d.createElement('table');
+      t.style.width = '100%';
+      for (const i of p.itens || []) {
+        const tr = t.insertRow();
+        tr.insertCell().textContent = `${i.qtd}x ${i.nome}${i.opcao ? ` (${i.opcao})` : ''}`;
+        const c = tr.insertCell(); c.className = 'r'; c.textContent = reais(i.preco * i.qtd);
+      }
+      d.body.append(t, d.createElement('hr'));
+      add('p', `TOTAL: ${reais(p.total)} · ${p.pagamento || ''}`, { style: 'font-weight:700' });
+      if (p.obs) add('p', `Obs.: ${p.obs}`);
+      d.body.append(d.createElement('hr'));
+      add('p', `Obrigado! Siga @${(cfg.instagram || 'lojadotrabalhador_').replace(/^@/, '')}`, { style: 'text-align:center' });
+      add('p', 'Documento sem valor fiscal', { style: 'text-align:center;font-size:10px' });
+      w.focus();
+      w.print();
+    }
+
+    // ---------- Produtos ----------
+    function telaProdutos() {
+      const termo = semAcento(buscaProdutos);
+      const lista = produtos.filter((p) => !termo || semAcento(`${p.nome} ${p.categoria}`).includes(termo));
+      const busca = el('input', { class: 'entrada', type: 'search', placeholder: 'Buscar produto', value: buscaProdutos, 'aria-label': 'Buscar produto', oninput: (e) => { buscaProdutos = e.target.value; const pos = e.target.selectionStart; desenhar(); const b = $('conteudo').querySelector('input[type=search]'); b.focus(); b.setSelectionRange(pos, pos); } });
+      return [
+        el('div', { style: 'display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap' }, el('h1', { style: 'margin:0' }, 'Produtos'), el('button', { type: 'button', class: 'btn btn-comprar', onclick: () => editarProduto(null) }, '+ Novo produto')),
+        el('div', { style: 'margin:12px 0' }, busca),
+        lista.length ? el('div', { class: 'lista' }, ...lista.map(linhaProduto)) : el('div', { class: 'vazio' }, produtos.length ? 'Nenhum produto encontrado.' : 'Nenhum produto. Use “Carregar produtos iniciais” na aba Início.'),
+      ];
+    }
+
+    function linhaProduto(p) {
+      const baixo = (p.estoque ?? 0) <= (p.minimo ?? 5);
+      const campoEstoque = el('input', { class: 'entrada', type: 'number', min: 0, value: p.estoque ?? 0, style: 'width:90px;min-height:36px', 'aria-label': `Estoque de ${p.nome}`,
+        onchange: async (e) => { const n = Math.max(0, Math.floor(Number(e.target.value) || 0)); await updateDoc(doc(db, 'produtos', p.id), { estoque: n }); aviso(`Estoque de ${p.nome}: ${n}`); } });
+      return el('article', { class: 'linha-item' },
+        el('div', { class: 'prod-linha' },
+          el('img', { src: p.foto || 'img/produtos/sem-foto.webp', alt: '' }),
+          el('div', {},
+            el('strong', {}, p.nome), p.ativo ? null : el('span', { class: 'st st-cancelado', style: 'margin-left:6px' }, 'Oculto no site'), p.destaque ? el('span', { class: 'st st-confirmado', style: 'margin-left:6px' }, 'Destaque') : null,
+            el('div', { class: 'cinza' }, `${p.categoria} · ${reais(precoAtual(p))}${precoAtual(p) !== p.preco ? ` (de ${reais(p.preco)})` : ''}`))),
+        el('div', { class: 'botoes', style: 'align-items:center' },
+          el('span', { class: baixo ? 'estoque-baixo' : '' }, 'Estoque:'), campoEstoque,
+          el('button', { type: 'button', class: 'btn btn-p', 'aria-label': `Repor estoque de ${p.nome}`, onclick: () => repor(p) }, '+ Repor'),
+          el('button', { type: 'button', class: 'btn btn-p', onclick: () => editarProduto(p) }, 'Editar'),
+          el('button', { type: 'button', class: 'btn btn-p', onclick: async () => { await updateDoc(doc(db, 'produtos', p.id), { ativo: !p.ativo }); aviso(p.ativo ? 'Produto ocultado do site.' : 'Produto visível no site.'); } }, p.ativo ? 'Ocultar' : 'Mostrar')));
+    }
+
+    function repor(p) {
+      const qtd = el('input', { class: 'entrada', id: 'r-qtd', type: 'number', min: 1, inputmode: 'numeric' });
+      janela(`Repor: ${p.nome}`,
+        el('p', {}, `Estoque atual: ${p.estoque ?? 0}`),
+        el('div', { class: 'campo' }, el('label', { for: 'r-qtd' }, 'Quantas unidades chegaram?'), qtd),
+        el('div', { class: 'botoes', style: 'justify-content:flex-end' }, el('button', { type: 'button', class: 'btn', onclick: fecharJanela }, 'Voltar'),
+          el('button', { type: 'button', class: 'btn btn-azul', onclick: async () => {
+            const n = Math.floor(Number(qtd.value));
+            if (!(n > 0)) return aviso('Informe a quantidade.', true);
+            await runTransaction(db, async (tx) => { const ref = doc(db, 'produtos', p.id); const s = await tx.get(ref); tx.update(ref, { estoque: (s.data().estoque ?? 0) + n }); });
+            aviso(`+${n} no estoque de ${p.nome}.`);
+            fecharJanela();
+          } }, 'Somar ao estoque')));
+    }
+
+    async function comprimirFoto(arquivo) {
+      const img = await createImageBitmap(arquivo);
+      const lado = Math.min(600, Math.max(img.width, img.height));
+      const escala = lado / Math.max(img.width, img.height);
+      const cv = document.createElement('canvas');
+      cv.width = Math.round(img.width * escala);
+      cv.height = Math.round(img.height * escala);
+      const ctx = cv.getContext('2d');
+      ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, cv.width, cv.height);
+      ctx.drawImage(img, 0, 0, cv.width, cv.height);
+      for (const q of [0.8, 0.7, 0.6, 0.5]) {
+        const url = cv.toDataURL('image/webp', q);
+        if (url.length < 250_000) return url;
+      }
+      throw new Error('Foto muito pesada. Tente outra.');
+    }
+
+    function editarProduto(p) {
+      const novo = !p;
+      const d = p || { nome: '', categoria: categorias[0], preco: 0, precoPromo: null, estoque: 0, minimo: 5, unidade: 'Unidade', descricao: '', opcoesNome: '', opcoes: [], ca: '', foto: '', ativo: true, destaque: false };
+      let foto = d.foto || '';
+      const campo = (id, rotulo, entrada, dica) => el('div', { class: 'campo' }, el('label', { for: id }, rotulo), entrada, dica ? el('span', { class: 'cinza', style: 'font-size:0.82rem' }, dica) : null);
+      const i = (id, valor, extra = {}) => el('input', { class: 'entrada', id, value: valor ?? '', ...extra });
+      const previa = el('img', { src: foto || 'img/produtos/sem-foto.webp', alt: 'Foto do produto', style: 'width:140px;height:140px;object-fit:contain;background:#fff;border:1px solid var(--linha);border-radius:10px' });
+      const erro = el('div', { class: 'aviso aviso-erro', role: 'alert', hidden: true });
+      const cat = el('select', { class: 'entrada', id: 'p-cat' }, ...[...new Set([...categorias, d.categoria])].map((c) => el('option', { value: c, selected: c === d.categoria }, c)));
+      const form = el('form', { class: 'grade-form' },
+        erro,
+        campo('p-nome', 'Nome *', i('p-nome', d.nome, { maxlength: 120 })),
+        el('div', { class: 'grade-form duas' },
+          campo('p-cat', 'Categoria', cat),
+          campo('p-un', 'Unidade / embalagem', i('p-un', d.unidade, { placeholder: 'Galão 5 litros, Par...' })),
+          campo('p-preco', 'Preço (R$) *', i('p-preco', centavosTexto(d.preco), { inputmode: 'decimal', placeholder: '24,90' })),
+          campo('p-promo', 'Preço promocional (R$)', i('p-promo', centavosTexto(d.precoPromo), { inputmode: 'decimal' }), 'Vazio = sem promoção. Aparece “de/por”.'),
+          campo('p-est', 'Estoque', i('p-est', d.estoque ?? 0, { type: 'number', min: 0 })),
+          campo('p-min', 'Avisar estoque baixo com', i('p-min', d.minimo ?? 5, { type: 'number', min: 0 }))),
+        campo('p-desc', 'Descrição', el('textarea', { class: 'entrada', id: 'p-desc', maxlength: 1500 }, d.descricao || '')),
+        el('div', { class: 'grade-form duas' },
+          campo('p-on', 'Nome das opções', i('p-on', d.opcoesNome, { placeholder: 'Tamanho, Cor, Fragrância' })),
+          campo('p-op', 'Opções (separe por vírgula)', i('p-op', (d.opcoes || []).join(', '), { placeholder: 'P, M, G' }), 'Com opções, o cliente precisa escolher uma.')),
+        campo('p-ca', 'Nº do CA (EPI/calçado)', i('p-ca', d.ca), 'Só aparece no site se preenchido. Confira na embalagem.'),
+        el('div', { class: 'campo' }, el('span', { class: 'rotulo' }, 'Foto (quadrada, fundo branco)'), previa,
+          el('input', { type: 'file', accept: 'image/*', 'aria-label': 'Escolher foto', onchange: async (e) => {
+            const f = e.target.files[0]; if (!f) return;
+            try { foto = await comprimirFoto(f); previa.src = foto; } catch (err) { aviso(err.message, true); }
+          } })),
+        el('label', { class: 'marca' }, el('input', { type: 'checkbox', id: 'p-ativo', checked: d.ativo !== false }), 'Mostrar no site'),
+        el('label', { class: 'marca' }, el('input', { type: 'checkbox', id: 'p-dest', checked: Boolean(d.destaque) }), 'Destaque (aparece primeiro)'),
+        el('div', { class: 'botoes', style: 'justify-content:flex-end' },
+          !novo ? el('button', { type: 'button', class: 'btn btn-leve', onclick: () => confirmar('Excluir produto', `Excluir ${d.nome}? Isso não pode ser desfeito.`, 'Excluir', () => deleteDoc(doc(db, 'produtos', p.id))) }, 'Excluir') : null,
+          el('button', { type: 'button', class: 'btn', onclick: fecharJanela }, 'Voltar'),
+          el('button', { type: 'submit', class: 'btn btn-comprar' }, 'Salvar')));
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const v = (id) => form.querySelector(`#${id}`).value.trim();
+        const preco = paraCentavos(v('p-preco'));
+        const promo = v('p-promo') ? paraCentavos(v('p-promo')) : null;
+        const problemas = [];
+        if (!v('p-nome')) problemas.push('Informe o nome.');
+        if (!(preco > 0)) problemas.push('O preço precisa ser maior que zero.');
+        if (promo != null && !(promo > 0 && promo < preco)) problemas.push('O preço promocional precisa ser menor que o preço normal.');
+        if (problemas.length) { erro.textContent = problemas.join(' '); erro.hidden = false; return; }
+        const dados = {
+          nome: v('p-nome'), categoria: v('p-cat'), unidade: v('p-un'), preco, precoPromo: promo,
+          estoque: Math.max(0, Math.floor(Number(v('p-est')) || 0)), minimo: Math.max(0, Math.floor(Number(v('p-min')) || 0)),
+          descricao: v('p-desc'), opcoesNome: v('p-on'), opcoes: v('p-op').split(',').map((x) => x.trim()).filter(Boolean),
+          ca: v('p-ca'), foto, ativo: form.querySelector('#p-ativo').checked, destaque: form.querySelector('#p-dest').checked,
+        };
+        const id = novo ? (semAcento(dados.nome).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'produto') + '-' + Date.now().toString(36).slice(-4) : p.id;
+        try {
+          await setDoc(doc(db, 'produtos', id), { ...dados, ...(novo ? { criadoEm: Date.now() } : {}) }, { merge: true });
+          aviso('Produto salvo. O site já mostra a mudança.');
+          fecharJanela();
+        } catch (err) {
+          erro.textContent = err.code === 'permission-denied' ? 'Sem permissão. Confira se seu usuário está liberado (LEIA-ME).' : 'Não foi possível salvar.';
+          erro.hidden = false;
+        }
+      });
+      janela(novo ? 'Novo produto' : 'Editar produto', form);
+    }
+
+    // ---------- Configurações ----------
+    function telaConfig() {
+      const c = cfg;
+      const i = (id, rotulo, valor, extra = {}, dica) => el('div', { class: 'campo' }, el('label', { for: id }, rotulo), el('input', { class: 'entrada', id, value: valor || '', ...extra }), dica ? el('span', { class: 'cinza', style: 'font-size:0.82rem' }, dica) : null);
+      const form = el('form', { class: 'grade-form caixa', id: 'form-config' },
+        i('c-whats', 'WhatsApp da loja *', c.whatsapp ? c.whatsapp.replace(/^55/, '') : '', { type: 'tel', placeholder: '(00) 00000-0000' }, 'Os pedidos do site chegam neste número.'),
+        el('div', { class: 'grade-form duas' },
+          i('c-end', 'Endereço', c.endereco), i('c-cid', 'Cidade', c.cidade),
+          i('c-hor', 'Horário', c.horario, { placeholder: 'Seg a Sex 8h–18h · Sáb 8h–12h' }), i('c-ig', 'Instagram (usuário)', c.instagram),
+          i('c-maps', 'Link do Google Maps', c.mapsUrl, { type: 'url' }), i('c-aviso', 'Barra de aviso (topo do site)', c.aviso)),
+        el('div', { class: 'campo' }, el('label', { for: 'c-areas' }, 'Bairros/cidades com frete grátis (um por linha)'), el('textarea', { class: 'entrada', id: 'c-areas' }, (c.areasFrete || []).join('\n'))),
+        el('button', { type: 'submit', class: 'btn btn-comprar' }, 'Salvar configurações'));
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const v = (id) => form.querySelector(`#${id}`).value.trim();
+        const whats = telefone(v('c-whats'));
+        if (v('c-whats') && !whats) return aviso('WhatsApp inválido. Use DDD + número.', true);
+        await setDoc(doc(db, 'config', 'site'), {
+          whatsapp: whats, endereco: v('c-end'), cidade: v('c-cid'), horario: v('c-hor'), instagram: v('c-ig').replace(/^@/, ''),
+          mapsUrl: v('c-maps'), aviso: v('c-aviso'), areasFrete: v('c-areas').split('\n').map((x) => x.trim()).filter(Boolean),
+        }, { merge: true });
+        aviso('Configurações salvas.');
+      });
+      return [el('h1', {}, 'Configurações'), form];
+    }
+  </script>
+</body>
+</html>
