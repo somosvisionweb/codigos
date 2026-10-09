@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { getSettings, getCategories } from '../server/repo';
+
+export const prerender = false;
+Astro.response.status = 404;
+const [settings, categories] = await Promise.all([getSettings(), getCategories()]);
+---
+<Base title="Página não encontrada" description="A página que você procura não existe." settings={settings} categories={categories} noindex>
+  <div class="container" style="max-width:640px;padding:48px var(--gutter);text-align:center">
+    <h1>Página não encontrada</h1>
+    <p>O link pode ter mudado ou o produto saiu do catálogo. Tente buscar:</p>
+    <form class="search-form" action="/loja" method="get" role="search" style="margin:16px 0">
+      <label class="sr-only" for="q404">Buscar produtos</label>
+      <input id="q404" name="q" type="search" placeholder="Buscar produtos" />
+      <button class="icon-btn" type="submit" aria-label="Buscar"><Icon name="search" /></button>
+    </form>
+    <p style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <a class="btn btn-buy" href="/loja">Ver todos os produtos</a>
+      <a class="btn btn-outline" href="/">Página inicial</a>
+    </p>
+  </div>
+</Base>

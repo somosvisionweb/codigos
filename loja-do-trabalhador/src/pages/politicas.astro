@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+import { getSettings, getCategories } from '../server/repo';
+import { setPublicCache } from '../server/http';
+import { defaultExchangePolicy, defaultPrivacyPolicy, filled } from '../content/defaults';
+
+export const prerender = false;
+setPublicCache(Astro.response.headers);
+const [settings, categories] = await Promise.all([getSettings(), getCategories()]);
+const exchange = filled(settings.exchangePolicy) ? settings.exchangePolicy : defaultExchangePolicy;
+const privacy = filled(settings.privacyPolicy) ? settings.privacyPolicy : defaultPrivacyPolicy;
+const split = (t: string) => { const [title, ...rest] = t.trim().split('\n'); return { title, body: rest.join('\n').trim() }; };
+const ex = split(exchange);
+const pr = split(privacy);
+---
+<Base title="Trocas e privacidade" description="Políticas de trocas, devoluções e privacidade da Loja do Trabalhador." settings={settings} categories={categories}>
+  <div class="container page-head"><h1>Políticas</h1></div>
+  <div class="container prose" style="padding-bottom:48px">
+    <section id="trocas" class="panel" style="margin-bottom:16px"><h2>{ex.title}</h2><p style="white-space:pre-line">{ex.body}</p></section>
+    <section id="privacidade" class="panel"><h2>{pr.title}</h2><p style="white-space:pre-line">{pr.body}</p></section>
+  </div>
+</Base>

@@ -1,0 +1,40 @@
+---
+import Base from '../../layouts/Base.astro';
+import Shop from '../../components/Shop.astro';
+import { getSettings, getCategories, getProducts } from '../../server/repo';
+import { setPublicCache } from '../../server/http';
+import { whatsappNumber } from '../../server/site';
+import { filled } from '../../content/defaults';
+
+export const prerender = false;
+const [settings, categories, products] = await Promise.all([getSettings(), getCategories(), getProducts()]);
+const category = categories.find((c) => c.slug === Astro.params.slug);
+if (!category) return Astro.rewrite('/404');
+setPublicCache(Astro.response.headers);
+const list = products.filter((p) => p.categoryId === category.id);
+const city = filled(settings.city) ? ` em ${settings.city}` : '';
+const descriptions: Record<string, string> = {
+  limpeza: 'Material de limpeza: desinfetantes, detergentes, vassouras, rodos, sacos de lixo e mais.',
+  epis: 'EPIs para obra e indústria: capacetes, óculos de segurança, luvas e máscaras PFF2.',
+  calcados: 'Calçados de segurança: botina de segurança e botas de PVC para o trabalho.',
+  ferramentas: 'Ferramentas para obra e manutenção: martelos, alicates, trenas e mais.',
+  automotivo: 'Produtos automotivos para lavagem de carros: shampoo automotivo, limpa pneus e mais.',
+  kits: 'Kits prontos com o essencial para começar o serviço.',
+};
+const desc = (descriptions[category.slug] ?? `${category.name} na Loja do Trabalhador.`) + `${city ? ` Atendemos${city}.` : ''} Frete grátis na região local.`;
+const breadcrumb = { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+  { '@type': 'ListItem', position: 1, name: 'Início', item: new URL('/', Astro.site).toString() },
+  { '@type': 'ListItem', position: 2, name: 'Loja', item: new URL('/loja', Astro.site).toString() },
+  { '@type': 'ListItem', position: 3, name: category.name, item: new URL(`/categoria/${category.slug}`, Astro.site).toString() },
+] };
+---
+<Base title={`${category.name}${city}`} description={desc} settings={settings} categories={categories} jsonLd={[breadcrumb]}>
+  <div class="container page-head">
+    <nav class="breadcrumb" aria-label="Você está em"><ol><li><a href="/">Início</a></li><li><a href="/loja">Loja</a></li><li aria-current="page">{category.name}</li></ol></nav>
+    <h1>{category.name}</h1>
+    <p class="muted">{descriptions[category.slug]}</p>
+  </div>
+  <div class="container" style="padding-bottom:48px">
+    <Shop products={list} categories={categories} current={category.id} threshold={settings.lowStockThreshold ?? 5} whatsapp={whatsappNumber(settings)} />
+  </div>
+</Base>

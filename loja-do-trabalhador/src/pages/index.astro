@@ -1,0 +1,202 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import ProductCard from '../components/ProductCard.astro';
+import Testimonials from '../components/Testimonials.astro';
+import { getSettings, getCategories, getProducts, getPublicTestimonials, getActiveBanners } from '../server/repo';
+import { setPublicCache } from '../server/http';
+import { absolute, whatsappNumber, instagramUrl } from '../server/site';
+import { defaultFaq, filled } from '../content/defaults';
+import { whatsappLink } from '../lib/whatsapp';
+import { ratingSummary, shouldEmitAggregateRating } from '../lib/testimonials';
+
+export const prerender = false;
+setPublicCache(Astro.response.headers);
+
+const [settings, categories, products, testimonials, banners] = await Promise.all([
+  getSettings(), getCategories(), getProducts(), getPublicTestimonials(), getActiveBanners(),
+]);
+const threshold = settings.lowStockThreshold ?? 5;
+const wa = whatsappNumber(settings);
+const catName = Object.fromEntries(categories.map((c) => [c.id, c.name]));
+const featured = products.filter((p) => p.featured && !p.isKit).slice(0, 8);
+const kits = products.filter((p) => p.isKit).slice(0, 4);
+const faq = settings.faq?.length ? settings.faq : defaultFaq;
+const banner = banners[0];
+const city = filled(settings.city) ? settings.city : '';
+const quoteLink = whatsappLink(wa, 'Olá, Loja do Trabalhador! Gostaria de pedir um orçamento.');
+const ig = instagramUrl(settings);
+
+const store: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Store',
+  name: 'Loja do Trabalhador',
+  slogan: settings.slogan,
+  url: absolute('/'),
+  image: absolute('/images/og-image.png'),
+  description: 'Material de limpeza, EPIs, calçados de segurança, ferramentas e produtos automotivos.',
+};
+if (wa) store.telephone = '+' + wa;
+if (filled(settings.email)) store.email = settings.email;
+if (filled(settings.address) || city) {
+  store.address = {
+    '@type': 'PostalAddress',
+    ...(filled(settings.address) ? { streetAddress: settings.address } : {}),
+    ...(city ? { addressLocality: city } : {}),
+    ...(filled(settings.state) ? { addressRegion: settings.state } : {}),
+    addressCountry: 'BR',
+  };
+}
+if (filled(settings.hours)) store.openingHours = settings.hours;
+if (ig) store.sameAs = [ig];
+if (shouldEmitAggregateRating(testimonials)) {
+  const s = ratingSummary(testimonials);
+  store.aggregateRating = { '@type': 'AggregateRating', ratingValue: s.average, reviewCount: s.rated, bestRating: 5, worstRating: 1 };
+}
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+const title = `Loja do Trabalhador — Material de limpeza, EPI e ferramentas${city ? ` em ${city}` : ''}`;
+const description = `Material de limpeza, EPIs, botina de segurança, ferramentas e produtos automotivos${city ? ` em ${city}` : ''}. 10 anos de mercado e frete grátis na região local. Peça pelo site ou WhatsApp.`;
+const pillars = [
+  { icon: 'handshake', title: 'Entender para melhor atender', text: 'Antes de vender, a gente entende o que você precisa. Assim você leva o produto certo, na quantidade certa.' },
+  { icon: 'truck', title: 'Frete grátis na região', text: 'Entregamos sem custo de frete na nossa região local. Fora dela, combinamos com você pelo WhatsApp.' },
+  { icon: 'boxes', title: 'Tudo em um só lugar', text: 'Limpeza, EPIs, calçados de segurança, ferramentas e automotivo: resolva a compra do mês numa parada só.' },
+];
+---
+<Base title={title} description={description} settings={settings} categories={categories} jsonLd={[store, faqLd]}>
+  <section class="hero">
+    <div class="container hero-inner">
+      <div>
+        <p class="eyebrow" style="color:#9cc8ef">10 anos de mercado · {settings.slogan}</p>
+        <h1>{banner?.title || 'Tudo para limpar, proteger e trabalhar, com frete grátis na sua região.'}</h1>
+        <p class="lead">{banner?.subtitle || 'Material de limpeza, EPIs, calçados de segurança, ferramentas e produtos automotivos. Há 10 anos atendendo quem trabalha, com quem entende do assunto.'}</p>
+        <div class="hero-ctas">
+          <a class="btn btn-buy btn-lg" href={banner?.link || '/loja'}>Ver produtos <Icon name="arrow-right" /></a>
+          <a class="btn btn-light btn-lg" href={quoteLink} target="_blank" rel="noopener" data-whats="hero"><Icon name="message-circle" /> Pedir orçamento no WhatsApp</a>
+        </div>
+      </div>
+      {banner ? (
+        <a class="hero-banner" href={banner.link || '/loja'} aria-label={banner.title}>
+          <picture>
+            <source media="(max-width: 899px)" srcset={banner.imageMobile || banner.imageDesktop} />
+            <img src={banner.imageDesktop} alt="" width="800" height="600" fetchpriority="high" />
+          </picture>
+        </a>
+      ) : (
+        <div class="hero-art" aria-hidden="true">
+          {categories.slice(0, 4).map((c) => (
+            <a class="hero-tile" href={`/categoria/${c.slug}`} tabindex="-1"><Icon name={c.icon} /><strong>{c.name}</strong></a>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+
+  <div class="trust">
+    <div class="container">
+      <ul>
+        <li><Icon name="badge-check" /> 10 anos de mercado</li>
+        <li><Icon name="truck" /> Frete grátis na região local</li>
+        <li><Icon name="handshake" /> Atendimento que entende sua necessidade</li>
+        <li><Icon name="building-2" /> Compra para empresas e condomínios</li>
+      </ul>
+    </div>
+  </div>
+
+  <section class="section" aria-labelledby="cat-titulo">
+    <div class="container">
+      <div class="section-head"><h2 id="cat-titulo">Categorias</h2><a href="/loja">Ver tudo</a></div>
+      <div class="cat-grid">
+        {categories.map((c) => <a class="cat-card" href={`/categoria/${c.slug}`}><Icon name={c.icon} />{c.name}</a>)}
+      </div>
+    </div>
+  </section>
+
+  {featured.length > 0 && (
+    <section class="section" style="padding-top:0" aria-labelledby="dest-titulo">
+      <div class="container">
+        <div class="section-head"><h2 id="dest-titulo">Destaques da loja</h2><a href="/loja">Ver todos os produtos</a></div>
+        <div class="product-grid">
+          {featured.map((p, i) => <ProductCard product={p} threshold={threshold} whatsapp={wa} categoryName={catName[p.categoryId]} index={i} />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {kits.length > 0 && (
+    <section class="section" style="padding-top:0" aria-labelledby="kits-titulo">
+      <div class="container">
+        <div class="section-head"><div><p class="eyebrow">Economize tempo</p><h2 id="kits-titulo">Kits prontos</h2></div></div>
+        <div class="product-grid">
+          {kits.map((p, i) => <ProductCard product={p} threshold={threshold} whatsapp={wa} categoryName={catName[p.categoryId]} index={i} />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="section" style="padding-top:0">
+    <div class="container">
+      <div class="b2b">
+        <div>
+          <p class="eyebrow" style="color:#9cc8ef">Empresas · Condomínios · Obras · Oficinas</p>
+          <h2>Compra para empresa, condomínio ou obra?</h2>
+          <p style="margin:0">Orçamento por quantidade, compra recorrente e atendimento dedicado. Conte o que você precisa e a gente monta a proposta.</p>
+        </div>
+        <a class="btn btn-buy btn-lg" href="/empresas">Pedir orçamento <Icon name="arrow-right" /></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0" aria-labelledby="pq-titulo">
+    <div class="container">
+      <h2 id="pq-titulo">Por que a Loja do Trabalhador</h2>
+      <div class="pillars">
+        {pillars.map((p) => (
+          <div class="pillar"><Icon name={p.icon} /><h3>{p.title}</h3><p class="muted" style="margin:0">{p.text}</p></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Testimonials list={testimonials} whatsapp={wa} googleReviewUrl={filled(settings.googleReviewUrl) ? settings.googleReviewUrl : ''} />
+
+  <section class="section faq" style="padding-top:0" aria-labelledby="faq-titulo">
+    <div class="container" style="max-width:860px">
+      <h2 id="faq-titulo">Perguntas frequentes</h2>
+      {faq.map((f) => (
+        <details><summary>{f.q}</summary><div><p style="margin:0">{f.a}</p></div></details>
+      ))}
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0" aria-labelledby="onde-titulo">
+    <div class="container">
+      <h2 id="onde-titulo">Onde estamos</h2>
+      <div class="info-grid">
+        <div class="info-card">
+          <ul class="info-list">
+            {filled(settings.address) && <li><Icon name="map-pin" /><span>{settings.address}{city && ` — ${city}`}{filled(settings.state) && `/${settings.state}`}</span></li>}
+            {filled(settings.hours) && <li><Icon name="clock" /><span>{settings.hours}</span></li>}
+            {wa && <li><Icon name="phone" /><span>WhatsApp: <a href={whatsappLink(wa, 'Olá, Loja do Trabalhador!')} target="_blank" rel="noopener" data-whats="onde">conversar agora</a></span></li>}
+            {ig && <li><Icon name="at-sign" /><span>Instagram: <a href={ig} target="_blank" rel="noopener">@{settings.instagram.replace(/^@/, '')}</a></span></li>}
+          </ul>
+          {!filled(settings.address) && !filled(settings.hours) && <p class="muted">Endereço e horário em breve. Fale com a gente pelo WhatsApp.</p>}
+          {filled(settings.mapsUrl) && <a class="btn btn-primary" href={settings.mapsUrl} target="_blank" rel="noopener"><Icon name="map-pin" /> Ver no mapa</a>}
+        </div>
+        <div class="info-card">
+          <h3>Frete grátis na região local</h3>
+          {settings.freeShippingAreas.filter(filled).length > 0 ? (
+            <p>Atendemos com frete grátis: {settings.freeShippingAreas.filter(filled).join(', ')}.</p>
+          ) : (
+            <p>Informe seu bairro ao finalizar o pedido e veja na hora se tem frete grátis.</p>
+          )}
+          <p class="muted">Fora da área de frete grátis, o frete é combinado pelo WhatsApp.</p>
+          <a class="btn btn-buy" href="/loja">Começar meu pedido</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

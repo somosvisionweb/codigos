@@ -6,6 +6,9 @@
 @import './tokens.css';
 
 /* ---------- Base ---------- */
+[hidden] {
+  display: none !important;
+}
 *,
 *::before,
 *::after {
@@ -1097,7 +1100,8 @@ textarea {
 
 /* ---------- Loja ---------- */
 .page-head {
-  padding: 28px 0 8px;
+  padding-top: 28px;
+  padding-bottom: 8px;
 }
 .breadcrumb {
   font-size: 0.875rem;

@@ -1,0 +1,37 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { getSettings, getCategories } from '../server/repo';
+import { setPublicCache } from '../server/http';
+import { whatsappNumber, instagramUrl } from '../server/site';
+import { filled } from '../content/defaults';
+import { whatsappLink } from '../lib/whatsapp';
+
+export const prerender = false;
+setPublicCache(Astro.response.headers);
+const [settings, categories] = await Promise.all([getSettings(), getCategories()]);
+const wa = whatsappNumber(settings);
+const ig = instagramUrl(settings);
+const city = filled(settings.city) ? settings.city : '';
+---
+<Base title="Contato e endereço" description={`Fale com a Loja do Trabalhador${city ? ` em ${city}` : ''}: WhatsApp, endereço, horário e Instagram.`} settings={settings} categories={categories}>
+  <div class="container page-head"><h1>Contato</h1><p class="muted">{settings.slogan} Fale com a gente do jeito que preferir.</p></div>
+  <div class="container info-grid" style="padding-bottom:48px">
+    <div class="info-card">
+      <ul class="info-list">
+        {wa && <li><Icon name="message-circle" /><span>WhatsApp: <a href={whatsappLink(wa, 'Olá, Loja do Trabalhador!')} target="_blank" rel="noopener" data-whats="contato">conversar agora</a></span></li>}
+        {ig && <li><Icon name="at-sign" /><span>Instagram: <a href={ig} target="_blank" rel="noopener">@{settings.instagram.replace(/^@/, '')}</a></span></li>}
+        {filled(settings.email) && <li><Icon name="mail" /><span><a href={`mailto:${settings.email}`}>{settings.email}</a></span></li>}
+        {filled(settings.address) && <li><Icon name="map-pin" /><span>{settings.address}{city && ` — ${city}`}</span></li>}
+        {filled(settings.hours) && <li><Icon name="clock" /><span>{settings.hours}</span></li>}
+      </ul>
+      {wa && <a class="btn btn-whats btn-lg" href={whatsappLink(wa, 'Olá, Loja do Trabalhador!')} target="_blank" rel="noopener" data-whats="contato-btn"><Icon name="message-circle" /> Chamar no WhatsApp</a>}
+    </div>
+    <div class="info-card">
+      <h2 style="font-size:1.6rem">Como chegar</h2>
+      {filled(settings.mapsUrl) ? <a class="btn btn-primary" href={settings.mapsUrl} target="_blank" rel="noopener"><Icon name="map-pin" /> Abrir no Google Maps</a> : <p class="muted">Endereço e mapa em breve.</p>}
+      <h2 style="font-size:1.6rem;margin-top:24px">Empresas</h2>
+      <p>Compra em quantidade ou recorrente? <a href="/empresas">Peça um orçamento</a>.</p>
+    </div>
+  </div>
+</Base>

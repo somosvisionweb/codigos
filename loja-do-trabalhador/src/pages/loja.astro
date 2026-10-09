@@ -1,0 +1,28 @@
+---
+import Base from '../layouts/Base.astro';
+import Shop from '../components/Shop.astro';
+import { getSettings, getCategories, getProducts } from '../server/repo';
+import { setPublicCache } from '../server/http';
+import { whatsappNumber } from '../server/site';
+import { filled } from '../content/defaults';
+
+export const prerender = false;
+setPublicCache(Astro.response.headers);
+const [settings, categories, products] = await Promise.all([getSettings(), getCategories(), getProducts()]);
+const activeCats = new Set(categories.map((c) => c.id));
+const list = products.filter((p) => activeCats.has(p.categoryId));
+const city = filled(settings.city) ? ` em ${settings.city}` : '';
+const breadcrumb = { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+  { '@type': 'ListItem', position: 1, name: 'Início', item: new URL('/', Astro.site).toString() },
+  { '@type': 'ListItem', position: 2, name: 'Loja', item: new URL('/loja', Astro.site).toString() },
+] };
+---
+<Base title={`Loja — material de limpeza, EPI, ferramentas e automotivo${city}`} description={`Compre material de limpeza, EPIs, botina de segurança, ferramentas e produtos automotivos${city}. Frete grátis na região local.`} settings={settings} categories={categories} jsonLd={[breadcrumb]}>
+  <div class="container page-head">
+    <nav class="breadcrumb" aria-label="Você está em"><ol><li><a href="/">Início</a></li><li aria-current="page">Loja</li></ol></nav>
+    <h1>Loja</h1>
+  </div>
+  <div class="container" style="padding-bottom:48px">
+    <Shop products={list} categories={categories} threshold={settings.lowStockThreshold ?? 5} whatsapp={whatsappNumber(settings)} />
+  </div>
+</Base>

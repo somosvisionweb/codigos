@@ -36,8 +36,8 @@
     "vitest": "^5.0.3"
   },
   "scripts": {
-    "dev": "node --env-file-if-exists=.env ./node_modules/astro/bin/astro.mjs dev",
-    "dev:emu": "node --env-file=.env.emulators ./node_modules/astro/bin/astro.mjs dev",
+    "dev": "node --env-file-if-exists=.env ./node_modules/astro/bin/astro.mjs dev --ignore-lock",
+    "dev:emu": "node --env-file=.env.emulators ./node_modules/astro/bin/astro.mjs dev --ignore-lock",
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check && tsc --noEmit -p tsconfig.json",

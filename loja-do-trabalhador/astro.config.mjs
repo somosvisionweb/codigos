@@ -14,4 +14,6 @@ export default defineConfig({
   devToolbar: { enabled: false },
   security: { checkOrigin: false }, // as rotas /api validam origem/entrada por conta própria
   server: { host: '127.0.0.1', port: 4321 },
+  // Sem scripts/arquivos embutidos no HTML: permite CSP com script-src 'self'.
+  vite: { build: { assetsInlineLimit: 0 } },
 });

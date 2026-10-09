@@ -1,0 +1,60 @@
+---
+import { formatBRL } from '../lib/money';
+import { availabilityOf, coverImage, effectivePrice, hasPromo, stockOf } from '../lib/catalog';
+import { whatsappLink } from '../lib/whatsapp';
+import type { Product } from '../lib/types';
+
+interface Props { product: Product; threshold: number; whatsapp: string; categoryName?: string; index?: number; eager?: boolean }
+const { product: p, threshold, whatsapp, categoryName = '', index = 0, eager = false } = Astro.props;
+const price = effectivePrice(p);
+const promo = hasPromo(p);
+const total = stockOf(p);
+const avail = availabilityOf(total, threshold);
+const hasVariants = (p.variants ?? []).length > 0;
+const img = coverImage(p, true);
+const notify = whatsappLink(whatsapp, `Olá! O produto "${p.name}" está indisponível no site. Pode me avisar quando chegar?`);
+---
+<article
+  class="card"
+  data-product
+  data-name={`${p.name} ${categoryName} ${p.shortDescription}`}
+  data-cat={p.categoryId}
+  data-price={price}
+  data-title={p.name}
+  data-index={index}
+>
+  <div class="card-badges">
+    {promo && <span class="badge badge-promo">Oferta</span>}
+    {avail === 'ultimas' && <span class="badge badge-low">Últimas unidades</span>}
+    {avail === 'indisponivel' && <span class="badge badge-out">Indisponível</span>}
+  </div>
+  <a class="card-media" href={`/produto/${p.slug}`} tabindex="-1" aria-hidden="true">
+    <img src={img} alt="" width="480" height="480" loading={eager ? 'eager' : 'lazy'} decoding="async" />
+  </a>
+  <div class="card-body">
+    <a class="card-title" href={`/produto/${p.slug}`}>{p.name}</a>
+    <span class="card-unit">{p.unit}</span>
+    <div class="price">
+      {promo && <span class="price-old"><span class="sr-only">De </span>{formatBRL(p.price)}</span>}
+      <span class="price-now">{promo && <span class="sr-only">Por </span>}{formatBRL(price)}</span>
+    </div>
+    {avail === 'indisponivel' ? (
+      <a class="btn btn-outline btn-sm btn-block" href={notify} target="_blank" rel="noopener" data-whats="indisponivel">Avisar no WhatsApp</a>
+    ) : hasVariants ? (
+      <a class="btn btn-buy btn-sm btn-block" href={`/produto/${p.slug}`} aria-label={`Escolher opção de ${p.name}`}>Escolher opção</a>
+    ) : (
+      <button
+        type="button"
+        class="btn btn-buy btn-sm btn-block"
+        data-add
+        data-id={p.id}
+        data-name={p.name}
+        data-price={price}
+        data-image={img}
+        data-slug={p.slug}
+        data-unit={p.unit}
+        aria-label={`Adicionar ${p.name} ao carrinho`}
+      >Adicionar</button>
+    )}
+  </div>
+</article>

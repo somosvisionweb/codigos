@@ -1,0 +1,262 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import { getSettings, getCategories, getProducts, getProductBySlug, getPublicTestimonials, relatedProducts } from '../../server/repo';
+import { setPublicCache } from '../../server/http';
+import { absolute, whatsappNumber } from '../../server/site';
+import { formatBRL } from '../../lib/money';
+import { availabilityLabel, availabilityOf, effectivePrice, hasPromo, stockOf, coverImage } from '../../lib/catalog';
+import { whatsappLink } from '../../lib/whatsapp';
+import { sourceLabel } from '../../lib/testimonials';
+
+export const prerender = false;
+const product = await getProductBySlug(Astro.params.slug ?? '');
+if (!product) return Astro.rewrite('/404');
+setPublicCache(Astro.response.headers);
+const [settings, categories, all, testimonials] = await Promise.all([getSettings(), getCategories(), getProducts(), getPublicTestimonials()]);
+const p = product;
+const category = categories.find((c) => c.id === p.categoryId);
+const threshold = settings.lowStockThreshold ?? 5;
+const wa = whatsappNumber(settings);
+const price = effectivePrice(p);
+const promo = hasPromo(p);
+const total = stockOf(p);
+const avail = availabilityOf(total, threshold);
+const variants = (p.variants ?? []).map((v) => ({ id: v.id, label: v.label, availability: availabilityOf(v.stock, threshold) }));
+const images = p.images?.length ? p.images.map((i) => i.url) : [coverImage(p)];
+const related = relatedProducts(p, all);
+const productTestimonials = testimonials.filter((t) => t.productId === p.id).slice(0, 3);
+const catName = Object.fromEntries(categories.map((c) => [c.id, c.name]));
+const quickMsg = `Olá! Quero comprar: 1x ${p.name} (${formatBRL(price)}).`;
+const notify = whatsappLink(wa, `Olá! O produto "${p.name}" está indisponível no site. Pode me avisar quando chegar?`);
+const url = absolute(`/produto/${p.slug}`);
+
+const productLd: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: p.name,
+  description: p.shortDescription || p.description,
+  image: images.map((i) => absolute(i)),
+  sku: p.id,
+  category: category?.name,
+  brand: { '@type': 'Brand', name: 'Loja do Trabalhador' },
+  offers: {
+    '@type': 'Offer',
+    url,
+    priceCurrency: 'BRL',
+    price: (price / 100).toFixed(2),
+    availability: avail === 'indisponivel' ? 'https://schema.org/OutOfStock' : avail === 'ultimas' ? 'https://schema.org/LimitedAvailability' : 'https://schema.org/InStock',
+    itemCondition: 'https://schema.org/NewCondition',
+    seller: { '@type': 'Organization', name: 'Loja do Trabalhador' },
+  },
+};
+const breadcrumb = { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+  { '@type': 'ListItem', position: 1, name: 'Início', item: absolute('/') },
+  { '@type': 'ListItem', position: 2, name: category?.name ?? 'Loja', item: absolute(category ? `/categoria/${category.slug}` : '/loja') },
+  { '@type': 'ListItem', position: 3, name: p.name, item: url },
+] };
+const data = { id: p.id, name: p.name, slug: p.slug, unit: p.unit, price, image: coverImage(p, true), variantLabel: p.variantLabel || 'Opção', variants, wa };
+---
+<Base title={`${p.name}${category ? ` — ${category.name}` : ''}`} description={`${p.shortDescription} ${formatBRL(price)} na Loja do Trabalhador. Frete grátis na região local.`.slice(0, 160)} settings={settings} categories={categories} image={images[0]} jsonLd={[productLd, breadcrumb]} ogType="product">
+  <div class="container page-head">
+    <nav class="breadcrumb" aria-label="Você está em"><ol>
+      <li><a href="/">Início</a></li>
+      {category ? <li><a href={`/categoria/${category.slug}`}>{category.name}</a></li> : <li><a href="/loja">Loja</a></li>}
+      <li aria-current="page">{p.name}</li>
+    </ol></nav>
+  </div>
+  <div class="container">
+    <div class="pdp">
+      <div class="gallery">
+        <div class="gallery-main"><img id="gallery-main" src={images[0]} alt={p.name} width="800" height="800" fetchpriority="high" /></div>
+        {images.length > 1 && (
+          <div class="thumbs" role="group" aria-label="Fotos do produto">
+            {images.map((src, i) => (
+              <button type="button" data-thumb={src} aria-current={i === 0 ? 'true' : 'false'} aria-label={`Ver foto ${i + 1} de ${images.length}`}><img src={src} alt="" width="72" height="72" loading="lazy" /></button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div class="pdp-buy" id="pdp" data-product-json={JSON.stringify(data)}>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          {promo && <span class="badge badge-promo">Oferta</span>}
+          <span id="avail" class={`badge ${avail === 'em_estoque' ? 'badge-ok' : avail === 'ultimas' ? 'badge-low' : 'badge-out'}`}>{availabilityLabel[avail]}</span>
+        </div>
+        <h1>{p.name}</h1>
+        <p class="muted" style="margin:0">{p.shortDescription}</p>
+        <div class="price">
+          {promo && <span class="price-old"><span class="sr-only">De </span>{formatBRL(p.price)}</span>}
+          <span class="price-now">{promo && <span class="sr-only">Por </span>}{formatBRL(price)}</span>
+        </div>
+        <p class="hint" style="margin:-8px 0 0">{p.unit}</p>
+        {p.ca && <p style="margin:0"><span class="ca-tag"><Icon name="shield-check" /> CA nº {p.ca}</span></p>}
+
+        {avail === 'indisponivel' ? (
+          <>
+          <div class="alert alert-warn">Produto indisponível no momento.</div>
+          <a class="btn btn-whats btn-lg" href={notify} target="_blank" rel="noopener" data-whats="indisponivel"><Icon name="message-circle" /> Avisar no WhatsApp quando chegar</a>
+          </>
+        ) : (
+          <form id="buy-form" class="form-grid" novalidate>
+            {variants.length > 0 && (
+              <fieldset class="options" aria-describedby="opt-error">
+                <legend>{p.variantLabel || 'Opção'} <span class="muted">(obrigatório)</span></legend>
+                {variants.map((v) => (
+                  <label class="opt">
+                    <input type="radio" name="variant" value={v.id} disabled={v.availability === 'indisponivel'} required />
+                    <span>{v.label}</span>
+                  </label>
+                ))}
+                <p class="field-error" id="opt-error" hidden style="width:100%;margin:6px 0 0">Escolha uma opção para continuar.</p>
+              </fieldset>
+            )}
+            <div class="buy-row">
+              <div class="qty" aria-label="Quantidade" role="group">
+                <button type="button" data-q="-1" aria-label="Diminuir quantidade"><Icon name="minus" /></button>
+                <input id="qty" type="number" inputmode="numeric" min="1" max="99" value="1" aria-label="Quantidade" />
+                <button type="button" data-q="1" aria-label="Aumentar quantidade"><Icon name="plus" /></button>
+              </div>
+              <button class="btn btn-buy btn-lg" type="submit"><Icon name="shopping-cart" /> Adicionar ao carrinho</button>
+            </div>
+            <a class="btn btn-whats btn-block" id="buy-whats" href={whatsappLink(wa, quickMsg)} target="_blank" rel="noopener" data-whats="produto"><Icon name="message-circle" /> Comprar pelo WhatsApp</a>
+          </form>
+        )}
+
+        <ul class="info-list" style="margin-top:8px">
+          <li><Icon name="truck" /><span>Frete grátis na região local. Fora dela, a combinar no WhatsApp.</span></li>
+          <li><Icon name="handshake" /><span>Dúvida sobre qual escolher? A gente ajuda no WhatsApp.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="info-grid" style="margin-top:40px">
+      <section class="info-card" aria-labelledby="desc-t">
+        <h2 id="desc-t" style="font-size:1.6rem">Descrição</h2>
+        <p style="white-space:pre-line">{p.description}</p>
+      </section>
+      {(p.specs?.length > 0 || p.ca) && (
+        <section class="info-card" aria-labelledby="spec-t">
+          <h2 id="spec-t" style="font-size:1.6rem">Especificações</h2>
+          <table class="specs">
+            <tbody>
+              {p.specs.map((s) => <tr><th scope="row">{s.label}</th><td>{s.value}</td></tr>)}
+              <tr><th scope="row">Embalagem</th><td>{p.unit}</td></tr>
+              {p.ca && <tr><th scope="row">CA</th><td>{p.ca}</td></tr>}
+            </tbody>
+          </table>
+        </section>
+      )}
+    </div>
+
+    {productTestimonials.length > 0 && (
+      <section class="section" style="padding-bottom:0" aria-labelledby="pt-t">
+        <h2 id="pt-t">Quem comprou, aprovou</h2>
+        <div class="pillars">
+          {productTestimonials.map((t) => (
+            <figure class="testi">
+              {typeof t.rating === 'number' && <div class="stars" aria-label={`Nota ${t.rating} de 5`}>{'★'.repeat(t.rating)}{'☆'.repeat(5 - t.rating)}</div>}
+              <blockquote>{t.text}</blockquote>
+              <footer><figcaption><strong>{t.displayName}</strong></figcaption><span class={`badge ${t.source === 'compra_verificada' ? 'badge-verified' : 'badge-source'}`}>{sourceLabel[t.source]}</span></footer>
+            </figure>
+          ))}
+        </div>
+      </section>
+    )}
+
+    {related.length > 0 && (
+      <section class="section" aria-labelledby="rel-t">
+        <h2 id="rel-t">Quem leva este item também costuma levar</h2>
+        <div class="product-grid">
+          {related.map((r, i) => <ProductCard product={r} threshold={threshold} whatsapp={wa} categoryName={catName[r.categoryId]} index={i} />)}
+        </div>
+      </section>
+    )}
+  </div>
+</Base>
+
+<script>
+  import { cart } from '../../client/cart-store';
+  import { bump } from '../../client/site';
+  import { toast, track } from '../../client/ui';
+
+  const root = document.getElementById('pdp');
+  const data = JSON.parse(root?.dataset.productJson || '{}');
+  const fmt = (c: number) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(c / 100).replace(/\u00a0/g, ' ');
+  const labels: Record<string, [string, string]> = {
+    em_estoque: ['Em estoque', 'badge badge-ok'],
+    ultimas: ['Últimas unidades', 'badge badge-low'],
+    indisponivel: ['Indisponível', 'badge badge-out'],
+  };
+
+  // Galeria
+  const main = document.getElementById('gallery-main') as HTMLImageElement | null;
+  document.querySelectorAll<HTMLButtonElement>('[data-thumb]').forEach((b) =>
+    b.addEventListener('click', () => {
+      if (main) main.src = b.dataset.thumb!;
+      document.querySelectorAll('[data-thumb]').forEach((x) => x.setAttribute('aria-current', 'false'));
+      b.setAttribute('aria-current', 'true');
+    }),
+  );
+
+  const form = document.getElementById('buy-form') as HTMLFormElement | null;
+  const qty = document.getElementById('qty') as HTMLInputElement | null;
+  const optError = document.getElementById('opt-error');
+  const whats = document.getElementById('buy-whats') as HTMLAnchorElement | null;
+  const avail = document.getElementById('avail');
+
+  const clamp = (n: number) => Math.min(99, Math.max(1, Math.floor(n) || 1));
+  const selected = () => (form?.querySelector('input[name="variant"]:checked') as HTMLInputElement | null)?.value ?? null;
+  const variantOf = (id: string | null) => (data.variants || []).find((v: { id: string }) => v.id === id);
+
+  function updateWhats() {
+    if (!whats || !qty) return;
+    const v = variantOf(selected());
+    const q = clamp(Number(qty.value));
+    const text = `Olá! Quero comprar: ${q}x ${data.name}${v ? ` (${data.variantLabel}: ${v.label})` : ''} — ${fmt(data.price * q)}.`;
+    const u = new URL(whats.href);
+    u.searchParams.set('text', text);
+    whats.href = u.toString();
+  }
+
+  form?.querySelectorAll<HTMLButtonElement>('[data-q]').forEach((b) =>
+    b.addEventListener('click', () => {
+      if (!qty) return;
+      qty.value = String(clamp(Number(qty.value) + Number(b.dataset.q)));
+      updateWhats();
+    }),
+  );
+  qty?.addEventListener('change', () => {
+    qty.value = String(clamp(Number(qty.value)));
+    updateWhats();
+  });
+  form?.addEventListener('change', (e) => {
+    if ((e.target as HTMLInputElement).name === 'variant') {
+      if (optError) optError.hidden = true;
+      const v = variantOf(selected());
+      if (v && avail) {
+        avail.textContent = labels[v.availability][0];
+        avail.className = labels[v.availability][1];
+      }
+      updateWhats();
+    }
+  });
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const hasVariants = (data.variants || []).length > 0;
+    const vid = selected();
+    if (hasVariants && !vid) {
+      if (optError) optError.hidden = false;
+      (form.querySelector('input[name="variant"]:not(:disabled)') as HTMLInputElement | null)?.focus();
+      return;
+    }
+    const v = variantOf(vid);
+    const q = clamp(Number(qty?.value));
+    cart.add({ productId: data.id, variantId: vid, name: data.name, variantLabel: v ? v.label : null, price: data.price, image: data.image, slug: data.slug, unit: data.unit, quantity: q });
+    bump();
+    toast(`${q}x ${data.name}${v ? ` (${v.label})` : ''} no carrinho.`);
+    track('add_to_cart', { currency: 'BRL', value: (data.price * q) / 100, items: [{ item_id: data.id, item_name: data.name, item_variant: v?.label, price: data.price / 100, quantity: q }] });
+  });
+</script>

@@ -1,0 +1,78 @@
+---
+import Icon from './Icon.astro';
+import { ratingSummary, shouldShowTestimonialsSection, sourceLabel } from '../lib/testimonials';
+import { whatsappLink } from '../lib/whatsapp';
+import type { Testimonial } from '../lib/types';
+
+interface Props { list: Testimonial[]; whatsapp: string; googleReviewUrl?: string; heading?: string; full?: boolean; headingLevel?: 'h1' | 'h2' }
+const { list, whatsapp, googleReviewUrl, heading = 'O que dizem nossos clientes', full = false, headingLevel = 'h2' } = Astro.props;
+const show = shouldShowTestimonialsSection(list);
+const summary = ratingSummary(list);
+const items = full ? list : list.slice(0, 9);
+const invite = whatsappLink(whatsapp, 'Olá! Já comprei com vocês e quero contar como foi a minha experiência.');
+const stars = (n: number) => '★'.repeat(n) + '☆'.repeat(5 - n);
+const H = headingLevel;
+---
+{show ? (
+  <section class="section" aria-labelledby="depoimentos-titulo">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Avaliações reais</p>
+          <H id="depoimentos-titulo">{heading}</H>
+          {summary.average != null && (
+            <p class="muted" style="margin:0">
+              Nota média <strong>{summary.average.toLocaleString('pt-BR')}</strong> de 5 · {summary.count} {summary.count === 1 ? 'avaliação' : 'avaliações'}
+            </p>
+          )}
+        </div>
+        {!full && (
+          <div class="carousel-ctrl">
+            <button class="icon-btn btn-outline" type="button" data-carousel="prev" aria-label="Depoimentos anteriores" style="border:1px solid var(--line);color:var(--navy)"><Icon name="chevron-left" /></button>
+            <button class="icon-btn btn-outline" type="button" data-carousel="next" aria-label="Próximos depoimentos" style="border:1px solid var(--line);color:var(--navy)"><Icon name="chevron-right" /></button>
+          </div>
+        )}
+      </div>
+      <div class={full ? 'pillars' : 'testi-track'} data-carousel-track tabindex={full ? undefined : 0} role={full ? undefined : 'region'} aria-label={full ? undefined : 'Depoimentos (role para o lado)'}>
+        {items.map((t) => (
+          <figure class="testi">
+            {typeof t.rating === 'number' && <div class="stars" aria-label={`Nota ${t.rating} de 5`}>{stars(t.rating)}</div>}
+            <blockquote>{t.text}</blockquote>
+            <footer>
+              <figcaption><strong>{t.displayName || t.name}</strong>{t.role && <span class="muted"> · {t.role}</span>}</figcaption>
+              {t.source === 'compra_verificada'
+                ? <span class="badge badge-verified"><Icon name="badge-check" /> Compra verificada</span>
+                : <span class="badge badge-source">{sourceLabel[t.source]}</span>}
+            </footer>
+          </figure>
+        ))}
+      </div>
+      <p style="margin-top:16px;display:flex;gap:12px;flex-wrap:wrap">
+        {!full && <a href="/avaliacoes">Ver todas as avaliações</a>}
+        {googleReviewUrl && <a href={googleReviewUrl} target="_blank" rel="noopener">Avalie a gente no Google</a>}
+      </p>
+    </div>
+  </section>
+) : (
+  <section class="section" style="padding-top:0" aria-label="Convite para avaliar">
+    <div class="container">
+      <div class="invite">
+        {full && <H>Avaliações</H>}
+        <p style="margin:0 0 8px"><strong>Já comprou com a gente?</strong> Conte como foi.</p>
+        <p style="margin:0;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+          <a href={invite} target="_blank" rel="noopener" data-whats="convite-avaliacao">Enviar pelo WhatsApp</a>
+          {googleReviewUrl && <a href={googleReviewUrl} target="_blank" rel="noopener">Avaliar no Google</a>}
+        </p>
+      </div>
+    </div>
+  </section>
+)}
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-carousel-track]').forEach((track) => {
+    const section = track.closest('section');
+    const step = () => (track.firstElementChild as HTMLElement | null)?.offsetWidth ?? 300;
+    section?.querySelector('[data-carousel="prev"]')?.addEventListener('click', () => track.scrollBy({ left: -step() - 16, behavior: 'smooth' }));
+    section?.querySelector('[data-carousel="next"]')?.addEventListener('click', () => track.scrollBy({ left: step() + 16, behavior: 'smooth' }));
+  });
+</script>

@@ -1,0 +1,150 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { getSettings, getCategories } from '../server/repo';
+import { whatsappNumber } from '../server/site';
+import { filled } from '../content/defaults';
+import { isPixConfigured } from '../lib/pix';
+
+export const prerender = false;
+const [settings, categories] = await Promise.all([getSettings(), getCategories()]);
+Astro.response.headers.set('Cache-Control', 'no-store');
+const cfg = {
+  areas: settings.freeShippingAreas.filter(filled),
+  whatsapp: whatsappNumber(settings),
+  maintenance: settings.maintenanceMode,
+  pix: isPixConfigured(settings.pixKey, settings.pixReceiverName, settings.pixReceiverCity),
+};
+---
+<Base title="Finalizar pedido" description="Revise seu carrinho e envie seu pedido para a Loja do Trabalhador." settings={settings} categories={categories} noindex>
+  <div class="container page-head">
+    <h1>Finalizar pedido</h1>
+  </div>
+  <div class="container" style="padding-bottom:48px" id="checkout-root" data-config={JSON.stringify(cfg)}>
+    <div id="checkout-empty" class="panel empty" hidden>
+      <Icon name="shopping-cart" />
+      <p>Seu carrinho está vazio.</p>
+      <p style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <a class="btn btn-buy" href="/loja">Ver produtos</a>
+        <button class="btn btn-outline" type="button" id="repeat-last" hidden><Icon name="repeat" /> Repetir último pedido</button>
+      </p>
+    </div>
+
+    <div class="checkout" id="checkout-main" hidden>
+      <form id="checkout-form" class="panel form-grid" novalidate>
+        {settings.maintenanceMode && <div class="alert alert-warn" role="alert">O site está em manutenção e não está recebendo pedidos agora. Fale com a gente pelo WhatsApp.</div>}
+        <div id="form-error" class="alert alert-error" role="alert" tabindex="-1" hidden></div>
+        <h2 style="font-size:1.6rem;margin:0">Seus dados</h2>
+        <div class="form-grid two">
+          <div class="field">
+            <label for="f-name">Nome *</label>
+            <input class="input" id="f-name" name="name" autocomplete="name" required maxlength="80" />
+            <span class="field-error" data-error-for="customer.name" hidden></span>
+          </div>
+          <div class="field">
+            <label for="f-phone">Telefone / WhatsApp *</label>
+            <input class="input" id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(00) 00000-0000" required maxlength="20" />
+            <span class="field-error" data-error-for="customer.phone" hidden></span>
+          </div>
+        </div>
+        <fieldset class="radio-cards">
+          <legend>Você compra como *</legend>
+          <label class="radio-card"><input type="radio" name="type" value="PF" checked /><span>Pessoa física</span></label>
+          <label class="radio-card"><input type="radio" name="type" value="PJ" /><span>Empresa / condomínio</span></label>
+        </fieldset>
+        <div class="field" id="company-field" hidden>
+          <label for="f-company">Nome da empresa ou condomínio *</label>
+          <input class="input" id="f-company" name="company" autocomplete="organization" maxlength="100" />
+          <span class="field-error" data-error-for="customer.company" hidden></span>
+        </div>
+
+        <h2 style="font-size:1.6rem;margin:8px 0 0">Recebimento</h2>
+        <fieldset class="radio-cards">
+          <legend>Como você quer receber? *</legend>
+          <label class="radio-card"><input type="radio" name="fulfillment" value="entrega" checked /><span><Icon name="truck" /> Entrega</span></label>
+          <label class="radio-card"><input type="radio" name="fulfillment" value="retirada" /><span><Icon name="store" /> Retirar na loja</span></label>
+        </fieldset>
+        <div class="form-grid two">
+          <div class="field">
+            <label for="f-neigh">Bairro *</label>
+            <input class="input" id="f-neigh" name="neighborhood" autocomplete="address-level3" required maxlength="80" />
+            <span class="field-error" data-error-for="address.neighborhood" hidden></span>
+          </div>
+          <div class="field">
+            <label for="f-city">Cidade *</label>
+            <input class="input" id="f-city" name="city" autocomplete="address-level2" required maxlength="80" />
+            <span class="field-error" data-error-for="address.city" hidden></span>
+          </div>
+        </div>
+        <div class="form-grid two" id="address-fields">
+          <div class="field">
+            <label for="f-street">Rua e número *</label>
+            <input class="input" id="f-street" name="street" autocomplete="address-line1" maxlength="160" />
+            <span class="field-error" data-error-for="address.street" hidden></span>
+          </div>
+          <div class="field">
+            <label for="f-comp">Complemento</label>
+            <input class="input" id="f-comp" name="complement" autocomplete="address-line2" maxlength="120" />
+          </div>
+        </div>
+        <div id="shipping-info" class="alert alert-info" aria-live="polite">Informe bairro e cidade para ver o frete.</div>
+
+        <fieldset class="radio-cards">
+          <legend>Forma de pagamento *</legend>
+          <label class="radio-card"><input type="radio" name="paymentMethod" value="pix" checked /><span>Pix</span></label>
+          <label class="radio-card"><input type="radio" name="paymentMethod" value="cartao" /><span>Cartão</span></label>
+          <label class="radio-card"><input type="radio" name="paymentMethod" value="dinheiro" /><span>Dinheiro</span></label>
+        </fieldset>
+        <p class="hint" style="margin:-6px 0 0">O pagamento é combinado na confirmação. Não pedimos dados de cartão no site.</p>
+
+        <div class="field">
+          <label for="f-notes">Observações</label>
+          <textarea class="textarea" id="f-notes" name="notes" maxlength="500" placeholder="Ex.: ponto de referência, melhor horário, CNPJ para nota..."></textarea>
+        </div>
+        <div class="field" style="display:none" aria-hidden="true">
+          <label for="f-website">Não preencha</label>
+          <input id="f-website" name="website" tabindex="-1" autocomplete="off" />
+        </div>
+        <label class="check">
+          <input type="checkbox" name="acceptPrivacy" id="f-privacy" required />
+          <span>Li e aceito a <a href="/politicas#privacidade" target="_blank">política de privacidade</a>. Meus dados serão usados só para atender este pedido. *</span>
+        </label>
+        <span class="field-error" data-error-for="acceptPrivacy" hidden></span>
+        <button class="btn btn-buy btn-lg btn-block" type="submit" id="submit-order" disabled={settings.maintenanceMode}>Enviar pedido</button>
+        <div id="plan-b" class="alert alert-warn" hidden>
+          <p style="margin:0 0 8px">Não conseguimos registrar seu pedido no site agora.</p>
+          <a class="btn btn-whats btn-block" id="plan-b-link" href="#" target="_blank" rel="noopener" data-whats="plano-b"><Icon name="message-circle" /> Enviar pedido só pelo WhatsApp (sem registro no site)</a>
+        </div>
+      </form>
+
+      <aside class="panel checkout-summary" aria-labelledby="resumo-t">
+        <h2 id="resumo-t" style="font-size:1.6rem">Resumo</h2>
+        <div id="summary-lines"></div>
+        <div class="subtotal-row" style="margin-top:12px"><span>Total dos produtos</span><strong id="summary-subtotal">R$ 0,00</strong></div>
+        <p class="hint" id="summary-shipping">Frete: informe o bairro.</p>
+        <p class="hint">Os preços são conferidos de novo quando você envia o pedido.</p>
+      </aside>
+    </div>
+
+    <section id="confirmation" class="panel confirm" hidden tabindex="-1" aria-labelledby="conf-title">
+      <Icon name="circle-check" class="icon big-check" />
+      <h2 id="conf-title" style="font-size:2.2rem">Pedido recebido</h2>
+      <p>Seu pedido já está registrado. Agora é só confirmar com a gente pelo WhatsApp.</p>
+      <p><strong>Total dos produtos: <span id="conf-total"></span></strong><br /><span id="conf-shipping" class="muted"></span></p>
+      <a class="btn btn-whats btn-lg" id="conf-whats" href="#" target="_blank" rel="noopener" data-whats="confirmacao"><Icon name="message-circle" /> Confirmar no WhatsApp</a>
+      <div id="pix-box" class="pix-box" hidden style="margin-top:24px">
+        <h3 style="margin:0">Pague com Pix</h3>
+        <img id="pix-qr" alt="QR code Pix com o valor do pedido" width="220" height="220" />
+        <label class="label" for="pix-code">Pix copia e cola</label>
+        <textarea id="pix-code" class="pix-code" readonly></textarea>
+        <button class="btn btn-primary" type="button" id="pix-copy"><Icon name="copy" /> Copiar código Pix</button>
+        <p class="hint">Depois de pagar, envie o comprovante no WhatsApp.</p>
+      </div>
+      <p style="margin-top:24px"><a href="/loja">Voltar para a loja</a></p>
+    </section>
+  </div>
+</Base>
+
+<script>
+  import '../client/checkout';
+</script>

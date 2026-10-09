@@ -1,0 +1,173 @@
+---
+import '../styles/site.css';
+import Icon from '../components/Icon.astro';
+import { filled } from '../content/defaults';
+import { absolute, whatsappNumber, instagramUrl, jsonLd } from '../server/site';
+import { whatsappLink } from '../lib/whatsapp';
+import type { Category, SiteSettings } from '../lib/types';
+
+interface Props {
+  title: string;
+  description: string;
+  settings: SiteSettings;
+  categories?: Category[];
+  canonical?: string;
+  image?: string;
+  noindex?: boolean;
+  jsonLd?: unknown[];
+  ogType?: string;
+}
+const { title, description, settings, categories = [], canonical, image = '/images/og-image.png', noindex = false, jsonLd: ld = [], ogType = 'website' } = Astro.props;
+const path = Astro.url.pathname;
+const canonicalUrl = absolute(canonical ?? path);
+const fullTitle = path === '/' ? title : `${title} | Loja do Trabalhador`;
+const wa = whatsappNumber(settings);
+const waHref = whatsappLink(wa, 'Olá, Loja do Trabalhador! Vim pelo site e gostaria de atendimento.');
+const ig = instagramUrl(settings);
+const nav = [
+  { href: '/loja', label: 'Loja' },
+  { href: '/empresas', label: 'Empresas' },
+  { href: '/avaliacoes', label: 'Avaliações' },
+  { href: '/contato', label: 'Contato' },
+];
+const isCurrent = (href: string) => path === href || path.startsWith(href + '/');
+const hasLogo = false; // TODO: quando public/images/logo.svg|png existir, trocar para true (ver README)
+const analytics = { ga4: filled(settings.ga4Id) ? settings.ga4Id : '', pixel: filled(settings.metaPixelId) ? settings.metaPixelId : '' };
+const year = new Date().getFullYear();
+---
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <meta name="theme-color" content="#0B2E4F" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content="Loja do Trabalhador" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={absolute(image)} />
+    <meta name="twitter:card" content="summary_large_image" />
+    {ld.map((d) => <script type="application/ld+json" set:html={jsonLd(d)} />)}
+  </head>
+  <body data-whatsapp={wa} data-ga4={analytics.ga4} data-pixel={analytics.pixel} data-maintenance={settings.maintenanceMode ? '1' : ''}>
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+    {settings.maintenanceMode && (
+      <div class="maintenance" role="status">Site em manutenção: pedidos pelo site estão pausados. Fale com a gente pelo WhatsApp.</div>
+    )}
+    {filled(settings.announcement) && <div class="announce">{settings.announcement}</div>}
+    <header class="site-header">
+      <div class="container header-row">
+        <button class="icon-btn mobile-only" type="button" id="menu-toggle" aria-expanded="false" aria-controls="mobile-nav" aria-label="Abrir menu">
+          <Icon name="menu" />
+        </button>
+        <a class="brand" href="/" aria-label="Loja do Trabalhador — página inicial">
+          {hasLogo ? <img src="/images/logo.svg" alt="Loja do Trabalhador" width="140" height="44" /> : (
+            <span class="wordmark">Loja <small>do</small><br />Trabalhador</span>
+          )}
+        </a>
+        <nav class="main-nav" aria-label="Principal">
+          {nav.map((n) => <a href={n.href} aria-current={isCurrent(n.href) ? 'page' : undefined}>{n.label}</a>)}
+        </nav>
+        <div class="header-search">
+          <form class="search-form" action="/loja" method="get" role="search">
+            <label class="sr-only" for="q-desk">Buscar produtos</label>
+            <input id="q-desk" name="q" type="search" placeholder="Buscar produtos" autocomplete="off" />
+            <button class="icon-btn" type="submit" aria-label="Buscar"><Icon name="search" /></button>
+          </form>
+        </div>
+        <button class="icon-btn cart-btn" type="button" id="cart-open" aria-controls="cart-drawer" aria-label="Abrir carrinho">
+          <Icon name="shopping-cart" />
+          <span class="cart-count" data-cart-count data-count="0" aria-hidden="true">0</span>
+        </button>
+      </div>
+      <div class="mobile-search mobile-only">
+        <form class="search-form" action="/loja" method="get" role="search">
+          <label class="sr-only" for="q-mob">Buscar produtos</label>
+          <input id="q-mob" name="q" type="search" placeholder="Buscar produtos" autocomplete="off" />
+          <button class="icon-btn" type="submit" aria-label="Buscar"><Icon name="search" /></button>
+        </form>
+      </div>
+      <nav class="mobile-nav mobile-only" id="mobile-nav" aria-label="Menu" hidden>
+        {nav.map((n) => <a href={n.href} aria-current={isCurrent(n.href) ? 'page' : undefined}>{n.label}</a>)}
+        {categories.map((c) => <a href={`/categoria/${c.slug}`}>{c.name}</a>)}
+      </nav>
+    </header>
+
+    <main id="conteudo" tabindex="-1">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <p class="wordmark" style="font-size:1.6rem;color:#fff">Loja <small>do</small><br />Trabalhador</p>
+            <p>{settings.slogan}</p>
+            <p>Material de limpeza, EPIs, calçados de segurança, ferramentas e produtos automotivos{filled(settings.city) ? ` em ${settings.city}` : ''}.</p>
+          </div>
+          <div>
+            <h2>Navegue</h2>
+            <ul>
+              <li><a href="/loja">Loja</a></li>
+              {categories.map((c) => <li><a href={`/categoria/${c.slug}`}>{c.name}</a></li>)}
+            </ul>
+          </div>
+          <div>
+            <h2>Atendimento</h2>
+            <ul>
+              <li><a href="/empresas">Compra para empresas</a></li>
+              <li><a href="/avaliacoes">Avaliações</a></li>
+              <li><a href="/contato">Contato e endereço</a></li>
+              <li><a href="/politicas">Trocas e privacidade</a></li>
+            </ul>
+          </div>
+          <div>
+            <h2>Fale com a gente</h2>
+            <ul>
+              {wa && <li><a href={waHref} data-whats="footer" rel="noopener" target="_blank">WhatsApp</a></li>}
+              {ig && <li><a href={ig} rel="noopener" target="_blank">Instagram @{settings.instagram.replace(/^@/, '')}</a></li>}
+              {filled(settings.email) && <li><a href={`mailto:${settings.email}`}>{settings.email}</a></li>}
+              {filled(settings.hours) && <li><span>{settings.hours}</span></li>}
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>© {year} Loja do Trabalhador. Todos os direitos reservados.</span>
+          <a href="https://instagram.com/visionwebagencia" rel="noopener" target="_blank">Site por VisionWeb</a>
+        </div>
+      </div>
+    </footer>
+
+    <a class="whats-fab" href={waHref} target="_blank" rel="noopener" data-whats="fab" aria-label="Conversar no WhatsApp">
+      <Icon name="message-circle" />
+    </a>
+
+    <aside class="drawer" id="cart-drawer" role="dialog" aria-modal="true" aria-labelledby="cart-title" aria-hidden="true">
+      <div class="drawer-head">
+        <h2 id="cart-title">Seu carrinho</h2>
+        <button class="icon-btn" type="button" data-cart-close aria-label="Fechar carrinho" style="color:var(--navy)"><Icon name="x" /></button>
+      </div>
+      <div class="drawer-body" id="cart-lines" aria-live="polite"></div>
+      <div class="drawer-foot" id="cart-foot">
+        <div class="subtotal-row"><span>Subtotal</span><strong id="cart-subtotal">R$ 0,00</strong></div>
+        <p class="hint" style="margin:0">Frete grátis na região local; fora dela, combinado no WhatsApp.</p>
+        <a class="btn btn-buy btn-lg btn-block" href="/finalizar" id="cart-checkout">Finalizar pedido</a>
+        <button class="btn btn-ghost btn-block" type="button" data-cart-close>Continuar comprando</button>
+      </div>
+    </aside>
+    <div class="drawer-backdrop" data-cart-close></div>
+    <div class="toast-region" id="toasts" role="status" aria-live="polite" aria-atomic="false"></div>
+
+    <script>
+      import '../client/site';
+    </script>
+  </body>
+</html>

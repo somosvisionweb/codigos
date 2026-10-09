@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Base.astro';
+import Testimonials from '../components/Testimonials.astro';
+import { getSettings, getCategories, getPublicTestimonials } from '../server/repo';
+import { setPublicCache } from '../server/http';
+import { whatsappNumber, absolute } from '../server/site';
+import { filled } from '../content/defaults';
+import { ratingSummary, shouldEmitAggregateRating } from '../lib/testimonials';
+
+export const prerender = false;
+setPublicCache(Astro.response.headers);
+const [settings, categories, list] = await Promise.all([getSettings(), getCategories(), getPublicTestimonials()]);
+const ld: unknown[] = [];
+if (shouldEmitAggregateRating(list)) {
+  const s = ratingSummary(list);
+  ld.push({
+    '@context': 'https://schema.org',
+    '@type': 'Store',
+    name: 'Loja do Trabalhador',
+    url: absolute('/'),
+    aggregateRating: { '@type': 'AggregateRating', ratingValue: s.average, reviewCount: s.rated, bestRating: 5, worstRating: 1 },
+    review: list.filter((t) => typeof t.rating === 'number').slice(0, 20).map((t) => ({
+      '@type': 'Review',
+      author: { '@type': 'Person', name: t.displayName },
+      reviewBody: t.text,
+      reviewRating: { '@type': 'Rating', ratingValue: t.rating, bestRating: 5, worstRating: 1 },
+      datePublished: new Date(t.createdAt).toISOString().slice(0, 10),
+    })),
+  });
+}
+---
+<Base title="Avaliações de clientes" description="O que os clientes dizem da Loja do Trabalhador. Depoimentos reais, com selo de compra verificada." settings={settings} categories={categories} jsonLd={ld}>
+  <div style="padding-top:8px">
+    <Testimonials list={list} whatsapp={whatsappNumber(settings)} googleReviewUrl={filled(settings.googleReviewUrl) ? settings.googleReviewUrl : ''} heading="Avaliações de clientes" full headingLevel="h1" />
+  </div>
+</Base>
