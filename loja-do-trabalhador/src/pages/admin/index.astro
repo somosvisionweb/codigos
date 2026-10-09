@@ -1,0 +1,22 @@
+---
+// Painel administrativo (SPA). Página estática: nenhum dado é renderizado no servidor.
+export const prerender = true;
+---
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#0B2E4F" />
+    <title>Painel — Loja do Trabalhador</title>
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+  </head>
+  <body>
+    <div id="app"><p style="padding:24px;font-family:system-ui">Carregando painel...</p></div>
+    <noscript>O painel precisa de JavaScript ativado.</noscript>
+    <script>
+      import '../../admin/main';
+    </script>
+  </body>
+</html>

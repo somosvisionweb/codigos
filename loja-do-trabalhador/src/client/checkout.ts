@@ -87,7 +87,7 @@ function clearErrors() {
 
 const fieldInput: Record<string, string> = {
   'customer.name': 'f-name', 'customer.phone': 'f-phone', 'customer.company': 'f-company', 'address.neighborhood': 'f-neigh',
-  'address.city': 'f-city', 'address.street': 'f-street', acceptPrivacy: 'f-privacy',
+  'address.city': 'f-city', 'address.street': 'f-street', acceptPrivacy: 'f-privacy', couponCode: 'f-coupon',
 };
 
 function showErrors(fields: Record<string, string>, message = 'Confira os campos destacados.') {
@@ -160,6 +160,7 @@ form.addEventListener('submit', async (e) => {
     address: { neighborhood: val('neighborhood'), city: val('city'), street: val('street') || null, complement: val('complement') || null },
     paymentMethod: radio('paymentMethod'),
     notes: val('notes'),
+    couponCode: val('couponCode') || null,
     acceptPrivacy: (document.getElementById('f-privacy') as HTMLInputElement).checked,
     website: val('website'),
   };

@@ -101,6 +101,11 @@ const cfg = {
           <label for="f-notes">Observações</label>
           <textarea class="textarea" id="f-notes" name="notes" maxlength="500" placeholder="Ex.: ponto de referência, melhor horário, CNPJ para nota..."></textarea>
         </div>
+        <div class="field">
+          <label for="f-coupon">Cupom de desconto (opcional)</label>
+          <input class="input" id="f-coupon" name="couponCode" maxlength="30" autocomplete="off" style="text-transform:uppercase" />
+          <span class="field-error" data-error-for="couponCode" hidden></span>
+        </div>
         <div class="field" style="display:none" aria-hidden="true">
           <label for="f-website">Não preencha</label>
           <input id="f-website" name="website" tabindex="-1" autocomplete="off" />
@@ -130,7 +135,7 @@ const cfg = {
       <Icon name="circle-check" class="icon big-check" />
       <h2 id="conf-title" style="font-size:2.2rem">Pedido recebido</h2>
       <p>Seu pedido já está registrado. Agora é só confirmar com a gente pelo WhatsApp.</p>
-      <p><strong>Total dos produtos: <span id="conf-total"></span></strong><br /><span id="conf-shipping" class="muted"></span></p>
+      <p><strong>Total: <span id="conf-total"></span></strong><br /><span id="conf-shipping" class="muted"></span></p>
       <a class="btn btn-whats btn-lg" id="conf-whats" href="#" target="_blank" rel="noopener" data-whats="confirmacao"><Icon name="message-circle" /> Confirmar no WhatsApp</a>
       <div id="pix-box" class="pix-box" hidden style="margin-top:24px">
         <h3 style="margin:0">Pague com Pix</h3>
