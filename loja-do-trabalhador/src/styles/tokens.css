@@ -1,0 +1,52 @@
+/* Design tokens — Loja do Trabalhador. Compartilhados entre site e painel. */
+:root {
+  /* Marca */
+  --blue: #1c6fb5; /* azul principal (substituir pela cor exata do logo quando disponível) */
+  --blue-600: #155a94;
+  --blue-50: #e8f1fa;
+  --navy: #0b2e4f; /* header, rodapé, contraste */
+  --navy-700: #123c63;
+  --bg: #f5f8fb; /* off-white azulado */
+  --surface: #ffffff;
+  --orange: #f26b1d; /* EXCLUSIVO para CTAs de compra */
+  --orange-hover: #ff7d33;
+  --on-orange: #14161a; /* texto escuro sobre laranja: contraste ≈ 6:1 (AA) */
+
+  /* Neutros */
+  --ink: #142333;
+  --ink-2: #3d4f63;
+  --muted: #5b6b7c; /* 5.3:1 sobre branco */
+  --line: #d9e2ec;
+  --line-2: #e9eff5;
+
+  /* Estados */
+  --ok: #17803d;
+  --ok-bg: #e6f4ea;
+  --warn: #9a5b00;
+  --warn-bg: #fff4dc;
+  --danger: #b42318;
+  --danger-bg: #fdecea;
+  --whatsapp: #128c4a; /* verde mais escuro para contraste AA com texto branco */
+
+  /* Tipografia */
+  --font-display: 'Barlow Condensed', 'Arial Narrow', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  /* Espaço e forma */
+  --r-sm: 6px;
+  --r: 10px;
+  --r-lg: 16px;
+  --shadow-sm: 0 1px 2px rgba(11, 46, 79, 0.08);
+  --shadow: 0 4px 16px rgba(11, 46, 79, 0.1);
+  --shadow-lg: 0 12px 40px rgba(11, 46, 79, 0.18);
+  --gutter: 16px;
+  --container: 1200px;
+  --tap: 44px; /* alvo mínimo de toque */
+  --header-h: 64px;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --gutter: 24px;
+  }
+}

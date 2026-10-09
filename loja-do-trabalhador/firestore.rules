@@ -1,0 +1,152 @@
+rules_version = '2';
+
+// Regras do Firestore — Loja do Trabalhador
+// Princípios:
+//  - O público (site) só LÊ dados já públicos. Nenhuma escrita pública: pedidos, avaliações e
+//    orçamentos entram apenas pelas funções de servidor (firebase-admin ignora estas regras).
+//  - "admin" lê e escreve quase tudo; o que mexe em estoque, numeração ou totais de cliente fica
+//    exclusivo das funções de servidor.
+//  - "vendedor" lê produtos, pedidos e clientes e só avança status/pagamento de pedidos.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ---------- Funções auxiliares ----------
+    function signedIn() {
+      return request.auth != null;
+    }
+    function staffDoc() {
+      return get(/databases/$(database)/documents/admins/$(request.auth.uid)).data;
+    }
+    function isStaff() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+        && staffDoc().active == true
+        && staffDoc().role in ['admin', 'vendedor'];
+    }
+    function isAdmin() {
+      return isStaff() && staffDoc().role == 'admin';
+    }
+    function changed() {
+      return request.resource.data.diff(resource.data).affectedKeys();
+    }
+    // Status permitidos para mudança manual pelo painel (cancelar/reabrir só por função de servidor).
+    function validFlowStatus(s) {
+      return s in ['novo', 'confirmado', 'separando', 'saiu_entrega', 'pronto_retirada', 'concluido'];
+    }
+    function validPaymentStatus(s) {
+      return s in ['pendente', 'pago', 'reembolsado'];
+    }
+    function orderStatusUpdateOk() {
+      return resource.data.status != 'cancelado'
+        && resource.data.deletedAt == null
+        && validFlowStatus(request.resource.data.status)
+        && validPaymentStatus(request.resource.data.paymentStatus)
+        && request.resource.data.history is list
+        && request.resource.data.history.size() >= resource.data.history.size();
+    }
+
+    // ---------- Configurações públicas ----------
+    match /settings/{docId} {
+      allow read: if docId == 'site';
+      allow write: if isAdmin() && docId == 'site';
+    }
+
+    // ---------- Catálogo ----------
+    match /categories/{id} {
+      allow read: if resource.data.active == true || isStaff();
+      allow write: if isAdmin();
+    }
+
+    match /products/{id} {
+      allow read: if resource.data.active == true || isStaff();
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /banners/{id} {
+      allow read: if resource.data.active == true || isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // ---------- Pedidos ----------
+    match /orders/{id} {
+      allow read: if isStaff();
+      // Criação, cancelamento, reabertura, lixeira e exclusão: só funções de servidor.
+      allow create, delete: if false;
+      allow update: if
+        (isAdmin()
+          && changed().hasOnly(['status', 'paymentStatus', 'history', 'updatedAt', 'internalNotes'])
+          && orderStatusUpdateOk())
+        ||
+        (isStaff()
+          && changed().hasOnly(['status', 'paymentStatus', 'history', 'updatedAt'])
+          && orderStatusUpdateOk());
+    }
+
+    // ---------- Clientes ----------
+    match /customers/{id} {
+      allow read: if isStaff();
+      // Totais são recalculados pelo servidor; o admin edita apenas dados de cadastro e observações.
+      allow update: if isAdmin()
+        && changed().hasOnly(['name', 'type', 'company', 'emails', 'internalNotes', 'updatedAt']);
+      allow create, delete: if false;
+    }
+
+    // ---------- Orçamentos (leads) ----------
+    match /leads/{id} {
+      allow read: if isAdmin();
+      allow update: if isAdmin()
+        && changed().hasOnly(['status', 'notes', 'updatedAt'])
+        && request.resource.data.status in ['novo', 'em_contato', 'ganho', 'perdido'];
+      allow delete: if isAdmin();
+      allow create: if false;
+    }
+
+    // ---------- Depoimentos ----------
+    match /testimonials/{id} {
+      allow read: if (resource.data.status == 'aprovado'
+                      && resource.data.consent == true
+                      && resource.data.demo == false)
+                  || isAdmin();
+      // Cadastro manual exige autorização do cliente.
+      allow create: if isAdmin()
+        && request.resource.data.consent == true
+        && request.resource.data.source in ['whatsapp', 'instagram', 'google', 'presencial']
+        && request.resource.data.text is string
+        && request.resource.data.text.size() <= 600;
+      allow update: if isAdmin()
+        && request.resource.data.source == resource.data.source
+        && request.resource.data.consent == true
+        && request.resource.data.text.size() <= 600;
+      allow delete: if isAdmin();
+    }
+
+    // ---------- Cupons (validados no servidor) ----------
+    match /coupons/{id} {
+      allow read, write: if isAdmin();
+    }
+
+    // ---------- Usuários do painel ----------
+    match /admins/{uid} {
+      allow read: if (signedIn() && request.auth.uid == uid) || isAdmin();
+      // O admin gerencia os outros usuários, mas não altera o próprio papel/ativo (evita se trancar fora).
+      allow update: if isAdmin() && request.auth.uid != uid
+        && request.resource.data.role in ['admin', 'vendedor']
+        && request.resource.data.active is bool;
+      allow create, delete: if false; // criação por script/função protegida
+    }
+
+    // ---------- Auditoria ----------
+    match /auditLog/{id} {
+      allow read: if isAdmin();
+      allow create: if isStaff() && request.resource.data.by == request.auth.uid;
+      allow update, delete: if false;
+    }
+
+    // ---------- Internos do servidor ----------
+    // counters, rateLimits e qualquer outra coleção: sem acesso pelo navegador.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

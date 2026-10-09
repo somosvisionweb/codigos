@@ -1,0 +1,59 @@
+{
+  "name": "loja-do-trabalhador",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "@astrojs/netlify": "^8.2.9",
+    "@astrojs/preact": "^6.0.6",
+    "@fontsource/barlow-condensed": "^5.3.0",
+    "@fontsource/inter": "^5.3.0",
+    "astro": "^7.3.8",
+    "firebase": "^13.0.0",
+    "firebase-admin": "^14.5.0",
+    "lucide-preact": "^1.54.0",
+    "lucide-static": "^1.54.0",
+    "preact": "^10.29.8",
+    "qrcode": "^1.5.4",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@eslint/js": "^10.0.1",
+    "@firebase/rules-unit-testing": "^6.0.0",
+    "@playwright/test": "1.56",
+    "@types/node": "^22.20.5",
+    "@types/qrcode": "^1.5.6",
+    "eslint": "^10.12.0",
+    "firebase-tools": "^15.33.0",
+    "sharp": "^0.35.5",
+    "tsx": "^4.23.15",
+    "typescript": "~5.9",
+    "typescript-eslint": "^8.71.1",
+    "vitest": "^5.0.3"
+  },
+  "scripts": {
+    "dev": "node --env-file-if-exists=.env ./node_modules/astro/bin/astro.mjs dev",
+    "dev:emu": "node --env-file=.env.emulators ./node_modules/astro/bin/astro.mjs dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check && tsc --noEmit -p tsconfig.json",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:rules": "FIREBASE_EMULATOR_PROJECT=demo-rules-test node scripts/emu.mjs emulators:exec --only firestore,storage \"vitest run -c vitest.rules.config.ts\"",
+    "test:integration": "node scripts/emu.mjs emulators:exec --only firestore,auth \"node --env-file=.env.emulators ./node_modules/vitest/vitest.mjs run -c vitest.integration.config.ts\"",
+    "test:e2e": "node scripts/emu.mjs emulators:exec \"node --env-file=.env.emulators ./node_modules/@playwright/test/cli.js test\"",
+    "test:all": "npm run lint && npm run check && npm test && npm run test:rules && npm run test:integration && npm run test:e2e",
+    "emulators": "node scripts/emu.mjs emulators:start",
+    "seed": "node --env-file-if-exists=.env ./node_modules/tsx/dist/cli.mjs scripts/seed.ts",
+    "seed:emu": "node --env-file=.env.emulators ./node_modules/tsx/dist/cli.mjs scripts/seed.ts",
+    "seed:demo": "node --env-file=.env.emulators ./node_modules/tsx/dist/cli.mjs scripts/seed-demo.ts",
+    "create-admin": "node --env-file-if-exists=.env ./node_modules/tsx/dist/cli.mjs scripts/create-admin.ts",
+    "create-admin:emu": "node --env-file=.env.emulators ./node_modules/tsx/dist/cli.mjs scripts/create-admin.ts",
+    "export": "node --env-file-if-exists=.env ./node_modules/tsx/dist/cli.mjs scripts/export.ts",
+    "gen:images": "tsx scripts/gen-images.ts"
+  }
+}

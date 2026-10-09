@@ -1,0 +1,17 @@
+node_modules/
+dist/
+.netlify/
+.astro/
+.env
+.env.*
+!.env.emulators
+!.env.example
+*.log
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+storage-debug.log
+test-results/
+playwright-report/
+backups/
+coverage/
